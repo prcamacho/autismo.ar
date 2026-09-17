@@ -82,7 +82,8 @@ export default async function ResourcePage({ params }: ResourcePageProps) {
                 que los distribuye bajo licencia{" "}
                 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">
                   Creative Commons BY-NC-SA
-                </a>{"."}
+                </a>
+                {"."}
               </p>
             </div>
           </div>
