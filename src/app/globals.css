@@ -1110,7 +1110,8 @@ input:disabled {
   color: #5483b0;
 }
 div + .notice,
-p + .notice {
+p + .notice,
+.button + .notice {
   margin-top: 24px;
 }
 .content-grid {
@@ -1136,6 +1137,28 @@ p + .notice {
 }
 .prose .text-link {
   margin-top: 16px;
+}
+.prose > h3 {
+  margin-top: 28px;
+  margin-bottom: 12px;
+}
+.prose strong {
+  color: var(--ink);
+}
+.resource-attribution {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.resource-attribution p {
+  color: #6d7b88;
+  font-size: 11px;
+  line-height: 1.65;
+}
+.resource-attribution a {
+  color: #4e7193;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 .chips {
   display: flex;

@@ -31,15 +31,15 @@ export default function ResourcesPage() {
           </div>
           <div>
             <span className="badge">
-              <Smartphone size={14} /> Proyecto en preparación
+              <Smartphone size={14} /> Disponible en línea
             </span>
             <h2>La app de Ian</h2>
             <p>
-              Conocé el proyecto de nuestra familia y el espacio donde
-              compartiremos su presentación y descarga.
+              Conocé el proyecto de nuestra familia e iniciá su versión beta
+              desde el navegador.
             </p>
             <span className="text-link">
-              Ver el proyecto <ArrowUpRight size={16} />
+              Ver el recurso <ArrowUpRight size={16} />
             </span>
           </div>
         </Link>

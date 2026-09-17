@@ -15,9 +15,9 @@ npm ci
 npm run dev
 ```
 
-Abrí http://localhost:3000. Si el puerto está ocupado, Next indica el puerto alternativo. El servidor de desarrollo escucha solo en la máquina local.
+Copiá `.env.example` a `.env.local` para habilitar la app de Ian bajo `/apps/ian/`. `IAN_APP_ORIGIN` debe contener el origen HTTPS de su PWA, sin necesidad de una barra final; la configuración la normaliza igualmente.
 
-No se necesitan cuentas de servicios externos ni variables de entorno para esta versión.
+Abrí http://localhost:3000. Si el puerto está ocupado, Next indica el puerto alternativo. El servidor de desarrollo escucha solo en la máquina local.
 
 ```sh
 npm run lint
@@ -32,7 +32,7 @@ npm start
 - Portada informativa, identidad SVG con rompecabezas multicolor y diseño adaptable a celulares.
 - Directorio con categorías, 23 provincias y CABA, localidad escrita y filtros compartibles en la URL.
 - Contrato de búsqueda que conserva recursos nacionales y provinciales pertinentes al filtrar una localidad.
-- Biblioteca y presentación provisional de la app de Ian, sin descarga inventada.
+- Biblioteca e integración de la versión beta de la app de Ian bajo `/apps/ian/`, mediante un proxy al origen configurado.
 - Páginas de comunidad y proyecto con etapas explícitas.
 - Formulario para descargar un borrador JSON o copiar su contenido en el dispositivo. **No envía, guarda en un servidor ni publica información.**
 - Estados vacíos honestos, navegación con teclado y página 404.
@@ -74,8 +74,8 @@ CSS propio con variables y componentes compartidos; sin fuentes remotas necesari
 
 `npm run format` aplica el formato de código; `npm run format:check` permite comprobarlo sin modificar archivos.
 
-No incorporar fichas, testimonios, teléfonos ni cifras inventadas. La app de Ian requiere descripción y archivo o enlace autorizado de su responsable antes de habilitar una descarga.
+No incorporar fichas, testimonios, teléfonos ni cifras inventadas. La app de Ian se publica desde el origen autorizado configurado en `IAN_APP_ORIGIN`; no ofrecer un APK o archivo descargable distinto sin autorización de su responsable.
 
 ## Publicación
 
-Este esqueleto funciona localmente. La elección de hosting, conexión de dominio, base de datos y publicación forman parte de la siguiente etapa. El repositorio remoto es `https://github.com/prcamacho/autismo.ar.git`.
+El sitio se publica con Railway y el dominio `autismo.ar` se gestiona mediante Cloudflare. La PWA de Ian conserva su despliegue independiente y se presenta bajo el dominio principal mediante rewrites de Next.js. La ruta raíz redirige de `/apps/ian` a `/apps/ian/`: esa barra final es necesaria para que sus rutas relativas mantengan el manifiesto, el service worker y los assets dentro de la app. El repositorio remoto es `https://github.com/prcamacho/autismo.ar.git`.

@@ -205,9 +205,8 @@ export default function Home() {
               De nuestra familia a la tuya.
             </h2>
             <p>
-              Queremos compartir el proyecto que nos trajo hasta acá. Este será
-              su espacio para presentar la app y, cuando esté disponible,
-              acercártela.
+              Queremos compartir el proyecto que nos trajo hasta acá. Su versión
+              beta ya está disponible en línea para usar desde el navegador.
             </p>
             <Link
               href="/recursos/app-de-ian"
@@ -216,7 +215,7 @@ export default function Home() {
               Conocé el proyecto <ArrowUpRight size={17} />
             </Link>
             <span className="subtle-note">
-              Estamos preparando su presentación y descarga.
+              Podés usarla en línea y conocer cómo instalarla en tu dispositivo.
             </span>
           </div>
         </div>

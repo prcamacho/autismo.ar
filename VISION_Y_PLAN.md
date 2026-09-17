@@ -8,7 +8,7 @@ Crear una red argentina de información y ayuda para personas autistas y sus fam
 
 La comunidad aporta información, propone correcciones y ayuda a comprobarla, con una dinámica inspirada en las contribuciones de Google Maps. El objetivo es reducir progresivamente la intervención administrativa mediante buenas herramientas y colaboradores confiables. No se presupone que una plataforma comunitaria pueda funcionar sin moderación, especialmente al comenzar.
 
-El proyecto nace sin un directorio propio ni contenido comunitario cargado. Su primer recurso potencial es el proyecto de app de Ian; su descripción y eventual descarga requieren material real proporcionado por su responsable.
+El proyecto nace sin un directorio propio ni contenido comunitario cargado. Su primer recurso real es la versión beta de la app de Ian, publicada desde un origen autorizado y accesible bajo `/apps/ian/` en el dominio principal.
 
 ## 2. Principios que deben guiar las decisiones
 
@@ -181,13 +181,13 @@ Observar si las personas encuentran recursos útiles, si los contactos siguen vi
 
 ## 11. Estado inicial y próximos pasos
 
-**Estado de la fase 0:** esqueleto implementado para ejecutar localmente, con portada informativa, directorio filtrable, biblioteca, comunidad, proyecto y formulario de borrador descargable/copiable. La selección de localidad es texto libre por ahora. No hay fichas reales, backend comunitario, validaciones activas, pagos ni APK de Ian disponible para descargar. El formulario no envía ni publica: prepara un archivo en el dispositivo. La existencia de una página no implica que su función futura esté operativa.
+**Estado de la fase 0:** esqueleto implementado y publicado, con portada informativa, directorio filtrable, biblioteca, comunidad, proyecto y formulario de borrador descargable/copiable. La selección de localidad es texto libre por ahora. La versión beta de la app de Ian está disponible como PWA bajo `/apps/ian/`, servida desde un despliegue independiente; no se ofrece un APK. No hay fichas comunitarias reales, backend comunitario, validaciones activas ni pagos. El formulario no envía ni publica: prepara un archivo en el dispositivo. La existencia de una página no implica que su función futura esté operativa.
 
 Próximos pasos concretos:
 
 1. Revisar el esqueleto visual y ajustar las prioridades y el lenguaje con el responsable del proyecto.
 2. Elegir una localidad o un grupo pequeño para el piloto, manteniendo la estructura nacional.
-3. Recibir descripción, imágenes y archivo o enlace autorizado de la app de Ian antes de habilitar su descarga.
+3. Probar la versión beta de la app de Ian en distintos dispositivos y mantener actualizados su acceso, presentación y atribuciones.
 4. Definir los campos mínimos de las fichas y las reglas iniciales de revisión.
 5. Crear la base de datos y autenticación, con permisos, historial y un flujo real de aportes.
 6. Cargar las primeras fichas con información verificable y probar corrección, reporte y actualización con familias participantes.
