@@ -3,27 +3,23 @@ import test from "node:test";
 import {
   buildIanLandscapeShell,
   IAN_LANDSCAPE_FRAME_ID,
-  prepareIanEmbeddedDocument,
   requireIanLandscape,
 } from "../src/lib/ian-orientation";
 
-test("embeds Ian in a landscape frame and loads its assets from the authorized origin", () => {
-  const original =
-    '<!doctype html><html><head><title>Ian</title></head><body class="app"><div id="app"></div></body></html>';
+test("embeds the real Ian app in a fitted landscape frame", () => {
   const origin = "https://ian.example";
-  const embedded = prepareIanEmbeddedDocument(original, origin);
-  const shell = buildIanLandscapeShell(original, origin);
+  const shell = buildIanLandscapeShell(origin);
 
-  assert.match(embedded, /<head><base href="https:\/\/ian\.example\/">/);
   assert.match(shell, /@media\(orientation:portrait\)/);
   assert.match(shell, /rotate\(90deg\)/);
   assert.match(shell, /landscapeWidth\/960/);
   assert.match(shell, /landscapeHeight\/540/);
   assert.match(shell, /visualViewport/);
-  assert.match(shell, /scrolling="no"/);
+  assert.match(shell, /src="https:\/\/ian\.example\/"/);
+  assert.doesNotMatch(shell, /srcdoc=/);
+  assert.doesNotMatch(shell, /scrolling=/);
   assert.match(shell, /screen-orientation" content="landscape"/);
   assert.match(shell, new RegExp(`id="${IAN_LANDSCAPE_FRAME_ID}"`));
-  assert.match(shell, /srcdoc="&lt;!doctype html&gt;/);
   assert.doesNotMatch(shell, /Gir&aacute; tu dispositivo/);
 });
 

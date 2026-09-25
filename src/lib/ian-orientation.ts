@@ -3,7 +3,7 @@ export const IAN_LANDSCAPE_FRAME_ID = "ian-landscape-frame";
 const landscapeFrameStyles = `
 :root{color-scheme:light;--ian-frame-width:100vw;--ian-frame-height:100vh;--ian-fit-scale:1}
 html,body{width:100%;height:100%;min-height:100%;margin:0;overflow:hidden;background:#244348}
-#${IAN_LANDSCAPE_FRAME_ID}{position:fixed;top:50%;left:50%;display:block;width:var(--ian-frame-width);height:var(--ian-frame-height);border:0;overflow:hidden;background:#f4f6f8;transform:translate(-50%,-50%) scale(var(--ian-fit-scale));transform-origin:center}
+#${IAN_LANDSCAPE_FRAME_ID}{position:fixed;top:50%;left:50%;display:block;width:var(--ian-frame-width);height:var(--ian-frame-height);border:0;background:#f4f6f8;transform:translate(-50%,-50%) scale(var(--ian-fit-scale));transform-origin:center}
 @media(orientation:portrait){#${IAN_LANDSCAPE_FRAME_ID}{transform:translate(-50%,-50%) rotate(90deg) scale(var(--ian-fit-scale))}}
 `;
 
@@ -19,20 +19,8 @@ function escapeHtmlAttribute(value: string) {
     .replaceAll(">", "&gt;");
 }
 
-export function prepareIanEmbeddedDocument(html: string, origin: string) {
-  const base = `<base href="${escapeHtmlAttribute(`${origin}/`)}">`;
-
-  if (/<head(?:\s[^>]*)?>/i.test(html)) {
-    return html.replace(/<head(\s[^>]*)?>/i, (head) => `${head}${base}`);
-  }
-
-  return `${base}${html}`;
-}
-
-export function buildIanLandscapeShell(html: string, origin: string) {
-  const embeddedDocument = escapeHtmlAttribute(
-    prepareIanEmbeddedDocument(html, origin),
-  );
+export function buildIanLandscapeShell(origin: string) {
+  const appUrl = escapeHtmlAttribute(`${origin}/`);
 
   return `<!doctype html>
 <html lang="es">
@@ -53,10 +41,10 @@ export function buildIanLandscapeShell(html: string, origin: string) {
     <iframe
       id="${IAN_LANDSCAPE_FRAME_ID}"
       title="App de Ian"
-      srcdoc="${embeddedDocument}"
-      allow="autoplay; fullscreen"
+      src="${appUrl}"
+      allow="autoplay; fullscreen; screen-wake-lock"
       referrerpolicy="no-referrer"
-      scrolling="no"
+      loading="eager"
     ></iframe>
   </body>
 </html>`;
