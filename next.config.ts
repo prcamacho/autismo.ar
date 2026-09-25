@@ -7,14 +7,16 @@ const nextConfig: NextConfig = {
   // La PWA resuelve manifiesto, service worker y assets desde /apps/ian/.
   skipTrailingSlashRedirect: true,
   async rewrites() {
-    if (!ianAppOrigin) return [];
+    if (!ianAppOrigin) return { fallback: [] };
 
-    return [
-      {
-        source: "/apps/ian/:path*",
-        destination: `${ianAppOrigin}/:path*`,
-      },
-    ];
+    return {
+      fallback: [
+        {
+          source: "/apps/ian/:path*",
+          destination: `${ianAppOrigin}/:path*`,
+        },
+      ],
+    };
   },
 };
 
