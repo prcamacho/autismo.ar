@@ -24,6 +24,7 @@ export function SiteFooter() {
         </div>
         <div>
           <span className="footer-heading">Encontrá tu camino</span>
+          <Link href="/orientacion">Por dónde empezar</Link>
           <Link href="/directorio">Directorio de ayuda</Link>
           <Link href="/recursos">Recursos para todos</Link>
           <Link href="/recursos/app-de-ian">La app de Ian</Link>
@@ -32,7 +33,8 @@ export function SiteFooter() {
           <span className="footer-heading">Construyamos juntos</span>
           <Link href="/proyecto">Sobre el proyecto</Link>
           <Link href="/comunidad">Nuestra comunidad</Link>
-          <Link href="/aportar">Preparar un aporte</Link>
+          <Link href="/aportar">Aportar información</Link>
+          <Link href="/cuenta">Mi cuenta</Link>
         </div>
         <div className="footer-help">
           <span className="footer-heading">Si necesitás ayuda ahora</span>

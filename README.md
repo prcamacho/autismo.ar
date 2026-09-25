@@ -33,18 +33,23 @@ npm start
 - Directorio con categorías, 23 provincias y CABA, localidad escrita y filtros compartibles en la URL.
 - Contrato de búsqueda que conserva recursos nacionales y provinciales pertinentes al filtrar una localidad.
 - Biblioteca e integración de la versión beta de la app de Ian bajo `/apps/ian/`, mediante un proxy al origen configurado.
-- Páginas de comunidad y proyecto con etapas explícitas.
-- Formulario para descargar un borrador JSON o copiar su contenido en el dispositivo. **No envía, guarda en un servidor ni publica información.**
+- Orientación por necesidades que conserva provincia y localidad al consultar el directorio; filtro de edades atendidas.
+- Circuito comunitario modular: ingreso por código de correo, aportes, correcciones, revisión inicial, corroboración de datos, decisión de moderación, historial y reportes.
+- Formularios con validación en servidor y migración PostgreSQL con políticas RLS, permisos y límites de frecuencia.
+- Búsqueda de posibles duplicados y fichas canónicas con fuentes y fechas. Recuperar una versión genera una propuesta nueva.
+- Sin conexión configurada: descarga y carga de borradores JSON en el dispositivo, con estado explícito de **no enviado**.
 - Estados vacíos honestos, navegación con teclado y página 404.
-- Pruebas del alcance geográfico y búsqueda del catálogo.
+- Pruebas de búsqueda, validación y flujo real de permisos/transacciones en PostgreSQL local (PGlite).
 
-El catálogo público está vacío intencionalmente. Los datos ficticios de las pruebas están únicamente en `tests/`.
+El catálogo público está vacío intencionalmente. Los datos ficticios de las pruebas están únicamente en `tests/`. El chat privado que orientó las necesidades no se importa ni se publica.
+
+**Estado operativo:** el piloto está implementado localmente, pero la base de Supabase y el correo real siguen pendientes de activación. La cuenta consultada alcanzó el cupo de proyectos gratuitos. Esta entrega no modificó Railway ni Cloudflare. Ver [activación, arquitectura y reglas del piloto](./docs/COMUNIDAD.md).
 
 ## Qué falta
 
-Autenticación, PostgreSQL/Supabase, envío y revisión de aportes, historial de cambios, reportes y reputación. No hay pagos, anuncios operativos, mensajería ni atención de emergencias. El sitio orienta a canales oficiales.
+Activar y comprobar Supabase, correo, moderadores y despliegue del piloto. Después: reputación, mapa, experiencias, guías colaborativas de cuerpo completo y recordatorios. No hay pagos, anuncios operativos, mensajería ni atención de emergencias. El sitio orienta a canales oficiales.
 
-La localidad es texto libre en esta etapa; al persistir datos se deberá integrar un catálogo geográfico oficial con IDs, normalización y localidades homónimas. Las páginas todavía usan `noindex` para evitar indexar el prototipo. Cambiarlo junto con el dominio, las políticas y los contenidos del lanzamiento real.
+La localidad es texto libre en esta etapa y siempre va asociada a una provincia; se prevé un catálogo oficial con IDs. Las páginas todavía usan `noindex` para evitar indexar el prototipo. Cambiarlo junto con las políticas y los contenidos del lanzamiento real.
 
 ## Estructura
 
@@ -52,21 +57,27 @@ La localidad es texto libre en esta etapa; al persistir datos se deberá integra
 src/
   app/                   Rutas de Next.js, metadata y estilos globales
     page.tsx             Portada
-    directorio/          Búsqueda y estados vacíos
+    directorio/          Búsqueda, ficha e historial
     recursos/            Biblioteca y /recursos/app-de-ian
-    comunidad/           Participación y futuras iniciativas
+    comunidad/           Participación, revisión y seguimiento de propuestas
+    cuenta/              Código de ingreso, aportes y reportes propios
+    orientacion/         Accesos por necesidad
     proyecto/            Propósito y etapas
-    aportar/             Preparación de borrador local
-  components/            Navegación, búsqueda, formularios e identidad
+    aportar/             Aporte o corrección, con borrador local como alternativa
+  components/            Navegación, búsqueda e identidad compartidas
+  features/              auth, community, orientation, resources
   lib/
-    catalog.ts           Tipos, categorías y límite de acceso al catálogo
+    catalog.ts           Categorías y contrato de búsqueda
     geography.ts         Jurisdicciones e identificadores
-tests/                   Contratos de búsqueda territorial
+    supabase/            Cliente y configuración del servidor
+  proxy.ts               Renovación de sesión y control de caché privado
+supabase/migrations/     Esquema, RLS y funciones de escritura
+tests/                   Contratos de búsqueda, validación y permisos en PostgreSQL
 ```
 
-Las páginas consultan `searchResources()`. Al conectar PostgreSQL, reemplazar su implementación manteniendo el contrato de filtros; incorporar tablas normalizadas para sedes, localidades y cobertura. El tipo inicial es una interfaz de lectura, no un esquema final de la base de datos.
+Las páginas consultan los repositorios de cada módulo. El directorio usa una consulta paginada que conserva recursos nacionales y provinciales pertinentes al filtrar localidades. Las escrituras pasan por acciones de servidor y funciones PostgreSQL; las políticas de la base siguen protegiendo las operaciones invocadas fuera de la interfaz.
 
-Antes de habilitar escrituras se necesitan validación en servidor, autorización, políticas de acceso, prevención de abuso y recuperación de cambios. Los archivos subidos requerirán un flujo propio de validación y permisos. No incluir claves privadas en el navegador ni en Git.
+Los archivos subidos requerirán un flujo propio de validación y permisos; actualmente solo se importa un borrador JSON en el dispositivo. No incluir claves privadas en el navegador ni en Git. En `.env.example` figuran las variables públicas de Supabase; no configurarlas hasta aplicar la migración y preparar el correo según la guía de activación.
 
 ## Diseño y contenido
 

@@ -7,10 +7,11 @@ import { ArrowUpRight, Menu, Plus, X } from "lucide-react";
 import { PuzzleMark } from "@/components/puzzle-mark";
 
 const links = [
-  { href: "/", label: "Inicio" },
+  { href: "/orientacion", label: "Por dónde empezar" },
   { href: "/directorio", label: "Encontrar ayuda" },
   { href: "/recursos", label: "Recursos" },
   { href: "/comunidad", label: "Comunidad" },
+  { href: "/cuenta", label: "Mi cuenta" },
 ];
 
 export function SiteHeader() {
@@ -70,7 +71,7 @@ export function SiteHeader() {
               href="/aportar"
               onClick={() => setMenuOpen(false)}
             >
-              <Plus size={17} /> Aportar información
+              <Plus size={17} /> Aportar
             </Link>
           </nav>
         </div>

@@ -9,6 +9,7 @@ type Defaults = {
   category?: string;
   province?: string;
   locality?: string;
+  age?: string;
 };
 
 export function ResourceSearch({
@@ -30,6 +31,7 @@ export function ResourceSearch({
       {defaults.category && (
         <input type="hidden" name="categoria" value={defaults.category} />
       )}
+      {defaults.age && <input type="hidden" name="edad" value={defaults.age} />}
       <div className="search-field search-query">
         <label htmlFor="resource-query">¿Qué recurso necesitás?</label>
         <div className="input-wrap">

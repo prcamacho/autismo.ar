@@ -47,7 +47,7 @@ const stages = [
     label: "Ahora",
     title: "Dar forma a la casa",
     description:
-      "Estamos construyendo las páginas, la navegación y los espacios de cada recurso. Podés recorrer esta primera estructura; todavía no hay cuentas, fichas reales ni aportes publicados.",
+      "Podés explorar por necesidad, buscar por ubicación y preparar un aporte. El circuito comunitario está construido y su activación se informa en las pantallas de cuenta y participación.",
   },
   {
     label: "Después",
@@ -59,7 +59,7 @@ const stages = [
     label: "Más adelante",
     title: "Crecer con confianza",
     description:
-      "Incorporar corroboraciones, niveles y nuevas localidades. Ampliar la biblioteca, dar visibilidad a emprendimientos y preparar formas transparentes de sostener el proyecto.",
+      "Mejorar la revisión con lo aprendido, incorporar niveles y nuevas localidades. Ampliar la biblioteca, dar visibilidad a emprendimientos y preparar formas transparentes de sostener el proyecto.",
   },
 ];
 

@@ -1,74 +1,124 @@
 import type { Metadata } from "next";
-import { HeartHandshake, ListChecks, ShieldCheck } from "lucide-react";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { ListChecks, ShieldCheck } from "lucide-react";
 import { PageIntro } from "@/components/page-intro";
-import { ContributionForm } from "@/components/contribution-form";
+import { ContributionForm } from "@/features/community/contribution-form";
+import { ConnectionNotice } from "@/features/community/components";
 import { categories } from "@/lib/catalog";
-import { PROVINCES } from "@/lib/geography";
+import { getProvinceName } from "@/lib/geography";
+import { getSupabaseConfig } from "@/lib/supabase/config";
+import { getViewer } from "@/features/auth/session";
+import {
+  getResource,
+  getResourceHistory,
+} from "@/features/resources/repository";
+import type { ResourceInput } from "@/features/resources/validation";
+import styles from "@/features/community/community.module.css";
 
-export const metadata: Metadata = { title: "Preparar un aporte" };
-
+export const metadata: Metadata = { title: "Aportar información" };
 export default async function ContributePage({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await searchParams;
-  const category =
-    typeof params.categoria === "string" &&
-    categories.some((item) => item.id === params.categoria)
-      ? params.categoria
-      : "";
+  const viewer = await getViewer();
+  const resourceId = typeof params.ficha === "string" ? params.ficha : "";
+  const resource = resourceId ? await getResource(resourceId) : null;
+  if (resourceId && resource?.status === "ready" && !resource.data) notFound();
   const province =
-    typeof params.provincia === "string" &&
-    PROVINCES.some((item) => item.id === params.provincia)
+    typeof params.provincia === "string" && getProvinceName(params.provincia)
       ? params.provincia
       : "";
-  const locality =
-    typeof params.localidad === "string" ? params.localidad.slice(0, 120) : "";
+  const category = categories.find((c) => c.id === params.categoria)?.id;
+  let defaults: Partial<ResourceInput> = resource?.data?.data || {
+    categoryIds: category ? [category] : [],
+    province,
+    locality:
+      province && typeof params.localidad === "string"
+        ? params.localidad.slice(0, 120)
+        : "",
+    scope: province ? "local" : "national",
+  };
+  let source = resource?.data?.source_url || "";
+  const restore = Number(params.version);
+  if (
+    resource?.data &&
+    Number.isInteger(restore) &&
+    restore > 0 &&
+    restore < resource.data.version
+  ) {
+    const history = await getResourceHistory(
+      resource.data.id,
+      Math.floor((resource.data.version - restore) / 20) + 1,
+    );
+    const revision = history.data.find((r) => r.version === restore);
+    if (revision) {
+      defaults = revision.data;
+      source = revision.source_url;
+    }
+  }
+  const status =
+    resource?.status || (getSupabaseConfig() ? "ready" : "unconfigured");
   return (
     <>
       <PageIntro
         eyebrow="Aportar información"
-        title="Lo que conocés puede ser una ayuda."
-        description="Un contacto, un recurso o un dato actualizado. Cada aporte puede abrirle una puerta a alguien más."
+        title="Un dato tuyo puede abrir otro camino."
+        description="Sumá un recurso o ayudá a mantenerlo actualizado. Las fuentes y la revisión de otras personas lo convierten en información compartida."
       />
-      <div className="container section">
-        <div className="notice">
-          <HeartHandshake size={25} />
-          <div>
-            <strong>Estamos preparando la recepción de aportes.</strong>
+      <div className="container section-small">
+        <div className={styles.stack}>
+          <ConnectionNotice status={status} />
+          {status === "ready" && !viewer && (
+            <div className={styles.callout}>
+              <strong>Ingresá para enviar tu aporte</strong>
+              <p>También podés preparar y descargar un borrador ahora.</p>
+              <Link className="text-link" href="/cuenta">
+                Ingresar o crear mi cuenta
+              </Link>
+            </div>
+          )}
+          {resourceId && !resource?.data ? (
             <p>
-              Por ahora podés completar y descargar un borrador. Cuando
-              habilitemos las cuentas y la revisión comunitaria, podrás enviar
-              tu información.
+              No pudimos cargar la ficha que querés corregir. Volvé a abrirla
+              desde el directorio.
             </p>
-          </div>
-        </div>
-        <div className="contribution-layout section-small">
-          <ContributionForm
-            initialCategory={category}
-            initialProvince={province}
-            initialLocality={locality}
-          />
-          <aside className="contribution-aside">
-            <div className="info-card">
-              <ListChecks className="small-icon" />
-              <h3>Un buen aporte tiene contexto</h3>
-              <p>
-                Incluí el nombre, la ubicación y una fuente. Separá lo que
-                conocés de primera mano de lo que todavía necesita confirmación.
-              </p>
+          ) : (
+            <div className={styles.layout}>
+              <ContributionForm
+                defaults={defaults}
+                resourceId={resource?.data?.id}
+                version={resource?.data?.version}
+                sourceUrl={source}
+                canSubmit={Boolean(viewer && status === "ready")}
+              />
+              <aside className={styles.stack}>
+                <div className={styles.card}>
+                  <ListChecks size={25} aria-hidden="true" />
+                  <h3>Un aporte, varias miradas</h3>
+                  <p>
+                    Primero revisamos privacidad y pertinencia. Después otras
+                    personas corroboran los datos. Moderación decide su
+                    publicación.
+                  </p>
+                  <Link href="/comunidad" className="text-link">
+                    Cómo construimos la información
+                  </Link>
+                </div>
+                <div className={styles.card}>
+                  <ShieldCheck size={25} aria-hidden="true" />
+                  <h3>Compartir con cuidado</h3>
+                  <p>
+                    Usá contactos públicos y fuentes consultables. Las
+                    experiencias personales tendrán un espacio propio cuando
+                    esté preparado.
+                  </p>
+                </div>
+              </aside>
             </div>
-            <div className="info-card">
-              <ShieldCheck className="small-icon" />
-              <h3>Cuidemos la privacidad</h3>
-              <p>
-                No necesitamos diagnósticos, datos de niños ni historias
-                clínicas. La información de contacto debe ser pública y del
-                recurso que compartís.
-              </p>
-            </div>
-          </aside>
+          )}
         </div>
       </div>
     </>

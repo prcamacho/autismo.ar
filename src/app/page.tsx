@@ -21,6 +21,7 @@ import { ResourceSearch } from "@/components/resource-search";
 import { CommunityArt } from "@/components/community-art";
 import { PuzzleMark } from "@/components/puzzle-mark";
 import { categories } from "@/lib/catalog";
+import { CommunitySteps } from "@/features/community/components";
 
 const categoryIcons = {
   profesionales: Stethoscope,
@@ -54,9 +55,9 @@ export default function Home() {
               información, compartir recursos y acompañarnos en cada etapa de la
               vida.
             </p>
-            <a className="hero-link" href="#explorar">
+            <Link className="hero-link" href="/orientacion">
               Encontrá por dónde empezar <ArrowRight size={18} />
-            </a>
+            </Link>
             <div className="hero-footnote">
               <Heart size={16} /> Desde la experiencia. Con lugar para todos.
             </div>
@@ -148,8 +149,8 @@ export default function Home() {
                 Podés comenzar por los recursos generales y armar tus preguntas
                 para conversar con un profesional.
               </p>
-              <Link href="/recursos" className="text-link">
-                Explorar recursos <ArrowRight size={16} />
+              <Link href="/orientacion" className="text-link">
+                Encontrar por dónde empezar <ArrowRight size={16} />
               </Link>
             </article>
             <article className="info-card">
@@ -222,6 +223,22 @@ export default function Home() {
       </section>
 
       <section className="container section section-last">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">LO CONSTRUIMOS ENTRE PERSONAS</p>
+            <h2>El dato que compartís sigue ayudando.</h2>
+            <p>
+              Una ficha puede aparecer en varias búsquedas. Sus fuentes y
+              cambios quedan en el mismo lugar.
+            </p>
+          </div>
+          <Link href="/comunidad" className="text-link">
+            Cómo participar <ArrowRight size={17} />
+          </Link>
+        </div>
+        <div className="section-small">
+          <CommunitySteps />
+        </div>
         <div className="community-banner">
           <div className="community-banner-icon">
             <UsersRound size={34} strokeWidth={1.5} />

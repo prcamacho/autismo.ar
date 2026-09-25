@@ -76,9 +76,6 @@ export interface ResourceFilters {
   locality?: string;
 }
 
-/** Empty intentionally: never present fictional providers as real resources. */
-export const resources: readonly Resource[] = [];
-
 function normalizeText(value: string): string {
   return value
     .normalize("NFD")
@@ -147,11 +144,4 @@ export function filterResources(
 
     return true;
   });
-}
-
-/** Replace this boundary with a database query when real records are available. */
-export async function searchResources(
-  filters: ResourceFilters = {},
-): Promise<Resource[]> {
-  return filterResources(resources, filters);
 }

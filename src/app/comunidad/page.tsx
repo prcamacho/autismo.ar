@@ -8,30 +8,20 @@ import {
 } from "lucide-react";
 import { EmptyState } from "@/components/empty-state";
 import { PageIntro } from "@/components/page-intro";
+import Link from "next/link";
+import { findResources } from "@/features/resources/repository";
+import { ResourceCard } from "@/features/resources/resource-card";
+import {
+  CommunitySteps,
+  ConnectionNotice,
+} from "@/features/community/components";
+import styles from "@/features/community/community.module.css";
 
 export const metadata: Metadata = {
   title: "Comunidad",
   description:
     "Conocé cómo queremos construir una red de información y apoyo junto a familias y personas autistas de toda Argentina.",
 };
-
-const steps = [
-  {
-    title: "Compartir lo que conocés",
-    description:
-      "Un contacto, un recurso o una corrección pueden facilitarle el camino a alguien más. Cada aporte tendrá su fuente y su lugar.",
-  },
-  {
-    title: "Corroborar entre personas",
-    description:
-      "Otros colaboradores podrán comprobar datos concretos. Confirmar un horario o un teléfono no equivale a recomendar la calidad de un servicio.",
-  },
-  {
-    title: "Mantenerlo vigente",
-    description:
-      "Queremos mostrar cuándo se revisó cada dato y facilitar las actualizaciones. La información útil también necesita cuidado con el tiempo.",
-  },
-];
 
 const initiatives = [
   {
@@ -54,13 +44,14 @@ const initiatives = [
   },
 ];
 
-export default function CommunityPage() {
+export default async function CommunityPage() {
+  const resources = await findResources();
   return (
     <>
       <PageIntro
         eyebrow="Comunidad"
         title="Lo que sabés puede ayudar a alguien más."
-        description="Imaginamos una red donde las familias y las personas autistas puedan compartir recursos, hacerse escuchar y acompañarse en cada etapa de la vida."
+        description="Un contacto que encontraste, un horario que cambió, una fuente que vale la pena guardar. Entre familias, personas autistas y otros colaboradores construimos información que puede volver a encontrarse."
       />
       <section
         className="section-small container"
@@ -68,37 +59,56 @@ export default function CommunityPage() {
       >
         <div className="section-heading">
           <div>
-            <p className="eyebrow">La participación que estamos preparando</p>
+            <p className="eyebrow">
+              Conocimiento que se construye entre personas
+            </p>
             <h2 id="participar-title">Aportar, comprobar y cuidar.</h2>
           </div>
         </div>
-        <div className="info-grid steps">
-          {steps.map((step, index) => (
-            <article className="info-card" key={step.title}>
-              <span className="step-number" aria-hidden="true">
-                0{index + 1}
-              </span>
-              <h3>{step.title}</h3>
-              <p>{step.description}</p>
-            </article>
-          ))}
-        </div>
+        <CommunitySteps />
         <div className="notice">
           <p>
-            Los aportes y las corroboraciones todavía no están habilitados. Más
-            adelante habrá niveles que reconozcan contribuciones útiles y
-            confirmadas, con reglas para prevenir abusos.
+            Corroborar significa contrastar un dato concreto con una fuente. No
+            es un voto de popularidad ni una certificación de calidad clínica.
+            La publicidad no compra revisiones ni posiciones en el directorio.
           </p>
+        </div>
+        <div className={styles.actions}>
+          <Link href="/aportar" className="button">
+            Sumar un recurso
+          </Link>
+          <Link href="/comunidad/revisar" className="button button-secondary">
+            Ayudar a revisar
+          </Link>
+          <Link href="/cuenta" className="text-link">
+            Seguir mis aportes →
+          </Link>
         </div>
       </section>
       <section
         className="section-small container"
         aria-label="Primeros aportes de la comunidad"
       >
-        <EmptyState
-          title="Una comunidad que empieza con pequeños aportes"
-          description="Todavía no hay publicaciones. Si conocés un recurso que podría servirle a otra persona, podés empezar a preparar la información."
-        />
+        <div className={styles.stack}>
+          <h2>Últimas fichas publicadas</h2>
+          <ConnectionNotice status={resources.status} />
+          {resources.data.length ? (
+            <div className="content-grid">
+              {resources.data.slice(0, 6).map((r) => (
+                <ResourceCard key={r.id} resource={r} />
+              ))}
+            </div>
+          ) : (
+            resources.status !== "unavailable" && (
+              <EmptyState
+                title="Una comunidad que empieza con pequeños aportes"
+                description="Todavía no hay fichas publicadas. Si conocés un recurso que podría servirle a otra persona, podés empezar a preparar la información."
+                href="/aportar"
+                action="Preparar un aporte"
+              />
+            )
+          )}
+        </div>
       </section>
       <section
         className="section container"

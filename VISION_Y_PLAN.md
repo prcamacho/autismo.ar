@@ -1,6 +1,6 @@
 # autismo.ar — Visión y plan vivo
 
-> Última actualización: 17 de septiembre de 2026. Este documento orienta el producto y el trabajo de futuras personas e inteligencias artificiales. Es una propuesta evolutiva: las decisiones pueden cambiar y deben actualizarse aquí cuando cambien.
+> Última actualización: 24 de septiembre de 2026. Este documento orienta el producto y el trabajo de futuras personas e inteligencias artificiales. Es una propuesta evolutiva: las decisiones pueden cambiar y deben actualizarse aquí cuando cambien.
 
 ## 1. Para qué existe
 
@@ -98,7 +98,7 @@ No se inventarán fichas, reseñas, cifras, testimonios ni descargas para rellen
 5. El cambio se publica según su riesgo y las reglas vigentes; queda un historial recuperable.
 6. Cualquier persona puede señalar errores, y los conflictos pasan a revisión.
 
-Los umbrales de publicación y cantidad de confirmaciones se definirán en el piloto. No basta con una mayoría de votos para establecer la veracidad. Cambios de contacto, identidad, cobro o información sensible requieren mayor cuidado.
+En el primer piloto, cada grupo de datos nuevo o modificado requiere al menos una corroboración de alguien distinto del autor. Se exige una revisión inicial de privacidad y una decisión de moderación para publicar; un desacuerdo pendiente bloquea la publicación. Nadie puede moderar su propio aporte. El número de confirmaciones podrá ajustarse con la experiencia. No basta con una mayoría de votos para establecer la veracidad. Cambios de contacto, identidad, cobro o información sensible requieren mayor cuidado.
 
 ### Niveles y reconocimientos
 
@@ -151,7 +151,7 @@ No se asume que el sitio custodiará dinero, procesará pagos para terceros ni g
 - **PostgreSQL y Supabase como dirección prevista** para datos, autenticación y archivos cuando se implemente la comunidad.
 - Experiencia orientada primero a celulares; listas útiles desde el inicio. Un mapa y funciones PWA pueden sumarse cuando resuelvan necesidades reales.
 
-La primera versión es un esqueleto de interfaz. La elección futura de Supabase no significa que ya exista una conexión, cuentas o persistencia. Nunca incluir claves privadas en el navegador ni en el repositorio.
+El repositorio incorpora el primer circuito comunitario: cuentas por código de correo, propuestas, revisión inicial, corroboración por campo, publicación moderada, historial y reportes. La conexión de producción sigue pendiente: la cuenta de Supabase consultada llegó al límite de proyectos gratuitos. Sin configuración se ofrecen borradores locales y se explica ese estado. Nunca incluir claves privadas en el navegador ni en el repositorio. La activación y los límites del piloto están en [docs/COMUNIDAD.md](./docs/COMUNIDAD.md).
 
 ### Límites entre partes
 
@@ -181,18 +181,18 @@ Observar si las personas encuentran recursos útiles, si los contactos siguen vi
 
 ## 11. Estado inicial y próximos pasos
 
-**Estado de la fase 0:** esqueleto implementado y publicado, con portada informativa, directorio filtrable, biblioteca, comunidad, proyecto y formulario de borrador descargable/copiable. La selección de localidad es texto libre por ahora. La versión beta de la app de Ian está disponible como PWA bajo `/apps/ian/`, servida desde un despliegue independiente; no se ofrece un APK. No hay fichas comunitarias reales, backend comunitario, validaciones activas ni pagos. El formulario no envía ni publica: prepara un archivo en el dispositivo. La existencia de una página no implica que su función futura esté operativa.
+**Estado actual:** fase 0 publicada y circuito del piloto implementado localmente, pendiente de activar su base, correo y despliegue. Orientación y directorio comparten fichas; las cuentas, propuestas, corroboraciones, historial y reportes tienen código y migración, pero aún no operan en producción. Sin conexión, el formulario descarga/carga borradores en el dispositivo. La localidad sigue siendo texto libre. La beta de Ian conserva su PWA bajo `/apps/ian/`; no se ofrece un APK. No hay fichas comunitarias reales ni pagos. La existencia del código no implica que la función esté operativa.
 
 Próximos pasos concretos:
 
 1. Revisar el esqueleto visual y ajustar las prioridades y el lenguaje con el responsable del proyecto.
 2. Elegir una localidad o un grupo pequeño para el piloto, manteniendo la estructura nacional.
 3. Probar la versión beta de la app de Ian en distintos dispositivos y mantener actualizados su acceso, presentación y atribuciones.
-4. Definir los campos mínimos de las fichas y las reglas iniciales de revisión.
-5. Crear la base de datos y autenticación, con permisos, historial y un flujo real de aportes.
+4. Validar con el grupo las reglas iniciales y los campos ya implementados.
+5. Resolver el cupo de Supabase, aplicar la migración y configurar correo, moderadores y despliegue.
 6. Cargar las primeras fichas con información verificable y probar corrección, reporte y actualización con familias participantes.
 
-Pendientes de decisión: localidad inicial, alojamiento de la web, responsables de moderación, términos de participación, canales de contacto y presupuesto. Resolverlos cuando habiliten el siguiente paso, sin bloquear el esqueleto por decisiones que todavía no necesita.
+Pendientes de decisión: localidad inicial, responsables de moderación, términos de participación, canales de contacto y presupuesto de la base. Railway aloja la web y Cloudflare gestiona el dominio. Resolver lo pendiente al activar el piloto.
 
 ## 12. Cómo mantener este documento
 
