@@ -17,6 +17,10 @@ test("embeds Ian in a landscape frame and loads its assets from the authorized o
   assert.match(embedded, /<head><base href="https:\/\/ian\.example\/">/);
   assert.match(shell, /@media\(orientation:portrait\)/);
   assert.match(shell, /rotate\(90deg\)/);
+  assert.match(shell, /landscapeWidth\/960/);
+  assert.match(shell, /landscapeHeight\/540/);
+  assert.match(shell, /visualViewport/);
+  assert.match(shell, /scrolling="no"/);
   assert.match(shell, /screen-orientation" content="landscape"/);
   assert.match(shell, new RegExp(`id="${IAN_LANDSCAPE_FRAME_ID}"`));
   assert.match(shell, /srcdoc="&lt;!doctype html&gt;/);

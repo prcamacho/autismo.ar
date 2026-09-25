@@ -1,11 +1,14 @@
 export const IAN_LANDSCAPE_FRAME_ID = "ian-landscape-frame";
 
 const landscapeFrameStyles = `
-:root{color-scheme:light;--ian-screen-height:100vh}
-@supports(height:100dvh){:root{--ian-screen-height:100dvh}}
+:root{color-scheme:light;--ian-frame-width:100vw;--ian-frame-height:100vh;--ian-fit-scale:1}
 html,body{width:100%;height:100%;min-height:100%;margin:0;overflow:hidden;background:#244348}
-#${IAN_LANDSCAPE_FRAME_ID}{position:fixed;top:50%;left:50%;display:block;width:100vw;height:var(--ian-screen-height);border:0;background:#f4f6f8;transform:translate(-50%,-50%);transform-origin:center}
-@media(orientation:portrait){#${IAN_LANDSCAPE_FRAME_ID}{width:var(--ian-screen-height);height:100vw;transform:translate(-50%,-50%) rotate(90deg)}}
+#${IAN_LANDSCAPE_FRAME_ID}{position:fixed;top:50%;left:50%;display:block;width:var(--ian-frame-width);height:var(--ian-frame-height);border:0;overflow:hidden;background:#f4f6f8;transform:translate(-50%,-50%) scale(var(--ian-fit-scale));transform-origin:center}
+@media(orientation:portrait){#${IAN_LANDSCAPE_FRAME_ID}{transform:translate(-50%,-50%) rotate(90deg) scale(var(--ian-fit-scale))}}
+`;
+
+const landscapeFrameSizingScript = `
+(()=>{const root=document.documentElement;const fit=()=>{const viewport=window.visualViewport;const width=viewport?.width||window.innerWidth;const height=viewport?.height||window.innerHeight;const portrait=height>width;const landscapeWidth=portrait?height:width;const landscapeHeight=portrait?width:height;const scale=Math.min(1,landscapeWidth/960,landscapeHeight/540);root.style.setProperty("--ian-frame-width",landscapeWidth/scale+"px");root.style.setProperty("--ian-frame-height",landscapeHeight/scale+"px");root.style.setProperty("--ian-fit-scale",String(scale))};fit();addEventListener("resize",fit,{passive:true});window.visualViewport?.addEventListener("resize",fit,{passive:true})})();
 `;
 
 function escapeHtmlAttribute(value: string) {
@@ -44,6 +47,7 @@ export function buildIanLandscapeShell(html: string, origin: string) {
     <title>App de Ian</title>
     <link rel="manifest" href="/apps/ian/manifest.json">
     <style>${landscapeFrameStyles}</style>
+    <script>${landscapeFrameSizingScript}</script>
   </head>
   <body>
     <iframe
@@ -52,6 +56,7 @@ export function buildIanLandscapeShell(html: string, origin: string) {
       srcdoc="${embeddedDocument}"
       allow="autoplay; fullscreen"
       referrerpolicy="no-referrer"
+      scrolling="no"
     ></iframe>
   </body>
 </html>`;
