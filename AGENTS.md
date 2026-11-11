@@ -10,6 +10,7 @@ Para tareas de desarrollo, leé [la guía de trabajo](./docs/DESARROLLO.md). Ant
 - No simules cuentas, envíos guardados, validaciones, pagos o soporte de emergencias. Explicá los estados vacíos y funciones todavía pendientes con claridad.
 - Base técnica: Next.js, React, TypeScript y CSS propio. PostgreSQL/Supabase son la dirección prevista para el backend; verificá si realmente están conectados antes de afirmarlo.
 - Mantené navegación accesible, diseño adaptable a celulares, etiquetas de formularios, foco visible, contraste y respeto por movimiento reducido. Evitá estímulos innecesarios.
+- Cada sección, componente o función nueva o modificada debe contemplar y verificarse en **modo claro y modo oscuro**, incluidos móvil, formularios, iconos y estados de carga, vacío, error y deshabilitado. Usá los colores semánticos compartidos de `src/styles/theme.css`; no fijes fondos o textos que solo funcionen en un tema.
 - Minimizá datos personales. No expongas información de menores, documentación médica, domicilios familiares ni claves privadas. Validá permisos y entradas en el servidor cuando exista persistencia.
 - La reputación no certifica calidad clínica ni se compra. Moderación sensible, campañas familiares, hospedaje y rifas requieren el diseño previo indicado en la visión.
 - Preservá cambios ajenos y limitá las modificaciones al pedido. Evitá borrar o reemplazar trabajo existente sin revisar su alcance.

@@ -72,6 +72,8 @@ Probar comportamiento observable y regresiones relevantes, incluidos permisos, e
 
 En interfaces, revisar visualmente cuando sea posible: móvil, escritorio, teclado, foco, contraste y movimiento reducido. Señalar detalles pertinentes de iconos, títulos, descripción, vista previa al compartir, indexación y estados de carga, vacío y error. Proponer lo que falta sin ampliar silenciosamente la tarea; conservar el `noindex` del prototipo hasta una decisión de lanzamiento.
 
+**Modo claro y oscuro son parte del criterio de aceptación de cada sección, componente o función.** Usar las variables semánticas de `src/styles/theme.css` para fondos, texto, bordes, acciones y avisos. Revisar en ambos temas el contenido, los iconos, los formularios, el foco, los estados seleccionado/deshabilitado y las pantallas de carga, vacío y error que correspondan. Comprobar móvil y escritorio, la preferencia inicial del dispositivo, la elección manual y su conservación al navegar y recargar. No dar por terminada una interfaz por haber revisado un solo tema. Los colores propios del logotipo se conservan; comprobar su legibilidad sobre ambas superficies.
+
 La entrega debe explicar qué cambió y por qué, qué se comprobó, qué quedó pendiente y las limitaciones reales. Una revisión de la propia IA no equivale a una revisión independiente. El flujo de publicación y recuperación está en [OPERACION.md](./OPERACION.md).
 
 ## 5. Memoria y comprobación de las instrucciones

@@ -32,6 +32,7 @@ npm start
 ## Qué está implementado
 
 - Portada informativa, identidad SVG con rompecabezas multicolor y diseño adaptable a celulares.
+- Modo claro y oscuro en todas las secciones, con botón de sol/luna en la cabecera pública, visible también en móvil y sin necesidad de iniciar sesión. Sigue el tema del dispositivo hasta elegir uno manualmente; recuerda esa elección en este navegador y la sincroniza entre pestañas.
 - Directorio con categorías, 23 provincias y CABA, localidad escrita y filtros compartibles en la URL.
 - Contrato de búsqueda que conserva recursos nacionales y provinciales pertinentes al filtrar una localidad.
 - Biblioteca en preparación, con estado vacío explícito y sin recursos ficticios.
@@ -84,6 +85,8 @@ Los archivos subidos requerirán un flujo propio de validación y permisos; actu
 ## Diseño y contenido
 
 CSS propio organizado en `src/styles`, con variables y componentes compartidos; sin fuentes remotas necesarias para compilar. Los formularios, avisos y paginación comunes están en `src/components`. El SVG del rompecabezas es parte del código y puede ajustarse sin generar imágenes nuevas.
+
+La paleta de ambos temas está centralizada en `src/styles/theme.css`, usando `light-dark()` y `color-scheme` para adaptar también los controles nativos. Cada sección nueva o modificada debe verificarse en claro y oscuro. La preferencia `autismo-ar-theme` se guarda solo en `localStorage`, sin cuenta ni llamadas al servidor. Un script inicial aplica la elección antes de pintar; si el almacenamiento está bloqueado, el cambio sigue funcionando durante la navegación actual. Sin JavaScript, el CSS respeta el tema del dispositivo. La impresión usa el tema claro.
 
 `npm run format` aplica el formato de código; `npm run format:check` permite comprobarlo sin modificar archivos.
 

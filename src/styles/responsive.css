@@ -13,6 +13,37 @@
   .navigation {
     gap: 21px;
   }
+  .menu-toggle {
+    display: flex;
+  }
+  .header-inner {
+    min-height: 77px;
+    position: relative;
+  }
+  .navigation {
+    display: none;
+    position: absolute;
+    z-index: 10;
+    top: calc(100% - 1px);
+    left: -32px;
+    right: -32px;
+    padding: 22px 24px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 12px 17px var(--shadow);
+  }
+  .navigation.is-open {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .navigation > a:not(.button) {
+    padding-inline: 12px;
+  }
+  .navigation > a[aria-current="page"]:not(.button)::after {
+    left: 12px;
+  }
   .hero-grid {
     gap: 20px;
     grid-template-columns: 1.2fr 1fr;
@@ -51,36 +82,9 @@
   .container {
     width: calc(100% - 48px);
   }
-  .menu-toggle {
-    display: flex;
-  }
-  .header-inner {
-    min-height: 77px;
-    position: relative;
-  }
   .navigation {
-    display: none;
-    position: absolute;
-    z-index: 10;
-    top: calc(100% - 1px);
     left: -24px;
     right: -24px;
-    padding: 22px 24px;
-    background: white;
-    border-bottom: 1px solid var(--line);
-    box-shadow: 0 12px 17px #2344660c;
-  }
-  .navigation.is-open {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-  }
-  .navigation > a:not(.button) {
-    padding-inline: 12px;
-  }
-  .navigation > a[aria-current="page"]:not(.button)::after {
-    left: 12px;
   }
   .hero-grid {
     gap: 0;
@@ -465,7 +469,7 @@
   .orientation-section .info-card + .info-card {
     padding: 23px 0 18px;
     border-left: 0;
-    border-top: 1px solid #dfe7ef;
+    border-top: 1px solid var(--line);
   }
   .orientation-section .small-icon {
     margin-bottom: 12px;
