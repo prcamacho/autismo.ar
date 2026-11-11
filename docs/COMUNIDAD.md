@@ -2,7 +2,7 @@
 
 ## Estado al 11 de noviembre de 2026
 
-**La base está conectada a producción; el ingreso por correo y el piloto completo todavía están pendientes.** El responsable creó una cuenta nueva de Supabase y pidió usarla para autismo.ar. Se creó la organización gratuita `autismo.ar` y el proyecto dedicado `autismo-ar` (`godvlfhhnyzgoklbnwqs`), en `us-east-1`, junto a la región del servidor actual. No se contrataron planes ni se modificaron las bases de VinSalta.
+**La base está conectada a producción y el ingreso por código de correo fue comprobado; el piloto completo todavía está pendiente.** El responsable creó una cuenta nueva de Supabase y pidió usarla para autismo.ar. Se creó la organización gratuita `autismo.ar` y el proyecto dedicado `autismo-ar` (`godvlfhhnyzgoklbnwqs`), en `us-east-1`, junto a la región del servidor actual. No se contrataron planes ni se modificaron las bases de VinSalta.
 
 ### Conexión comprobada
 
@@ -10,14 +10,22 @@
 - Las ocho tablas tienen RLS; los roles `anon` y `authenticated` no pueden insertar, actualizar ni borrar directamente. Una consulta ejecutada como `anon` confirmó búsqueda funcional, ausencia de rol moderador, reportes privados inaccesibles y falta de permiso para enviar propuestas.
 - Railway tiene `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` en el servicio existente. No se usa `service_role` ni una clave secreta. Se preparó también `.env.local`, ignorado por Git: apunta a la base real y no debe recibir datos sintéticos.
 - Despliegue `a5931a84-56a4-4fca-81e6-b516bed999fc`, estado `SUCCESS`, sobre el commit `a358cfde52ca5f2a5a716698f3afa3a37ee1b53f`. Proyecto Railway `1bf0bb1d-1a08-46d4-8f71-04c6a7aa1d48`, servicio `c1c4cd58-87c6-4912-a2c7-c1cd03001cfe`, entorno `production` (`65aed2e3-5a6f-4938-a85a-025e191189a7`).
-- Se comprobó en el navegador el directorio público y la búsqueda «educación»: ambos consultan la base y muestran el estado vacío sin error de conexión. No se crearon fichas ni cuentas de prueba en producción. Las 13 pruebas locales de PostgreSQL/PGlite aprobaron.
-- Se conservó el DNS de Cloudflare. No se creó otro servicio Railway ni un entorno remoto de pruebas; la separación operativa `test`/producción sigue pendiente.
+- Se comprobó en el navegador el directorio público y la búsqueda «educación»: ambos consultan la base y muestran el estado vacío sin error de conexión. No se crearon fichas sintéticas en producción. Para verificar el correo se creó la cuenta real del responsable, con rol de colaborador/a. Las 13 pruebas locales de PostgreSQL/PGlite aprobaron.
+- Se conservó la configuración web de Cloudflare y se añadieron los registros de correo descritos abajo. No se creó otro servicio Railway ni un entorno remoto de pruebas; la separación operativa `test`/producción sigue pendiente.
 
-### Correo y puesta en marcha pendientes
+### Correo comprobado y puesta en marcha pendiente
 
-Email Auth está habilitado, con confirmación de correo y sin ingresos anónimos. Site URL es `https://autismo.ar`. **SMTP propio sigue desactivado.** El panel del plan gratuito bloquea la edición de plantillas hasta configurar SMTP propio y mantiene el correo predeterminado con enlace; la aplicación espera un código. La presencia del formulario en `/cuenta` no demuestra un ingreso operativo.
+Email Auth está habilitado, con confirmación de correo y sin ingresos anónimos. Site URL es `https://autismo.ar`. **SMTP propio está activo mediante Resend**: servidor `smtp.resend.com`, puerto `465`, usuario `resend`, remitente `autismo.ar <acceso@autismo.ar>`. El responsable ingresó la clave API en el campo Password de Supabase; no se guardó en Git ni en variables públicas.
 
-Falta vincular un proveedor de correo autorizado, configurar las plantillas de alta y acceso con `{{ .Token }}`, comprobar entrega e ingreso reales, designar moderadores y ensayar el circuito completo con dos cuentas en un entorno aislado. No se reutilizaron credenciales de otros proyectos ni se enviaron correos durante esta activación.
+- Resend verificó `autismo.ar` el 11 de noviembre de 2026 a las 21:59 UTC. El dominio tiene DKIM `resend._domainkey` y CNAME `rsend` y `send` hacia Resend Forge, sin proxy. La recepción está desactivada. No se modificaron los dominios ni las claves de VinSalta.
+- La clave dedicada `AUTISMO.AR - Supabase Auth` tiene permiso **Sending access**, limitado al dominio **autismo.ar**. Su alcance se comprobó después de recargar el panel.
+- Las plantillas **Confirm sign up** y **Magic link or OTP** muestran `{{ .Token }}` y texto en español. La interfaz espera el código, no un enlace.
+- Se solicitó un código desde `https://autismo.ar/cuenta` a la cuenta real del responsable. El correo llegó a la bandeja de entrada el 11 de noviembre de 2026 a las 22:02 UTC, con SPF y DKIM aprobados. El código permitió iniciar sesión y la web mostró el rol **Colaborador/a**, sin aportes ni reportes. Esta prueba valida alta, entrega y acceso; no ensaya por separado el reingreso de una cuenta existente ni el circuito de publicación.
+- Se usa la cuenta gratuita existente de Resend: el panel indicaba 3.000 correos mensuales y 100 diarios, compartidos entre sus tres dominios. Supabase indicó un límite de 30 correos por hora al activar SMTP. La prueba consumió un envío; no se contrató otro plan.
+
+Ante fallos de entrega, revisar primero Auth en Supabase y el envío correspondiente en Resend: distinguir rechazo SMTP, dominio sin verificar, cuota agotada y rechazo del destinatario. Comprobar también la respuesta visible del formulario y la bandeja real; no registrar claves ni códigos. Si se reemplaza una clave, el titular debe actualizar Password en SMTP y volver a comprobar un envío y un ingreso reales.
+
+Falta designar moderadores y ensayar el circuito completo con dos cuentas en un entorno aislado. No se concedieron permisos de moderación durante la prueba de correo.
 
 La recuperación de la configuración consiste en retirar las dos variables públicas nuevas y reconstruir el servicio; eso devuelve el modo de borradores sin eliminar la base. No se sobrescribieron datos previos. Las copias y su restauración deben comprobarse antes de abrir el piloto.
 
@@ -64,7 +72,7 @@ Las propuestas enviadas son inmutables. Ante un error, se rechazan y se crea otr
 
 1. Resolver el cupo con el titular y crear un proyecto dedicado. No reutilizar las bases de VinSalta. Si el alta exige una contraseña nueva, la ingresa el titular.
 2. Aplicar las migraciones de `supabase/migrations` en orden de nombre, una sola vez cada una. `202609240001_community.sql` crea el esquema en un proyecto nuevo; `202611110001_audit_fixes.sql` corrige validación de URLs y búsqueda por nombres de categorías y agrega un índice para el listado. Si el esquema inicial ya está aplicado, ejecutar solo las migraciones pendientes; no sobrescribir tablas existentes.
-3. Habilitar Email Auth. Configurar la plantilla **Magic Link** para mostrar `{{ .Token }}`: la interfaz usa códigos, no callback por enlace. Configurar Site URL `https://autismo.ar` y SMTP autorizado para los participantes. El correo predeterminado de Supabase puede restringir destinatarios; comprobar un envío real.
+3. Habilitar Email Auth. Configurar las plantillas **Confirm sign up** y **Magic link or OTP** para mostrar `{{ .Token }}`: la interfaz usa códigos, no callback por enlace. Configurar Site URL `https://autismo.ar` y SMTP autorizado para los participantes. El correo predeterminado de Supabase puede restringir destinatarios; comprobar un envío y un ingreso reales.
 4. Configurar `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` en Railway y `.env.local`. Usar solo la clave publicable, nunca `service_role` ni una clave secreta.
 5. Crear las cuentas de moderación por el mismo formulario. Desde Auth, el titular obtiene sus IDs y asigna el rol (sustituir el ID):
 
