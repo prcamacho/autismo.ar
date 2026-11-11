@@ -1,5 +1,5 @@
 import type { ResourceInput } from "./validation";
-import type { CheckField } from "@/features/community/model";
+import { type CheckField } from "@/features/community/model";
 
 export type ResourceRecord = {
   id: string;

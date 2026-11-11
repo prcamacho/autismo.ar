@@ -46,7 +46,7 @@ Las propuestas enviadas son inmutables. Ante un error, se rechazan y se crea otr
 ## Activar en Supabase y Railway
 
 1. Resolver el cupo con el titular y crear un proyecto dedicado. No reutilizar las bases de VinSalta. Si el alta exige una contraseña nueva, la ingresa el titular.
-2. Aplicar `supabase/migrations/202609240001_community.sql` una vez mediante SQL Editor o migraciones. Está destinada a un proyecto nuevo, no a sobrescribir tablas existentes.
+2. Aplicar las migraciones de `supabase/migrations` en orden de nombre, una sola vez cada una. `202609240001_community.sql` crea el esquema en un proyecto nuevo; `202611110001_audit_fixes.sql` corrige validación de URLs y búsqueda por nombres de categorías y agrega un índice para el listado. Si el esquema inicial ya está aplicado, ejecutar solo las migraciones pendientes; no sobrescribir tablas existentes.
 3. Habilitar Email Auth. Configurar la plantilla **Magic Link** para mostrar `{{ .Token }}`: la interfaz usa códigos, no callback por enlace. Configurar Site URL `https://autismo.ar` y SMTP autorizado para los participantes. El correo predeterminado de Supabase puede restringir destinatarios; comprobar un envío real.
 4. Configurar `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` en Railway y `.env.local`. Usar solo la clave publicable, nunca `service_role` ni una clave secreta.
 5. Crear las cuentas de moderación por el mismo formulario. Desde Auth, el titular obtiene sus IDs y asigna el rol (sustituir el ID):
@@ -65,7 +65,11 @@ Comprobar conexión, correo real y despliegue antes de llamar operativo al pilot
 
 ## Verificación y mantenimiento
 
-`npm test` ejecuta la migración en PostgreSQL local mediante PGlite y prueba RLS, permisos, fuentes inválidas, autovalidación, publicación, conflictos, duplicados, historial y privacidad. Los datos sintéticos permanecen en las pruebas. Ejecutar también `npm run lint`, `npm run typecheck` y `npm run build`, y revisar la interfaz en móvil y escritorio.
+`npm test` ejecuta todas las migraciones en PostgreSQL local mediante PGlite y prueba RLS, permisos, fuentes inválidas, autovalidación, publicación, conflictos, duplicados, historial y privacidad. Incluye regresiones del reconocimiento de moderadores, consulta exacta de versiones y coherencia de validación entre TypeScript y SQL. Los datos sintéticos permanecen en las pruebas. Ejecutar también `npm run lint`, `npm run typecheck` y `npm run build`, y revisar la interfaz en móvil y escritorio.
+
+El cliente Supabase usa el contrato de las migraciones en `src/lib/supabase/database.types.ts`; mantenerlo actualizado al cambiar el esquema. Un fallo al consultar permisos no convierte silenciosamente a un moderador en colaborador. Si no se puede recuperar una versión histórica, la página bloquea el formulario y permite reintentar. La búsqueda activa es la consulta PostgreSQL; no se conserva un motor paralelo en memoria. Los borradores locales se validan al importar y no se envían automáticamente.
+
+Comprobación del 11 de noviembre de 2026: lint, TypeScript, formato y las 13 pruebas locales aprobados. El build compiló el código y aprobó TypeScript, pero falló al crear directorios de prerenderizado con `EPERM` en el entorno restringido de Windows, también con una salida nueva. El servidor de desarrollo inició, pero la conexión local fue bloqueada por permisos de socket; no se completó la revisión visual. Repetir build completo y recorridos de navegador en un entorno habilitado antes de publicar. Esta comprobación no aplicó migraciones remotas ni activó base, correo o servicios.
 
 Antes de abrir el piloto: designar moderadores, revisar privacidad/condiciones y definir atención de pedidos de eliminación, exportación y apelación. No se exige documentación médica. Los correos permanecen en Supabase Auth. Administración puede purgar eventos de límites de `community_check_events` anteriores a 30 días. Respaldar la base y ensayar su restauración según el plan elegido.
 

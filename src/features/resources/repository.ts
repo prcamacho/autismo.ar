@@ -1,10 +1,13 @@
+import { PAGE_SIZE } from "@/lib/pagination";
 import "server-only";
 import { createSupabaseClient } from "@/lib/supabase/server";
-import type { QueryResult } from "@/features/community/model";
-import type {
-  ResourceRecord,
-  ResourceRevision,
-  FieldConfirmation,
+import { readResourceRevision } from "./revision";
+import { getSupabaseStatus } from "@/lib/supabase/config";
+import { type QueryResult } from "@/lib/result";
+import {
+  type ResourceRecord,
+  type ResourceRevision,
+  type FieldConfirmation,
 } from "./model";
 
 export async function findResources(
@@ -18,7 +21,7 @@ export async function findResources(
   } = {},
 ): Promise<QueryResult<ResourceRecord[]>> {
   const client = await createSupabaseClient();
-  if (!client) return { data: [], status: "unconfigured" };
+  if (!client) return { data: [], status: getSupabaseStatus() };
   const { data, error } = await client.rpc("community_search", {
     p_query: filters.query || "",
     p_category: filters.category || "",
@@ -28,7 +31,7 @@ export async function findResources(
     p_page: filters.page || 1,
   });
   return {
-    data: (data ?? []) as ResourceRecord[],
+    data: data ?? [],
     status: error ? "unavailable" : "ready",
   };
 }
@@ -36,7 +39,7 @@ export async function getResource(
   id: string,
 ): Promise<QueryResult<ResourceRecord | null>> {
   const client = await createSupabaseClient();
-  if (!client) return { data: null, status: "unconfigured" };
+  if (!client) return { data: null, status: getSupabaseStatus() };
   const { data, error } = await client
     .from("resources")
     .select("id,slug,version,data,source_url,published_at")
@@ -44,7 +47,7 @@ export async function getResource(
     .eq("visible", true)
     .maybeSingle();
   return {
-    data: data as ResourceRecord | null,
+    data,
     status: error ? "unavailable" : "ready",
   };
 }
@@ -53,29 +56,34 @@ export async function getResourceHistory(
   page = 1,
 ): Promise<QueryResult<ResourceRevision[]>> {
   const client = await createSupabaseClient();
-  if (!client) return { data: [], status: "unconfigured" };
+  if (!client) return { data: [], status: getSupabaseStatus() };
   const { data, error } = await client
     .from("resource_revisions")
     .select("resource_id,version,data,source_url,published_at")
     .eq("resource_id", id)
     .order("version", { ascending: false })
-    .range((page - 1) * 20, page * 20);
+    .range((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   return {
-    data: (data ?? []) as ResourceRevision[],
+    data: data ?? [],
     status: error ? "unavailable" : "ready",
   };
+}
+export async function getResourceRevision(id: string, version: number) {
+  const client = await createSupabaseClient();
+  if (!client) return { data: null, status: getSupabaseStatus() };
+  return readResourceRevision(client, id, version);
 }
 export async function getConfirmations(
   id: string,
 ): Promise<QueryResult<FieldConfirmation[]>> {
   const client = await createSupabaseClient();
-  if (!client) return { data: [], status: "unconfigured" };
+  if (!client) return { data: [], status: getSupabaseStatus() };
   const { data, error } = await client
     .from("resource_confirmations")
     .select("resource_id,field,source_url,confirmed_at,version")
     .eq("resource_id", id);
   return {
-    data: (data ?? []) as FieldConfirmation[],
+    data: data ?? [],
     status: error ? "unavailable" : "ready",
   };
 }

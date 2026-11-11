@@ -1,37 +1,9 @@
 import Link from "next/link";
 import { ArrowRight, FilePenLine, ScanSearch, History } from "lucide-react";
-import {
-  proposalStatuses,
-  type ConnectionStatus,
-  type Proposal,
-} from "./model";
-import styles from "./community.module.css";
+import { proposalStatuses, type Proposal } from "./model";
+import { formatDate } from "@/lib/format";
+import styles from "@/components/ui.module.css";
 
-export function formatDate(value: string) {
-  return new Intl.DateTimeFormat("es-AR", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    timeZone: "America/Argentina/Buenos_Aires",
-  }).format(new Date(value));
-}
-export function ConnectionNotice({ status }: { status: ConnectionStatus }) {
-  if (status === "ready") return null;
-  return (
-    <div className={styles.callout} role="status">
-      <strong>
-        {status === "unconfigured"
-          ? "La comunidad está en preparación"
-          : "No pudimos cargar la información"}
-      </strong>
-      <p>
-        {status === "unconfigured"
-          ? "Estamos habilitando las cuentas y la recepción de aportes. Mientras tanto podés explorar el sitio y preparar un borrador en tu dispositivo."
-          : "Puede ser una interrupción temporal. Volvé a intentar en unos minutos; tus aportes guardados no se reemplazan por esta pantalla."}
-      </p>
-    </div>
-  );
-}
 export function CommunitySteps() {
   return (
     <div className={styles.progress}>
@@ -90,36 +62,4 @@ export function ProposalCard({ proposal }: { proposal: Proposal }) {
       </Link>
     </article>
   );
-}
-export function Pagination({
-  page,
-  hasMore,
-  href,
-}: {
-  page: number;
-  hasMore: boolean;
-  href: string;
-}) {
-  const link = (p: number) =>
-    `${href}${href.includes("?") ? "&" : "?"}pagina=${p}`;
-  if (page === 1 && !hasMore) return null;
-  return (
-    <nav className={styles.pager} aria-label="Páginas de resultados">
-      {page > 1 && (
-        <Link href={link(page - 1)} className="text-link">
-          Anterior
-        </Link>
-      )}
-      <span>Página {page}</span>
-      {hasMore && (
-        <Link href={link(page + 1)} className="text-link">
-          Siguiente
-        </Link>
-      )}
-    </nav>
-  );
-}
-export function readPage(value: string | string[] | undefined) {
-  const n = Number(typeof value === "string" ? value : "1");
-  return Number.isInteger(n) && n >= 1 && n <= 10000 ? n : 1;
 }

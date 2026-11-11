@@ -30,15 +30,6 @@ export const checkFields = {
   description: "Servicios ofrecidos",
 } as const;
 export type CheckField = keyof typeof checkFields;
-export type ActionResult = {
-  ok?: boolean;
-  message?: string;
-  id?: string;
-  errors?: Record<string, string[]>;
-};
-export type ConnectionStatus = "ready" | "unconfigured" | "unavailable";
-export type QueryResult<T> = { data: T; status: ConnectionStatus };
-
 export type Proposal = {
   id: string;
   author_id: string;

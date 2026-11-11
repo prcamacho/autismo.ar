@@ -1,18 +1,16 @@
 import Link from "next/link";
 import { PageIntro } from "@/components/page-intro";
 import { getViewer } from "@/features/auth/session";
-import { getSupabaseConfig } from "@/lib/supabase/config";
+import { getSupabaseStatus } from "@/lib/supabase/config";
 import { getProposals, getReports } from "@/features/community/repository";
-import {
-  ConnectionNotice,
-  ProposalCard,
-  Pagination,
-  readPage,
-  formatDate,
-} from "@/features/community/components";
-import { ActionForm } from "@/features/community/action-form";
+import { ConnectionNotice } from "@/components/connection-notice";
+import { ProposalCard } from "@/features/community/components";
+import { Pagination } from "@/components/pagination";
+import { readPage, PAGE_SIZE } from "@/lib/pagination";
+import { formatDate } from "@/lib/format";
+import { ActionForm } from "@/components/action-form";
 import { resolveReport } from "@/features/community/actions";
-import styles from "@/features/community/community.module.css";
+import styles from "@/components/ui.module.css";
 export const metadata = {
   title: "Ayudar a revisar",
   robots: { index: false, follow: false },
@@ -41,9 +39,7 @@ export default async function ReviewPage({
           </nav>
           {!viewer ? (
             <>
-              <ConnectionNotice
-                status={getSupabaseConfig() ? "ready" : "unconfigured"}
-              />
+              <ConnectionNotice status={getSupabaseStatus()} />
               <div className={styles.card}>
                 <h2>Ingresá para participar de la revisión</h2>
                 <p>
@@ -86,7 +82,7 @@ export default async function ReviewPage({
                       </div>
                     )}
                   <div className="content-grid">
-                    {proposals.data.slice(0, 20).map((p) => (
+                    {proposals.data.slice(0, PAGE_SIZE).map((p) => (
                       <ProposalCard key={p.id} proposal={p} />
                     ))}
                   </div>
@@ -101,7 +97,7 @@ export default async function ReviewPage({
                       No hay reportes pendientes en esta página.
                     </p>
                   )}
-                  {reports.data.slice(0, 20).map((report) => (
+                  {reports.data.slice(0, PAGE_SIZE).map((report) => (
                     <article className={styles.card} key={report.id}>
                       <span className={styles.meta}>
                         {formatDate(report.created_at)}
@@ -144,8 +140,8 @@ export default async function ReviewPage({
               <Pagination
                 page={page}
                 hasMore={Boolean(
-                  (proposals?.data.length || 0) > 20 ||
-                  (reports?.data.length || 0) > 20,
+                  (proposals?.data.length || 0) > PAGE_SIZE ||
+                  (reports?.data.length || 0) > PAGE_SIZE,
                 )}
                 href="/comunidad/revisar"
               />

@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { applyMigrations } from "./helpers/migrations";
 import { PGlite } from "@electric-sql/pglite";
 
 // Synthetic records only. A real PostgreSQL engine exercises RPCs and RLS.
@@ -29,15 +29,7 @@ test("community permissions, independent review, revisions, conflicts and privac
       create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid $$;
       grant usage on schema auth to anon, authenticated; grant execute on function auth.uid() to anon,authenticated;
       insert into auth.users values ('${author}'),('${reviewer}'),('${moderator}');`);
-    await db.exec(
-      await readFile(
-        new URL(
-          "../supabase/migrations/202609240001_community.sql",
-          import.meta.url,
-        ),
-        "utf8",
-      ),
-    );
+    await applyMigrations(db);
     await db.query(
       "insert into public.community_members values ($1,'moderator')",
       [moderator],

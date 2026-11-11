@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { PROVINCES } from "@/lib/geography";
 import { orientationTopics } from "./topics";
-import styles from "@/features/community/community.module.css";
+import styles from "@/components/ui.module.css";
 
 const icons = {
   health: Stethoscope,

@@ -4,17 +4,17 @@ import { notFound } from "next/navigation";
 import { ListChecks, ShieldCheck } from "lucide-react";
 import { PageIntro } from "@/components/page-intro";
 import { ContributionForm } from "@/features/community/contribution-form";
-import { ConnectionNotice } from "@/features/community/components";
+import { ConnectionNotice } from "@/components/connection-notice";
 import { categories } from "@/lib/catalog";
 import { getProvinceName } from "@/lib/geography";
-import { getSupabaseConfig } from "@/lib/supabase/config";
+import { getSupabaseStatus } from "@/lib/supabase/config";
 import { getViewer } from "@/features/auth/session";
 import {
   getResource,
-  getResourceHistory,
+  getResourceRevision,
 } from "@/features/resources/repository";
 import type { ResourceInput } from "@/features/resources/validation";
-import styles from "@/features/community/community.module.css";
+import styles from "@/components/ui.module.css";
 
 export const metadata: Metadata = { title: "Aportar información" };
 export default async function ContributePage({
@@ -43,24 +43,44 @@ export default async function ContributePage({
   };
   let source = resource?.data?.source_url || "";
   const restore = Number(params.version);
-  if (
-    resource?.data &&
-    Number.isInteger(restore) &&
-    restore > 0 &&
-    restore < resource.data.version
-  ) {
-    const history = await getResourceHistory(
-      resource.data.id,
-      Math.floor((resource.data.version - restore) / 20) + 1,
-    );
-    const revision = history.data.find((r) => r.version === restore);
-    if (revision) {
-      defaults = revision.data;
-      source = revision.source_url;
+  if (params.version !== undefined && resource?.data) {
+    if (
+      typeof params.version !== "string" ||
+      !Number.isInteger(restore) ||
+      restore < 1 ||
+      restore >= resource.data.version
+    )
+      notFound();
+    const revision = await getResourceRevision(resource.data.id, restore);
+    if (revision.status !== "ready") {
+      return (
+        <div className="container section">
+          <h1>No pudimos recuperar esa versión</h1>
+          <ConnectionNotice status={revision.status} />
+          <p>
+            El formulario no se abrió con otros datos. Podés reintentar o volver
+            a la ficha.
+          </p>
+          <a
+            className="button"
+            href={`/aportar?ficha=${encodeURIComponent(resourceId)}&version=${restore}`}
+          >
+            Volver a intentar
+          </a>
+          <Link
+            className="text-link"
+            href={`/directorio/${resource.data.slug}`}
+          >
+            Volver a la ficha
+          </Link>
+        </div>
+      );
     }
+    if (!revision.data) notFound();
+    defaults = revision.data.data;
+    source = revision.data.source_url;
   }
-  const status =
-    resource?.status || (getSupabaseConfig() ? "ready" : "unconfigured");
+  const status = resource?.status || getSupabaseStatus();
   return (
     <>
       <PageIntro
@@ -88,6 +108,7 @@ export default async function ContributePage({
           ) : (
             <div className={styles.layout}>
               <ContributionForm
+                key={`${resource?.data?.id || "new"}:${resource?.data?.version || 0}:${restore || 0}:${category || ""}:${province}:${defaults.locality || ""}`}
                 defaults={defaults}
                 resourceId={resource?.data?.id}
                 version={resource?.data?.version}

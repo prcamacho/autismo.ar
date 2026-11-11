@@ -11,11 +11,9 @@ import { PageIntro } from "@/components/page-intro";
 import Link from "next/link";
 import { findResources } from "@/features/resources/repository";
 import { ResourceCard } from "@/features/resources/resource-card";
-import {
-  CommunitySteps,
-  ConnectionNotice,
-} from "@/features/community/components";
-import styles from "@/features/community/community.module.css";
+import { CommunitySteps } from "@/features/community/components";
+import { ConnectionNotice } from "@/components/connection-notice";
+import styles from "@/components/ui.module.css";
 
 export const metadata: Metadata = {
   title: "Comunidad",

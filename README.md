@@ -69,7 +69,7 @@ src/
   components/            Navegación, búsqueda e identidad compartidas
   features/              auth, community, orientation, resources
   lib/
-    catalog.ts           Categorías y contrato de búsqueda
+    catalog.ts           Categorías compartidas
     geography.ts         Jurisdicciones e identificadores
     supabase/            Cliente y configuración del servidor
   proxy.ts               Renovación de sesión y control de caché privado
@@ -83,7 +83,7 @@ Los archivos subidos requerirán un flujo propio de validación y permisos; actu
 
 ## Diseño y contenido
 
-CSS propio con variables y componentes compartidos; sin fuentes remotas necesarias para compilar. El SVG del rompecabezas es parte del código y puede ajustarse sin generar imágenes nuevas.
+CSS propio organizado en `src/styles`, con variables y componentes compartidos; sin fuentes remotas necesarias para compilar. Los formularios, avisos y paginación comunes están en `src/components`. El SVG del rompecabezas es parte del código y puede ajustarse sin generar imágenes nuevas.
 
 `npm run format` aplica el formato de código; `npm run format:check` permite comprobarlo sin modificar archivos.
 
@@ -91,6 +91,6 @@ No incorporar fichas, testimonios, teléfonos ni cifras inventadas. No ofrecer a
 
 ## Publicación
 
-La [revisión del 11 de noviembre de 2026](./docs/INFRAESTRUCTURA.md) confirmó la reactivación de autismo.ar en Railway y la escuela de Ian online. Las consultas HTTP públicas automatizadas recibieron el desafío de Cloudflare; queda pendiente la comprobación visual y funcional en un navegador. El entorno `test`, protecciones y CI siguen pendientes de implementar. La integración de la escuela fue eliminada del código local el 11 de noviembre; la publicación de esa eliminación sigue pendiente.
+La [revisión del 11 de noviembre de 2026](./docs/INFRAESTRUCTURA.md) confirmó la reactivación de autismo.ar en Railway y la escuela de Ian online. Las consultas HTTP públicas automatizadas recibieron el desafío de Cloudflare; queda pendiente la comprobación visual y funcional en un navegador. El entorno `test`, protecciones y CI siguen pendientes de implementar. La eliminación de la integración se publicó el 11 de noviembre mediante PR 1 y el despliegue de Railway terminó en SUCCESS. Después se retiró el servicio alojado de Ian Escuela: el proyecto conserva únicamente autismo.ar online.
 
-El sitio se publica con Railway y el dominio `autismo.ar` se gestiona mediante Cloudflare. El repositorio remoto es `https://github.com/prcamacho/autismo.ar.git`. La escuela de Ian conserva su servicio y repositorio independientes. Las antiguas rutas de integración y la ficha del recurso se eliminaron, sin redirects ni un interruptor que conserve código inactivo. Al publicar este cambio, esas URLs pasan al comportamiento 404 normal del sitio.
+El sitio se publica con Railway y el dominio `autismo.ar` se gestiona mediante Cloudflare. El repositorio remoto es `https://github.com/prcamacho/autismo.ar.git`. La escuela de Ian conserva su repositorio independiente. Su servicio alojado fue retirado por indicación del responsable, que utiliza la app sin requerir internet. Las antiguas rutas de integración y la ficha del recurso se eliminaron, sin redirects ni un interruptor que conserve código inactivo. Esas URLs corresponden ahora al comportamiento 404 normal del código publicado.

@@ -10,10 +10,11 @@ import {
   type CheckField,
 } from "@/features/community/model";
 import { fieldValue, requiredFields } from "@/features/community/fields";
-import { ConnectionNotice, formatDate } from "@/features/community/components";
-import { ActionForm } from "@/features/community/action-form";
+import { ConnectionNotice } from "@/components/connection-notice";
+import { formatDate } from "@/lib/format";
+import { ActionForm } from "@/components/action-form";
 import { submitCheck, moderateProposal } from "@/features/community/actions";
-import styles from "@/features/community/community.module.css";
+import styles from "@/components/ui.module.css";
 export const metadata = {
   title: "Revisar aporte",
   robots: { index: false, follow: false },

@@ -7,16 +7,14 @@ import {
 } from "@/features/resources/repository";
 import { checkFields, type CheckField } from "@/features/community/model";
 import { fieldValue } from "@/features/community/fields";
-import {
-  ConnectionNotice,
-  formatDate,
-  Pagination,
-  readPage,
-} from "@/features/community/components";
-import { ActionForm } from "@/features/community/action-form";
+import { ConnectionNotice } from "@/components/connection-notice";
+import { formatDate } from "@/lib/format";
+import { Pagination } from "@/components/pagination";
+import { readPage, PAGE_SIZE } from "@/lib/pagination";
+import { ActionForm } from "@/components/action-form";
 import { reportResource } from "@/features/community/actions";
 import { getViewer } from "@/features/auth/session";
-import styles from "@/features/community/community.module.css";
+import styles from "@/components/ui.module.css";
 
 export default async function ResourcePage({
   params,
@@ -122,7 +120,7 @@ export default async function ResourcePage({
               </p>
               <ConnectionNotice status={history.status} />
               <ol className={styles.timeline}>
-                {history.data.slice(0, 20).map((revision) => (
+                {history.data.slice(0, PAGE_SIZE).map((revision) => (
                   <li key={revision.version}>
                     <strong>
                       Versión {revision.version} ·{" "}
@@ -162,7 +160,7 @@ export default async function ResourcePage({
               </ol>
               <Pagination
                 page={page}
-                hasMore={history.data.length > 20}
+                hasMore={history.data.length > PAGE_SIZE}
                 href={`/directorio/${slug}`}
               />
             </section>
