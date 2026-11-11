@@ -17,7 +17,7 @@ El proyecto nace sin un directorio propio ni contenido comunitario cargado. La b
 - **Todas las edades:** contemplar niños, adolescentes y adultos, así como transiciones entre etapas.
 - **Voz propia:** dar participación a personas autistas, además de familiares y profesionales. No hablar siempre en su nombre.
 - **Independencia partidaria:** evitar propaganda y disputas partidarias. Informar derechos, organismos y beneficios con fuentes no constituye propaganda.
-- **Accesibilidad:** diseño legible y predecible, navegación con teclado, foco visible, contraste suficiente y movimiento reducido.
+- **Accesibilidad:** diseño legible y predecible, navegación con teclado, foco visible, contraste suficiente y movimiento reducido. Cada sección y función debe contemplar modo claro y oscuro, respetando la preferencia de la persona.
 - **Privacidad por defecto:** no exigir publicar diagnósticos ni información íntima para participar.
 - **Honestidad:** distinguir dato corroborado, experiencia personal, contenido pendiente de revisión y anuncio pago.
 - **Crecimiento gradual:** habilitar funciones cuando existan condiciones técnicas y humanas para sostenerlas.

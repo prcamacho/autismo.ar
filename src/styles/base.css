@@ -1,11 +1,4 @@
 :root {
-  --ink: #173654;
-  --muted: #617286;
-  --blue: #245fcc;
-  --blue-dark: #174aab;
-  --line: #e2e9ef;
-  --sky: #f0f6fc;
-  --paper: #fff;
   --radius: 20px;
 }
 * {
@@ -88,11 +81,11 @@ p {
   color: var(--muted);
 }
 ::selection {
-  background: #d7e8ff;
-  color: #163a69;
+  background: var(--selection);
+  color: var(--selection-ink);
 }
 :focus-visible {
-  outline: 3px solid #dc9020;
+  outline: 3px solid var(--focus);
   outline-offset: 5px;
   border-radius: 4px;
 }
@@ -114,7 +107,7 @@ p {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #476988;
+  color: var(--info-ink);
 }
 .lead {
   font-size: 18px;
@@ -128,10 +121,10 @@ p {
   gap: 9px;
   min-height: 48px;
   padding: 12px 22px;
-  border: 1px solid var(--blue);
+  border: 1px solid var(--action);
   border-radius: 9px;
-  background: var(--blue);
-  color: white;
+  background: var(--action);
+  color: var(--on-action);
   font-size: 14px;
   line-height: 1.35;
   font-weight: 600;
@@ -141,8 +134,8 @@ p {
     border-color 0.15s ease;
 }
 .button:hover {
-  background: var(--blue-dark);
-  border-color: var(--blue-dark);
+  background: var(--action-hover);
+  border-color: var(--action-hover);
 }
 .button-small {
   min-height: 42px;
@@ -150,13 +143,13 @@ p {
   font-size: 13px;
 }
 .button-secondary {
-  background: white;
+  background: var(--surface);
   color: var(--ink);
-  border-color: #d7dfe6;
+  border-color: var(--line-strong);
 }
 .button-secondary:hover {
   background: var(--sky);
-  border-color: #9bb3cd;
+  border-color: var(--line-strong);
 }
 .text-link {
   display: inline-flex;
@@ -177,8 +170,8 @@ p {
   align-self: start;
   border-radius: 6px;
   padding: 5px 10px;
-  background: #edf3fb;
-  color: #426080;
+  background: var(--info-bg);
+  color: var(--info-ink);
   font-size: 11px;
   font-weight: 650;
   letter-spacing: 0.025em;
@@ -189,7 +182,7 @@ p {
   top: -90px;
   left: 20px;
   z-index: 50;
-  background: white;
+  background: var(--surface);
   padding: 14px 22px;
   border: 2px solid var(--blue);
   border-radius: 8px;
