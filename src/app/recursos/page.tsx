@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, BookOpen, FileText, Smartphone } from "lucide-react";
 import { PageIntro } from "@/components/page-intro";
-import { PuzzleMark } from "@/components/puzzle-mark";
 
 export const metadata: Metadata = { title: "Recursos para compartir" };
 
@@ -17,32 +16,15 @@ export default function ResourcesPage() {
       <div className="container section">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">EL PRIMER PASO</p>
-            <h2>Un proyecto propio para empezar</h2>
+            <p className="eyebrow">BIBLIOTECA EN PREPARACIÓN</p>
+            <h2>Una biblioteca por construir</h2>
             <p>
-              Esta biblioteca está naciendo. Acá iremos sumando recursos reales.
+              Todavía no hay materiales publicados. Iremos sumando recursos
+              reales con su fuente y autorización.
             </p>
           </div>
           <span className="badge">Alcance nacional</span>
         </div>
-        <Link className="resource-feature panel" href="/recursos/app-de-ian">
-          <div className="resource-feature-art">
-            <PuzzleMark />
-          </div>
-          <div>
-            <span className="badge">
-              <Smartphone size={14} /> Disponible en línea
-            </span>
-            <h2>La app de Ian</h2>
-            <p>
-              Conocé el proyecto de nuestra familia e iniciá su versión beta
-              desde el navegador.
-            </p>
-            <span className="text-link">
-              Ver el recurso <ArrowUpRight size={16} />
-            </span>
-          </div>
-        </Link>
         <div className="info-grid section-small">
           <article className="info-card">
             <BookOpen className="small-icon" />

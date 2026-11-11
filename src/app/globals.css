@@ -185,12 +185,6 @@ p {
   letter-spacing: 0.025em;
   line-height: 1.5;
 }
-.badge-warm {
-  color: #826638;
-  background: #f5eacc;
-  font-size: 10px;
-  letter-spacing: 0.09em;
-}
 .skip-link {
   position: fixed;
   top: -90px;
@@ -819,99 +813,6 @@ input:disabled {
 .info-card > .icon-box {
   margin-bottom: 20px;
 }
-
-.ian-feature {
-  border: 1px solid #ece7db;
-  border-radius: var(--radius);
-  background: #fffcf4;
-  display: grid;
-  grid-template-columns: 0.85fr 1.2fr;
-  overflow: hidden;
-}
-.ian-visual {
-  min-height: 342px;
-  background: radial-gradient(ellipse at 50% 42%, #f5e9cd, #fcf5e5 75%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  padding-bottom: 28px;
-}
-.app-tile {
-  width: 165px;
-  height: 186px;
-  background: #fffdf8;
-  border: 7px solid white;
-  border-radius: 32px;
-  box-shadow: 0 13px 28px #87703a18;
-  transform: rotate(-9deg);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.app-tile svg {
-  width: 92px;
-  height: 92px;
-}
-.app-tile span {
-  margin-top: 13px;
-  font-size: 21px;
-  letter-spacing: -0.04em;
-  color: #26496b;
-  font-weight: 600;
-}
-.ian-small-note {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  position: absolute;
-  bottom: 44px;
-  font-size: 10px;
-  color: #8c7956;
-}
-.visual-dot {
-  position: absolute;
-  border-radius: 50%;
-  background: #e1c886;
-  width: 10px;
-  height: 10px;
-}
-.vd-one {
-  top: 67px;
-  left: 71px;
-}
-.vd-two {
-  bottom: 87px;
-  right: 71px;
-  width: 7px;
-  height: 7px;
-  background: #9bb9d9;
-}
-.ian-copy {
-  padding: 42px 55px;
-}
-.ian-copy h2 {
-  font-size: 32px;
-  margin-top: 16px;
-  margin-bottom: 15px;
-}
-.ian-copy p {
-  max-width: 480px;
-  font-size: 13px;
-  line-height: 1.85;
-}
-.ian-copy .button {
-  margin-top: 23px;
-  min-height: 43px;
-  font-size: 12px;
-}
-.subtle-note {
-  display: block;
-  font-size: 11px;
-  color: #746b5a;
-  margin-top: 12px;
-}
 .community-banner {
   display: flex;
   align-items: center;
@@ -1145,21 +1046,6 @@ p + .notice,
 .prose strong {
   color: var(--ink);
 }
-.resource-attribution {
-  margin-top: 28px;
-  padding-top: 20px;
-  border-top: 1px solid var(--line);
-}
-.resource-attribution p {
-  color: #6d7b88;
-  font-size: 11px;
-  line-height: 1.65;
-}
-.resource-attribution a {
-  color: #4e7193;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
 .chips {
   display: flex;
   flex-wrap: wrap;
@@ -1230,38 +1116,6 @@ p + .notice,
   max-width: 570px;
   margin: 15px auto 24px;
   font-size: 14px;
-}
-.resource-feature {
-  display: flex;
-  align-items: center;
-  gap: 38px;
-}
-.resource-feature:hover {
-  border-color: #adc6e1;
-}
-.resource-feature-art {
-  padding: 30px;
-  background: #f5f0e5;
-  border-radius: 16px;
-  width: 170px;
-  height: 170px;
-  flex-shrink: 0;
-}
-.resource-feature-art svg {
-  width: 100%;
-  height: 100%;
-}
-.resource-feature h2 {
-  margin-top: 14px;
-  font-size: 28px;
-}
-.resource-feature p {
-  margin-top: 10px;
-  max-width: 630px;
-  font-size: 14px;
-}
-.resource-feature .text-link {
-  margin-top: 15px;
 }
 .steps {
   display: grid;
@@ -1445,9 +1299,6 @@ p + .notice,
     height: 39px;
     border-radius: 9px;
   }
-  .ian-copy {
-    padding: 35px;
-  }
   .footer-main {
     gap: 22px;
   }
@@ -1567,15 +1418,6 @@ p + .notice,
   }
   .info-card p {
     font-size: 12px;
-  }
-  .ian-copy {
-    padding: 30px;
-  }
-  .ian-copy h2 {
-    font-size: 27px;
-  }
-  .ian-small-note {
-    font-size: 9px;
   }
   .community-banner {
     flex-wrap: wrap;
@@ -1893,37 +1735,6 @@ p + .notice,
   .orientation-section .small-icon {
     margin-bottom: 12px;
   }
-  .ian-feature {
-    grid-template-columns: 1fr;
-  }
-  .ian-visual {
-    min-height: 239px;
-    padding-bottom: 25px;
-  }
-  .app-tile {
-    width: 129px;
-    height: 146px;
-    border-width: 5px;
-    border-radius: 25px;
-  }
-  .app-tile svg {
-    width: 73px;
-    height: 73px;
-  }
-  .app-tile span {
-    margin-top: 8px;
-    font-size: 17px;
-  }
-  .ian-small-note {
-    bottom: 24px;
-    font-size: 10px;
-  }
-  .ian-copy {
-    padding: 29px 24px;
-  }
-  .ian-copy h2 {
-    font-size: 27px;
-  }
   .community-banner {
     display: block;
     padding: 27px 24px;
@@ -2022,22 +1833,6 @@ p + .notice,
     width: 90px;
     height: 90px;
     padding: 19px;
-  }
-  .resource-feature {
-    align-items: start;
-    flex-direction: column;
-    gap: 23px;
-  }
-  .resource-feature-art {
-    width: 120px;
-    height: 120px;
-    padding: 23px;
-  }
-  .resource-feature h2 {
-    font-size: 27px;
-  }
-  .resource-feature p {
-    font-size: 13px;
   }
   .steps {
     grid-template-columns: 1fr;

@@ -12,14 +12,12 @@ import {
   MessagesSquare,
   Plus,
   ShieldCheck,
-  Smartphone,
   Sparkles,
   Stethoscope,
   UsersRound,
 } from "lucide-react";
 import { ResourceSearch } from "@/components/resource-search";
 import { CommunityArt } from "@/components/community-art";
-import { PuzzleMark } from "@/components/puzzle-mark";
 import { categories } from "@/lib/catalog";
 import { CommunitySteps } from "@/features/community/components";
 
@@ -179,45 +177,6 @@ export default function Home() {
                 Conocer la comunidad <ArrowRight size={16} />
               </Link>
             </article>
-          </div>
-        </div>
-      </section>
-
-      <section className="container section">
-        <div className="ian-feature">
-          <div className="ian-visual" aria-hidden="true">
-            <span className="visual-dot vd-one" />
-            <span className="visual-dot vd-two" />
-            <div className="app-tile">
-              <PuzzleMark />
-              <span>Ian</span>
-            </div>
-            <span className="ian-small-note">
-              <Heart size={14} /> Un proyecto nacido en familia
-            </span>
-          </div>
-          <div className="ian-copy">
-            <span className="badge badge-warm">
-              <Smartphone size={14} /> NUESTRO PRIMER PROYECTO
-            </span>
-            <h2>
-              La app de Ian.
-              <br />
-              De nuestra familia a la tuya.
-            </h2>
-            <p>
-              Queremos compartir el proyecto que nos trajo hasta acá. Su versión
-              beta ya está disponible en línea para usar desde el navegador.
-            </p>
-            <Link
-              href="/recursos/app-de-ian"
-              className="button button-secondary"
-            >
-              Conocé el proyecto <ArrowUpRight size={17} />
-            </Link>
-            <span className="subtle-note">
-              Podés usarla en línea y conocer cómo instalarla en tu dispositivo.
-            </span>
           </div>
         </div>
       </section>

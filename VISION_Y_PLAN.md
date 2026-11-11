@@ -1,6 +1,6 @@
 # autismo.ar — Visión y plan vivo
 
-> Última actualización: 24 de septiembre de 2026. Este documento orienta el producto y el trabajo de futuras personas e inteligencias artificiales. Es una propuesta evolutiva: las decisiones pueden cambiar y deben actualizarse aquí cuando cambien.
+> Última actualización: 10 de noviembre de 2026 (reglas de trabajo y eliminación de la integración de Ian Escuela; publicación del cambio pendiente). Este documento orienta el producto y el trabajo de futuras personas e inteligencias artificiales. Es una propuesta evolutiva: las decisiones pueden cambiar y deben actualizarse aquí cuando cambien.
 
 ## 1. Para qué existe
 
@@ -8,7 +8,7 @@ Crear una red argentina de información y ayuda para personas autistas y sus fam
 
 La comunidad aporta información, propone correcciones y ayuda a comprobarla, con una dinámica inspirada en las contribuciones de Google Maps. El objetivo es reducir progresivamente la intervención administrativa mediante buenas herramientas y colaboradores confiables. No se presupone que una plataforma comunitaria pueda funcionar sin moderación, especialmente al comenzar.
 
-El proyecto nace sin un directorio propio ni contenido comunitario cargado. Su primer recurso real es la versión beta de la app de Ian, publicada desde un origen autorizado y accesible bajo `/apps/ian/` en el dominio principal.
+El proyecto nace sin un directorio propio ni contenido comunitario cargado. La biblioteca permanece en preparación. La escuela de Ian continúa como proyecto independiente: su integración fue eliminada del código de autismo.ar por decisión del responsable, sin detener su servicio ni modificar sus datos.
 
 ## 2. Principios que deben guiar las decisiones
 
@@ -75,7 +75,7 @@ La portada combinará información general con acceso práctico a los recursos:
 3. Buscador con la pregunta **“¿Qué recurso necesitás?”** y selección de provincia y localidad.
 4. Accesos a profesionales, centros, educación, transporte, beneficios, comunidad y biblioteca.
 5. Explicación breve de cómo aportar y cómo se revisa la información.
-6. Espacio para presentar el proyecto de app de Ian y los recursos reales que se incorporen.
+6. Espacio para recursos reales cuando existan contenidos autorizados para publicar.
 
 La navegación inicial debe ofrecer inicio, directorio, biblioteca, comunidad y participación. Las secciones aún no operativas deben explicar su estado sin simular funciones disponibles.
 
@@ -163,6 +163,12 @@ Entidades previstas: recursos, categorías, sedes, ubicaciones, cobertura, fuent
 
 Conservar URLs estables y filtros compartibles. Planificar búsqueda, paginación, índices, copias de seguridad y revisión de acceso al incorporar datos reales, sin construir infraestructura innecesaria antes de tener uso.
 
+### Forma de trabajo acordada
+
+La [guía de desarrollo](./docs/DESARROLLO.md) define alcance, organización del código, selección de modelos de IA y verificaciones. La [guía de operación](./docs/OPERACION.md) establece la separación prevista entre `test` y `main`, evaluación de consumo, monitoreo y recuperación. Las decisiones duraderas se conservan en el [registro de decisiones](./docs/DECISIONES.md).
+
+La adopción de estas reglas es documental. La infraestructura de pruebas, protecciones, alertas y respaldos requieren inventario, configuración y comprobación antes de declararse operativos; no cambia el alcance del producto ni activa servicios.
+
 ## 10. Fases y criterios para avanzar
 
 | Fase               | Entrega                                                                                                        | Criterio para pasar a la siguiente                                                                       |
@@ -181,13 +187,15 @@ Observar si las personas encuentran recursos útiles, si los contactos siguen vi
 
 ## 11. Estado inicial y próximos pasos
 
-**Estado actual:** fase 0 publicada y circuito del piloto implementado localmente, pendiente de activar su base, correo y despliegue. Orientación y directorio comparten fichas; las cuentas, propuestas, corroboraciones, historial y reportes tienen código y migración, pero aún no operan en producción. Sin conexión, el formulario descarga/carga borradores en el dispositivo. La localidad sigue siendo texto libre. La beta de Ian conserva su PWA bajo `/apps/ian/`; no se ofrece un APK. No hay fichas comunitarias reales ni pagos. La existencia del código no implica que la función esté operativa.
+**Estado actual:** fase 0 publicada y circuito del piloto implementado localmente, pendiente de activar su base, correo y despliegue. Orientación y directorio comparten fichas; las cuentas, propuestas, corroboraciones, historial y reportes tienen código y migración, pero aún no operan en producción. Sin conexión, el formulario descarga/carga borradores en el dispositivo. La localidad sigue siendo texto libre. La integración de la escuela de Ian fue eliminada del código local; su publicación está pendiente. La escuela conserva su aplicación independiente. No hay fichas comunitarias reales ni pagos. La existencia del código no implica que la función esté operativa.
+
+El [relevamiento operativo del 10 de noviembre de 2026](./docs/INFRAESTRUCTURA.md) observó la web sin despliegue activo en Railway y la escuela de Ian online. La publicación de fase 0 mencionada arriba describe el estado histórico; diagnosticar y comprobar la disponibilidad actual antes de presentar el sitio como operativo. La separación `test`/`main` tiene una propuesta documentada, todavía sin configuración técnica.
 
 Próximos pasos concretos:
 
 1. Revisar el esqueleto visual y ajustar las prioridades y el lenguaje con el responsable del proyecto.
 2. Elegir una localidad o un grupo pequeño para el piloto, manteniendo la estructura nacional.
-3. Probar la versión beta de la app de Ian en distintos dispositivos y mantener actualizados su acceso, presentación y atribuciones.
+3. Preparar la biblioteca para incorporar materiales reales con fuente y autorización, sin presentar recursos que todavía no están publicados.
 4. Validar con el grupo las reglas iniciales y los campos ya implementados.
 5. Resolver el cupo de Supabase, aplicar la migración y configurar correo, moderadores y despliegue.
 6. Cargar las primeras fichas con información verificable y probar corrección, reporte y actualización con familias participantes.

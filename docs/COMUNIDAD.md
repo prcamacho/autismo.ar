@@ -48,7 +48,7 @@ Las propuestas enviadas son inmutables. Ante un error, se rechazan y se crea otr
 1. Resolver el cupo con el titular y crear un proyecto dedicado. No reutilizar las bases de VinSalta. Si el alta exige una contraseña nueva, la ingresa el titular.
 2. Aplicar `supabase/migrations/202609240001_community.sql` una vez mediante SQL Editor o migraciones. Está destinada a un proyecto nuevo, no a sobrescribir tablas existentes.
 3. Habilitar Email Auth. Configurar la plantilla **Magic Link** para mostrar `{{ .Token }}`: la interfaz usa códigos, no callback por enlace. Configurar Site URL `https://autismo.ar` y SMTP autorizado para los participantes. El correo predeterminado de Supabase puede restringir destinatarios; comprobar un envío real.
-4. Configurar `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` en Railway y `.env.local`. Usar solo la clave publicable, nunca `service_role` ni una clave secreta. Conservar `IAN_APP_ORIGIN`.
+4. Configurar `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` en Railway y `.env.local`. Usar solo la clave publicable, nunca `service_role` ni una clave secreta.
 5. Crear las cuentas de moderación por el mismo formulario. Desde Auth, el titular obtiene sus IDs y asigna el rol (sustituir el ID):
 
    ```sql
