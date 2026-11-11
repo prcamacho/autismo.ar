@@ -1,5 +1,17 @@
 # Registro de decisiones
 
+## DEC-004 - Modo claro y oscuro como requisito transversal
+
+- **Fecha:** 11 de noviembre de 2026.
+- **Estado:** implementado en código; verificaciones automáticas y revisión visual local completadas el 11 de noviembre de 2026. Publicación pendiente.
+- **Decisión:** contemplar ambos temas en cada sección y función nueva o modificada. Centralizar colores semánticos y ofrecer un botón de sol/luna en la cabecera, accesible con teclado y visible en móvil.
+- **Comportamiento:** el selector es público y no requiere iniciar sesión. Seguir el tema del dispositivo hasta que la persona elija claro u oscuro. Guardar la preferencia solo en el navegador, aplicarla antes del primer pintado y sincronizarla entre pestañas. Si el almacenamiento falla, mantener disponible el cambio durante la navegación actual. Imprimir con fondo claro.
+- **Motivo:** permitir una lectura cómoda y coherente, sin destellos claros al cargar el tema oscuro ni componentes que solo se vean correctamente en un tema.
+- **Alcance:** paletas, controles, avisos y estados existentes; no agrega dependencias, servicios, datos de cuenta ni consumo de backend. Conservar la identidad del logotipo y el `noindex` vigente.
+- **Validación al retomar:** `npm run build` completó la compilación, TypeScript y la generación de las 12 páginas estáticas; `npm run lint`, las 13 pruebas existentes y Prettier sobre los archivos de tema y documentación pasaron. No se reprodujo el error anterior de permisos durante la compilación.
+- **Revisión visual:** Chrome local, sin sesión y con Supabase desconectado. Se comprobó el cambio claro/oscuro, la persistencia al navegar y recargar, la sincronización entre dos pestañas, activación por teclado y foco visible. Se revisaron portada, directorio, orientación, biblioteca, comunidad, cuenta, formulario de aporte, proyecto y 404, incluidos campos deshabilitados, selección de categorías y avisos. Vistas de escritorio de 1366 px y móvil de 390 px; también se revisó la cabecera y el proyecto a 320 px sin desbordamiento horizontal. No se observaron errores de consola durante el recorrido.
+- **Límites:** no se enviaron aportes ni correos y no se probaron los recorridos privados de moderación. La preferencia del dispositivo, impresión y almacenamiento bloqueado se revisaron en código; no se emularon esos escenarios en esta sesión. El bloqueo inicial de acceso local se resolvió cuando el responsable inició el servidor desde su terminal, sin cambiar permisos ni protecciones.
+
 ## DEC-002 — Eliminar la integración de Ian Escuela
 
 - **Fecha:** 11 de noviembre de 2026.

@@ -1,0 +1,68 @@
+/* Use semantic tokens in every section. The device chooses the initial scheme;
+   data-theme overrides it only after an explicit, locally saved choice. */
+:root {
+  color-scheme: light dark;
+  --ink: light-dark(#173654, #e4edf8);
+  --muted: light-dark(#53677d, #b1c0d2);
+  --blue: light-dark(#245fcc, #98beff);
+  --action: light-dark(#245fcc, #285fc2);
+  --action-hover: light-dark(#174aab, #204fa8);
+  --on-action: #fff;
+  --paper: light-dark(#fff, #101a28);
+  --surface: light-dark(#fff, #172435);
+  --surface-soft: light-dark(#f8fafc, #131f2e);
+  --sky: light-dark(#f0f6fc, #1b2d43);
+  --line: light-dark(#e2e9ef, #34465c);
+  --line-strong: light-dark(#9bb3cd, #647e9d);
+  --input-line: light-dark(#7a8fa6, #7186a1);
+  --focus: light-dark(#9b5b08, #f2bf69);
+  --focus-soft: light-dark(#245fcc18, #98beff30);
+  --selection: light-dark(#d7e8ff, #34577f);
+  --selection-ink: light-dark(#163a69, #fff);
+  --info-ink: light-dark(#426080, #b4ccea);
+  --info-bg: light-dark(#edf3fb, #20334c);
+  --info-line: light-dark(#cfdef2, #45658a);
+  --success-ink: light-dark(#215d46, #a0d7b8);
+  --success-bg: light-dark(#eaf5ef, #1c382e);
+  --warning-ink: light-dark(#704710, #f2d395);
+  --warning-bg: light-dark(#fff4dc, #3b3020);
+  --error-ink: light-dark(#864045, #f1b0b5);
+  --error-bg: light-dark(#f9eeee, #40272f);
+  --selected-bg: light-dark(#eef5ff, #223b5d);
+  --selected-line: light-dark(#6489be, #7ba5de);
+  --icon-blue: light-dark(#4b80ba, #9bc1ea);
+  --icon-blue-bg: light-dark(#edf4fc, #20364e);
+  --icon-green: light-dark(#588573, #9fcbb5);
+  --icon-green-bg: light-dark(#edf5ef, #233a32);
+  --icon-gold: light-dark(#95743e, #d8bd87);
+  --icon-gold-bg: light-dark(#faf3e6, #3b3324);
+  --icon-purple: light-dark(#7b79ae, #bebae5);
+  --icon-purple-bg: light-dark(#eff0fa, #302f49);
+  --icon-teal: light-dark(#508991, #9ccbd0);
+  --icon-teal-bg: light-dark(#eef6f7, #213a40);
+  --icon-coral: light-dark(#a46b56, #e3b29f);
+  --icon-coral-bg: light-dark(#fdf0eb, #402f2c);
+  --hero-glow: light-dark(#e4f0fb, #203c59);
+  --hero-mid: light-dark(#f1f7fc, #172b40);
+  --hero-edge: light-dark(#f8fbfe, #131f2e);
+  --art-paper: light-dark(#fffef9, #243245);
+  --shadow: light-dark(#1d477614, #00000030);
+  --shadow-soft: light-dark(#3466910b, #00000020);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+@media print {
+  :root {
+    color-scheme: light !important;
+  }
+  .header-actions {
+    display: none !important;
+  }
+}

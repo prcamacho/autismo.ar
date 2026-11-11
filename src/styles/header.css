@@ -5,30 +5,30 @@
   align-items: center;
   gap: 8px;
   padding: 6px 24px;
-  background: #eff5fb;
+  background: var(--sky);
   font-size: 11px;
-  color: #4b647e;
+  color: var(--muted);
 }
 .announcement a {
   display: inline-flex;
   align-items: center;
   gap: 3px;
   font-weight: 650;
-  color: #2c587f;
+  color: var(--info-ink);
 }
 .announcement a:hover {
   text-decoration: underline;
 }
 .site-header {
-  background: white;
-  border-bottom: 1px solid #edf1f5;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
 }
 .header-inner {
   min-height: 87px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 25px;
+  gap: 20px;
 }
 .brand {
   display: inline-flex;
@@ -48,8 +48,9 @@
 }
 .navigation {
   display: flex;
-  gap: 30px;
+  gap: 22px;
   align-items: center;
+  margin-left: auto;
 }
 .navigation > a:not(.button) {
   display: flex;
@@ -57,7 +58,7 @@
   min-height: 44px;
   font-size: 13px;
   font-weight: 500;
-  color: #5a6b7d;
+  color: var(--muted);
 }
 .navigation > a:not(.button):hover,
 .navigation > a[aria-current="page"]:not(.button) {
@@ -80,10 +81,58 @@
 }
 .icon-button {
   border: 1px solid var(--line);
-  background: white;
+  background: var(--surface);
   width: 44px;
   height: 44px;
   border-radius: 8px;
   align-items: center;
   justify-content: center;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  min-width: 138px;
+  padding: 10px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.theme-toggle:hover,
+.icon-button:hover {
+  background: var(--sky);
+  border-color: var(--blue);
+}
+.theme-toggle svg {
+  color: var(--blue);
+}
+.theme-toggle:disabled {
+  cursor: default;
+}
+@media (max-width: 420px) {
+  .header-inner {
+    gap: 12px;
+  }
+  .theme-toggle {
+    width: 44px;
+    min-width: 44px;
+    padding: 10px;
+  }
+  .theme-toggle span {
+    display: none;
+  }
 }

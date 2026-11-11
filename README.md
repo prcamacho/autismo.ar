@@ -32,6 +32,7 @@ npm start
 ## Qué está implementado
 
 - Portada informativa, identidad SVG con rompecabezas multicolor y diseño adaptable a celulares.
+- Modo claro y oscuro en todas las secciones, con botón de sol/luna en la cabecera pública, visible también en móvil y sin necesidad de iniciar sesión. Sigue el tema del dispositivo hasta elegir uno manualmente; recuerda esa elección en este navegador y la sincroniza entre pestañas.
 - Directorio con categorías, 23 provincias y CABA, localidad escrita y filtros compartibles en la URL.
 - Contrato de búsqueda que conserva recursos nacionales y provinciales pertinentes al filtrar una localidad.
 - Biblioteca en preparación, con estado vacío explícito y sin recursos ficticios.
@@ -45,11 +46,11 @@ npm start
 
 El catálogo público está vacío intencionalmente. Los datos ficticios de las pruebas están únicamente en `tests/`. El chat privado que orientó las necesidades no se importa ni se publica.
 
-**Estado operativo:** el piloto está implementado localmente, pero la base de Supabase y el correo real siguen pendientes de activación. La cuenta consultada alcanzó el cupo de proyectos gratuitos. Esta entrega no modificó Railway ni Cloudflare. Ver [activación, arquitectura y reglas del piloto](./docs/COMUNIDAD.md).
+**Estado operativo al 11 de noviembre de 2026:** Supabase está conectado en una cuenta nueva, con esquema y RLS aplicados. Railway publicó la conexión y el directorio fue comprobado en el navegador. Resend tiene el dominio verificado y una clave dedicada limitada a autismo.ar; se comprobó la entrega del código y el ingreso real como colaborador/a. El piloto completo todavía requiere moderadores y pruebas del circuito de publicación. Ver [activación, evidencia y pendientes](./docs/COMUNIDAD.md).
 
 ## Qué falta
 
-Activar y comprobar Supabase, correo, moderadores y despliegue del piloto. Después: reputación, mapa, experiencias, guías colaborativas de cuerpo completo y recordatorios. No hay pagos, anuncios operativos, mensajería ni atención de emergencias. El sitio orienta a canales oficiales.
+Designar moderadores y comprobar el circuito completo del piloto en un entorno de pruebas aislado. Después: reputación, mapa, experiencias, guías colaborativas de cuerpo completo y recordatorios. No hay pagos, anuncios operativos, mensajería ni atención de emergencias. El sitio orienta a canales oficiales.
 
 La localidad es texto libre en esta etapa y siempre va asociada a una provincia; se prevé un catálogo oficial con IDs. Las páginas todavía usan `noindex` para evitar indexar el prototipo. Cambiarlo junto con las políticas y los contenidos del lanzamiento real.
 
@@ -79,11 +80,13 @@ tests/                   Contratos de búsqueda, validación y permisos en Postg
 
 Las páginas consultan los repositorios de cada módulo. El directorio usa una consulta paginada que conserva recursos nacionales y provinciales pertinentes al filtrar localidades. Las escrituras pasan por acciones de servidor y funciones PostgreSQL; las políticas de la base siguen protegiendo las operaciones invocadas fuera de la interfaz.
 
-Los archivos subidos requerirán un flujo propio de validación y permisos; actualmente solo se importa un borrador JSON en el dispositivo. No incluir claves privadas en el navegador ni en Git. En `.env.example` figuran las variables públicas de Supabase; no configurarlas hasta aplicar la migración y preparar el correo según la guía de activación.
+Los archivos subidos requerirán un flujo propio de validación y permisos; actualmente solo se importa un borrador JSON en el dispositivo. No incluir claves privadas en el navegador ni en Git. En `.env.example` figuran las variables públicas de Supabase. La configuración local actual apunta a la base real: usar PGlite o un entorno dedicado para datos sintéticos. Una instalación nueva necesita activar y comprobar también el correo según la guía.
 
 ## Diseño y contenido
 
 CSS propio organizado en `src/styles`, con variables y componentes compartidos; sin fuentes remotas necesarias para compilar. Los formularios, avisos y paginación comunes están en `src/components`. El SVG del rompecabezas es parte del código y puede ajustarse sin generar imágenes nuevas.
+
+La paleta de ambos temas está centralizada en `src/styles/theme.css`, usando `light-dark()` y `color-scheme` para adaptar también los controles nativos. Cada sección nueva o modificada debe verificarse en claro y oscuro. La preferencia `autismo-ar-theme` se guarda solo en `localStorage`, sin cuenta ni llamadas al servidor. Un script inicial aplica la elección antes de pintar; si el almacenamiento está bloqueado, el cambio sigue funcionando durante la navegación actual. Sin JavaScript, el CSS respeta el tema del dispositivo. La impresión usa el tema claro.
 
 `npm run format` aplica el formato de código; `npm run format:check` permite comprobarlo sin modificar archivos.
 
@@ -91,6 +94,6 @@ No incorporar fichas, testimonios, teléfonos ni cifras inventadas. No ofrecer a
 
 ## Publicación
 
-La [revisión del 11 de noviembre de 2026](./docs/INFRAESTRUCTURA.md) confirmó la reactivación de autismo.ar en Railway y la escuela de Ian online. Las consultas HTTP públicas automatizadas recibieron el desafío de Cloudflare; queda pendiente la comprobación visual y funcional en un navegador. El entorno `test`, protecciones y CI siguen pendientes de implementar. La eliminación de la integración se publicó el 11 de noviembre mediante PR 1 y el despliegue de Railway terminó en SUCCESS. Después se retiró el servicio alojado de Ian Escuela: el proyecto conserva únicamente autismo.ar online.
+La [revisión del 11 de noviembre de 2026](./docs/INFRAESTRUCTURA.md) confirmó la reactivación de autismo.ar en Railway y la escuela de Ian online. Las consultas HTTP públicas automatizadas recibieron el desafío de Cloudflare. La comprobación posterior desde el navegador validó el directorio conectado, su búsqueda y el ingreso real por código de correo. El entorno `test`, protecciones y CI siguen pendientes de implementar. La eliminación de la integración se publicó el 11 de noviembre mediante PR 1 y el despliegue de Railway terminó en SUCCESS. Después se retiró el servicio alojado de Ian Escuela: el proyecto conserva únicamente autismo.ar online.
 
 El sitio se publica con Railway y el dominio `autismo.ar` se gestiona mediante Cloudflare. El repositorio remoto es `https://github.com/prcamacho/autismo.ar.git`. La escuela de Ian conserva su repositorio independiente. Su servicio alojado fue retirado por indicación del responsable, que utiliza la app sin requerir internet. Las antiguas rutas de integración y la ficha del recurso se eliminaron, sin redirects ni un interruptor que conserve código inactivo. Esas URLs corresponden ahora al comportamiento 404 normal del código publicado.

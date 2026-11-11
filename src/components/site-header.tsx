@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { ArrowUpRight, Menu, Plus, X } from "lucide-react";
 import { PuzzleMark } from "@/components/puzzle-mark";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const links = [
   { href: "/orientacion", label: "Por dónde empezar" },
@@ -38,15 +39,6 @@ export function SiteHeader() {
               autismo<span className="brand-domain">.ar</span>
             </span>
           </Link>
-          <button
-            className="menu-toggle icon-button"
-            aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
-            aria-expanded={menuOpen}
-            aria-controls="main-navigation"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? <X /> : <Menu />}
-          </button>
           <nav
             id="main-navigation"
             aria-label="Navegación principal"
@@ -74,6 +66,23 @@ export function SiteHeader() {
               <Plus size={17} /> Aportar
             </Link>
           </nav>
+          <div className="header-actions">
+            <ThemeToggle />
+            <button
+              type="button"
+              className="menu-toggle icon-button"
+              aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+              aria-expanded={menuOpen}
+              aria-controls="main-navigation"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              {menuOpen ? (
+                <X aria-hidden="true" />
+              ) : (
+                <Menu aria-hidden="true" />
+              )}
+            </button>
+          </div>
         </div>
       </header>
     </>
