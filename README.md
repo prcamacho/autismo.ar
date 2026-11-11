@@ -6,6 +6,8 @@ Base de una red argentina de recursos construida por personas autistas y familia
 
 Leé [VISION_Y_PLAN.md](./VISION_Y_PLAN.md) para entender el objetivo, las etapas y las decisiones pendientes. [AGENTS.md](./AGENTS.md) orienta a las IAs que continúen el proyecto. Este README describe lo que existe técnicamente.
 
+La [guía de desarrollo](./docs/DESARROLLO.md) establece alcance, selección de modelos, organización del código y verificaciones. La [guía de operación](./docs/OPERACION.md) distingue el flujo acordado `test`/`main` de la infraestructura todavía pendiente de comprobar. Las decisiones importantes se conservan en el [registro de decisiones](./docs/DECISIONES.md). La incorporación de estas guías no configura ramas remotas, entornos, alertas ni servicios.
+
 ## Ejecutar
 
 Requiere Node.js 22 o superior y npm. En PowerShell, si la política de ejecución bloquea `npm`, usá `npm.cmd`.
@@ -15,7 +17,7 @@ npm ci
 npm run dev
 ```
 
-Copiá `.env.example` a `.env.local` para habilitar la app de Ian bajo `/apps/ian/`. `IAN_APP_ORIGIN` debe contener el origen HTTPS de su PWA, sin necesidad de una barra final; la configuración la normaliza igualmente.
+Copiá `.env.example` a `.env.local` cuando vayas a activar el circuito comunitario, siguiendo su guía. La escuela de Ian es una aplicación independiente: autismo.ar no contiene su visor, proxy, manifiesto ni configuración de origen.
 
 Abrí http://localhost:3000. Si el puerto está ocupado, Next indica el puerto alternativo. El servidor de desarrollo escucha solo en la máquina local.
 
@@ -32,7 +34,7 @@ npm start
 - Portada informativa, identidad SVG con rompecabezas multicolor y diseño adaptable a celulares.
 - Directorio con categorías, 23 provincias y CABA, localidad escrita y filtros compartibles en la URL.
 - Contrato de búsqueda que conserva recursos nacionales y provinciales pertinentes al filtrar una localidad.
-- Biblioteca e integración de la versión beta de la app de Ian bajo `/apps/ian/`, mediante un proxy al origen configurado.
+- Biblioteca en preparación, con estado vacío explícito y sin recursos ficticios.
 - Orientación por necesidades que conserva provincia y localidad al consultar el directorio; filtro de edades atendidas.
 - Circuito comunitario modular: ingreso por código de correo, aportes, correcciones, revisión inicial, corroboración de datos, decisión de moderación, historial y reportes.
 - Formularios con validación en servidor y migración PostgreSQL con políticas RLS, permisos y límites de frecuencia.
@@ -58,7 +60,7 @@ src/
   app/                   Rutas de Next.js, metadata y estilos globales
     page.tsx             Portada
     directorio/          Búsqueda, ficha e historial
-    recursos/            Biblioteca y /recursos/app-de-ian
+    recursos/            Biblioteca en preparación
     comunidad/           Participación, revisión y seguimiento de propuestas
     cuenta/              Código de ingreso, aportes y reportes propios
     orientacion/         Accesos por necesidad
@@ -85,8 +87,10 @@ CSS propio con variables y componentes compartidos; sin fuentes remotas necesari
 
 `npm run format` aplica el formato de código; `npm run format:check` permite comprobarlo sin modificar archivos.
 
-No incorporar fichas, testimonios, teléfonos ni cifras inventadas. La app de Ian se publica desde el origen autorizado configurado en `IAN_APP_ORIGIN`; no ofrecer un APK o archivo descargable distinto sin autorización de su responsable.
+No incorporar fichas, testimonios, teléfonos ni cifras inventadas. No ofrecer archivos o descargas sin autorización de sus responsables.
 
 ## Publicación
 
-El sitio se publica con Railway y el dominio `autismo.ar` se gestiona mediante Cloudflare. La PWA de Ian conserva su despliegue independiente y se presenta bajo el dominio principal mediante rewrites de Next.js. La URL canónica es `/apps/ian/`: esa barra final es necesaria para que sus rutas relativas mantengan el manifiesto, el service worker y los assets dentro de la app. Toda la interfaz enlaza esa variante; no agregar un redirect de Next desde `/apps/ian`, porque el patrón también coincide con la ruta terminada en barra y produce un bucle. El repositorio remoto es `https://github.com/prcamacho/autismo.ar.git`.
+La [revisión del 11 de noviembre de 2026](./docs/INFRAESTRUCTURA.md) confirmó la reactivación de autismo.ar en Railway y la escuela de Ian online. Las consultas HTTP públicas automatizadas recibieron el desafío de Cloudflare; queda pendiente la comprobación visual y funcional en un navegador. El entorno `test`, protecciones y CI siguen pendientes de implementar. La integración de la escuela fue eliminada del código local el 11 de noviembre; la publicación de esa eliminación sigue pendiente.
+
+El sitio se publica con Railway y el dominio `autismo.ar` se gestiona mediante Cloudflare. El repositorio remoto es `https://github.com/prcamacho/autismo.ar.git`. La escuela de Ian conserva su servicio y repositorio independientes. Las antiguas rutas de integración y la ficha del recurso se eliminaron, sin redirects ni un interruptor que conserve código inactivo. Al publicar este cambio, esas URLs pasan al comportamiento 404 normal del sitio.

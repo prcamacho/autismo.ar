@@ -27,7 +27,6 @@ export function SiteFooter() {
           <Link href="/orientacion">Por dónde empezar</Link>
           <Link href="/directorio">Directorio de ayuda</Link>
           <Link href="/recursos">Recursos para todos</Link>
-          <Link href="/recursos/app-de-ian">La app de Ian</Link>
         </div>
         <div>
           <span className="footer-heading">Construyamos juntos</span>

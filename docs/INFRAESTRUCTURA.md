@@ -1,0 +1,117 @@
+# Inventario de infraestructura y propuesta de pruebas
+
+Relevamiento del 10 de noviembre de 2026. Alcance: consultas de solo lectura a GitHub y Railway, paneles de Cloudflare y acceso al panel de Supabase. No se crearon ramas, servicios ni dominios; no se cambiaron variables, DNS, presupuestos o despliegues. Esta entrega solo actualiza documentación local.
+
+**Cambio posterior del 11 de noviembre:** el responsable pidió eliminar la conexión de código con Ian Escuela. Se retiraron rutas, visor, proxy, manifiesto, accesos, estilos y pruebas exclusivos, sin detener la escuela. La publicación sigue pendiente. La propuesta original de duplicar la escuela para pruebas de autismo.ar queda sin efecto; las secciones siguientes conservan el historial del relevamiento.
+
+## 1. Hallazgos comprobados
+
+**Actualización del 11 de noviembre:** autismo.ar volvió a estar online; la web y la escuela de Ian muestran despliegues activos exitosos. Ver la revisión de reactivación al final del documento. Las tablas originales conservan la instantánea del 10 de noviembre.
+
+| Área                            | Evidencia observada                                                                                                                                                                                                    | Consecuencia para separar pruebas                                                                                                                                         |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GitHub de autismo.ar            | Repositorio público `prcamacho/autismo.ar`; rama `main` en `9839e64ae27a2a9373332b18fa62c3ca1189f92a`. La API devuelve `protected: false`, comprobaciones requeridas desactivadas y lista de rulesets vacía.           | Preparar `test` y protecciones antes de publicar cambios nuevos.                                                                                                          |
+| Ramas y automatización          | La búsqueda remota devuelve `main`; no se identificó `test`. El checkout del mismo commit no tiene workflows versionados en `.github`. El listado API de workflows no está admitido por el conector usado.             | Incorporar CI y comprobar sus ejecuciones reales. La ausencia de workflows locales no descarta automatización externa.                                                    |
+| Railway                         | Los cuatro proyectos visibles pertenecen al mismo workspace. Cada uno tiene un único entorno llamado `production`.                                                                                                     | Separar configuración y servicios no separa automáticamente presupuesto, cuotas o integraciones externas.                                                                 |
+| Web de autismo.ar               | Servicio conectado a `prcamacho/autismo.ar@main`, dominio `autismo.ar`, puerto 8080, una réplica en `iad`. Consulta de estado: `Offline`, sin despliegue activo. Métricas de 24 horas: CPU y memoria en cero.          | El estado operativo actual difiere de la publicación histórica documentada. Diagnosticar antes de llamar operativa a la web o usarla como referencia de consumo.          |
+| Escuela de Ian                  | Servicio `ian_escuela_autismo`, en el mismo proyecto de Railway que autismo.ar, conectado a `prcamacho/ian_escuela_autismo@main`. Estado `Online`; último despliegue observado `70523c65-8695-4c59-ab5b-9db6c88b020c`. | Probar la integración completa requiere un origen de Ian separado.                                                                                                        |
+| Despliegues y tracing           | En autismo.ar y escuela de Ian, `source.checkSuites` es `false`. Tracing de Railway desactivado en los cinco servicios inspeccionados.                                                                                 | Esperar checks y diseñar detección de errores son trabajos pendientes. Tracing desactivado no demuestra ausencia de otras herramientas de monitoreo.                      |
+| Variables de autismo.ar         | Variable de usuario observada: `IAN_APP_ORIGIN`. No aparecen las variables de Supabase del README. El conector oculta los valores.                                                                                     | La integración comunitaria no tiene las variables documentadas en ese servicio. No se pudo comprobar el valor efectivo del origen de Ian.                                 |
+| DNS de autismo.ar               | Cloudflare muestra CNAME raíz a `u3b6ybsf.up.railway.app`, CNAME `www` al dominio raíz, ambos con proxy, y un TXT de verificación de Railway. No hay registro `test` entre los tres registros listados.                | Preservar raíz y `www`; un futuro registro de pruebas será adicional. No inferir que un destino DNS con configuración existente responde correctamente.                   |
+| Protección y correo del dominio | Plan de zona Free y Under Attack Mode activo. El panel advierte ausencia de MX; no se observaron registros de correo institucional.                                                                                    | Revisar el efecto de la protección en la experiencia y el acceso de pruebas. El correo institucional requiere diseño/configuración propios. No se modificó la protección. |
+| Cloudflare compartido           | La misma cuenta muestra autismo.ar, vinsalta.com y vinsalta.online, además de Workers. El panel de consumo incluye Stream, R2 e Images.                                                                                | No introducir consumo multimedia de pruebas sin comprobar la unidad, cuota y alcance de cuenta. No se atribuye todo el consumo a un proyecto concreto.                    |
+| Supabase                        | El panel abierto lleva a la pantalla de inicio de sesión.                                                                                                                                                              | Inventario de proyectos, planes, bases, backups y disponibilidad de cupo pendiente. No se revalidó el dato histórico de proyectos gratuitos ocupados.                     |
+
+Los IDs y estados anteriores identifican consultas reales, no una implementación de `test`. `state: live` en el inventario de un servicio significa que existe la configuración; se usó la consulta de estado de ejecución para distinguirlo de una aplicación online.
+
+## 2. Mapa de servicios y dependencias
+
+| Proyecto de Railway | Servicios observados                | Repositorio/origen y conexiones conocidas                                                                                                                                                                               |
+| ------------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| autismo.ar          | `autismo.ar`, `ian_escuela_autismo` | Ambos conectados a sus respectivos repositorios en `main`. El código web integra una PWA por `IAN_APP_ORIGIN`; `.env.example` propone `https://ianescuelaautismo-production.up.railway.app`. El valor real está oculto. |
+| Ian Compañero Voz   | `voz`                               | Despliegue observado exitoso, con dominio propio de Railway. Variables de acceso a dispositivo y API de IA; sin repositorio informado por el inventario. No se comprobó si la escuela lo utiliza.                       |
+| vinsalta.online     | `vinsalta.online`                   | Repositorio homónimo en `main`. Nombres de variables indican base externa, correo, analítica y pasarelas de pago.                                                                                                       |
+| vinsalta.com        | `vinsalta.com`                      | Repositorio homónimo en `main`. Nombres de variables indican base externa, pagos, correo, Cloudflare, almacenamiento y otras integraciones.                                                                             |
+
+En los cuatro entornos no se observaron volúmenes ni buckets de Railway ni variables compartidas de entorno. Esto no descarta archivos efímeros, bases externas, almacenamiento de Cloudflare o credenciales/servicios reutilizados entre proyectos. No se leyeron valores de las credenciales ni se consultaron datos de usuarios. Los destinos reales de las bases de Vin y el posible uso compartido de SMTP, pagos o almacenamiento siguen sin comprobarse.
+
+La presencia de una variable identifica una integración potencial; no demuestra que esté activa, bien configurada o aislada. Los proyectos Vin se inspeccionaron solo para reconocer dependencias y alcance compartido, no para modificar su operación ni hacer una auditoría completa.
+
+## 3. Configuración propuesta para autismo.ar
+
+Mantener los servicios actuales de producción y crear un entorno vacío de pruebas, incorporando solo lo necesario. Evitar duplicar automáticamente todo el proyecto o copiar variables de producción.
+
+| Parte                  | Producción actual                                                            | Propuesta de pruebas, todavía sin implementar                                                                                                                                                                                     |
+| ---------------------- | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Web                    | Rama `main`, dominio principal. Actualmente sin despliegue activo.           | Rama `test` del mismo repositorio; servicio web separado. Empezar con dominio generado por Railway y, cuando se configure el acceso, añadir `test.autismo.ar`.                                                                    |
+| Escuela de Ian         | Repositorio independiente, rama `main`, servicio online.                     | Rama `test` en su repositorio y servicio independiente de pruebas. Configurar `IAN_APP_ORIGIN` de la web de pruebas exclusivamente con este nuevo origen.                                                                         |
+| Datos comunitarios     | Sin variables de Supabase observadas en el servicio web.                     | Primero validar el circuito sin conexión con estados honestos; para ensayar persistencia, resolver un proyecto/base de pruebas separado y sus políticas. No declarar probado el flujo comunitario solo con borradores locales.    |
+| Correo e integraciones | Estado real pendiente para comunidad; integraciones de Vin fuera de alcance. | Usar destinatarios de prueba y servicios de ensayo autorizados. No copiar claves de pagos, IA, correo o Cloudflare de Vin.                                                                                                        |
+| Acceso y caché         | Protección de Cloudflare existente y proxy DNS.                              | Autenticación de acceso al entorno, `noindex`, caché privada donde corresponda y separación de cookies/sesiones. Comprobar también el dominio generado: proteger únicamente el subdominio personalizado deja otra vía de entrada. |
+
+El servicio separado de Ian debe crearse antes de una prueba integrada que pueda alterar su comportamiento. Si se comienza únicamente por la web, mantener deshabilitada la integración de Ian en pruebas hasta disponer de ese origen; indicar ese límite en la interfaz y en la validación.
+
+No se propone duplicar el compañero de voz ni las integraciones multimedia automáticamente. Antes de pruebas de la escuela, revisar en su repositorio URLs y servicios incorporados en el código, almacenamiento local/PWA, service worker y caché; no asumir aislamiento porque no tiene variables configuradas. No se inspeccionó aquí toda esa aplicación independiente.
+
+## 4. Flujo de integración y comprobaciones
+
+1. Preparar cambios de documentación y CI sin publicarlos directamente en `main`. Establecer una rama `test` para cada repositorio que vaya a modificarse, preservando el trabajo local pendiente.
+2. En autismo.ar, ejecutar en CI los comandos ya existentes: formato, lint, tipos, pruebas y compilación, con la versión de Node y el lockfile del proyecto. No habilitar credenciales reales para compilar pruebas.
+3. Proteger `main` mediante solicitud de integración y checks efectivamente ejecutados; aplicar las restricciones también a administración según la decisión de acceso. Evitar exigir una revisión de otra persona si aún no existe esa persona.
+4. Configurar Railway para esperar las comprobaciones acordadas y verificarlo con un cambio controlado en pruebas. Un workflow declarado no demuestra que el despliegue espere su resultado.
+5. Validar web y PWA en los dominios de pruebas, incluidos móvil, manifiesto, service worker, navegación, permisos y estados de error. Comprobar que ninguna prueba modifica producción o consume integraciones externas inadvertidamente.
+6. Promover solo cambios verificados; conservar commit exacto, resultado de despliegue y mecanismo de recuperación. Investigar por separado el servicio web actualmente offline antes de una publicación en el dominio principal.
+
+## 5. Costos: referencia y límites de la estimación
+
+Tarifas públicas de contenedores consultadas el 10 de noviembre de 2026 en [Railway](https://docs.railway.com/pricing/plans): RAM USD 10/GB-mes, CPU USD 20/vCPU-mes, salida de red USD 0,05/GB y volumen USD 0,15/GB-mes. Son unidades de consumo; no un precio fijo por entorno. La factura depende del plan, uso incluido, saldo y consumo agregado, que no se consultaron en la cuenta.
+
+Como referencia de escala, 0,1 GB de RAM ocupada continuamente durante un mes representan aproximadamente USD 1 de consumo de memoria. En 24 horas, la escuela de Ian promedió 0,0404 GB; repetir esa carga durante un mes equivaldría a unos USD 0,40 de memoria. Esto no cotiza una copia de pruebas, no incluye CPU, tráfico ni integraciones y no garantiza que se repita esa carga.
+
+La web actualmente no ejecuta un despliegue, por lo que sus métricas cero no permiten estimar el uso de una web de pruebas funcionando. Debe medirse tras un arranque autorizado. No se recomienda fijar límites de RAM arbitrarios basándose en esos ceros.
+
+Impactos previstos:
+
+- Dos servicios de pruebas añaden su memoria, CPU y tráfico mientras estén ejecutándose, además de la web de producción cuando vuelva a operar.
+- Una base de pruebas añade consumo y puede exigir un plan o cupo adicional; decisión pendiente de revisar Supabase.
+- Alertas, registros, proveedores de correo, IA y multimedia pueden tener cuotas compartidas propias.
+- Cloudflare mostró consumo variable dentro de los límites incluidos en la pantalla consultada. Esa pantalla no demuestra gratuidad de suscripciones, ausencia de cargos fijos ni capacidad suficiente para cualquier prueba.
+- Alertas de presupuesto son preferibles como primer control. Antes de fijar un corte de workspace, revisar su alcance sobre Vin y los servicios de Ian.
+
+No hay una cotización total aprobada ni recursos nuevos contratados. Confirmar presupuesto y alcance antes de habilitar servicios con costo material no autorizado.
+
+## 6. Pendientes que requieren información adicional
+
+- Iniciar sesión en el panel de Supabase para comprobar proyectos, plan, cupo, backups y opción de base separada. Se conservó esa pestaña para continuar; no se inició sesión ni aceptaron términos.
+- Verificar presupuesto, uso incluido, límites y alertas actuales del workspace de Railway. El conector consultado expone métricas por servicio, no la facturación completa.
+- Comprobar el valor efectivo de `IAN_APP_ORIGIN`; el acceso OAuth devuelve nombres de variables, sin sus valores. La URL de `.env.example` es una referencia del repositorio.
+- Diagnosticar la ausencia de despliegue activo de la web. No se intentó reiniciar o desplegar para corregirla durante este relevamiento.
+- Revisar las integraciones incorporadas en el código de la escuela antes de probarla públicamente y definir responsable/canal de alertas.
+
+## 7. Revisión de reactivación del 11 de noviembre de 2026
+
+Consultas de solo lectura. No se desconectó, movió ni detuvo la escuela de Ian; tampoco se modificaron variables, protecciones, DNS o despliegues.
+
+| Comprobación                | Resultado y alcance                                                                                                                                                                                                                                                                                         |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Web en Railway              | Online, una réplica ejecutándose, despliegue `17688af7-f5a1-4f63-b1ba-2a0fe74bdeeb` con estado `SUCCESS`. Commit `9839e64ae27a2a9373332b18fa62c3ca1189f92a`, coincidente con el código ejecutable del checkout revisado.                                                                                    |
+| Escuela en Railway          | Online, conserva el despliegue `70523c65-8695-4c59-ab5b-9db6c88b020c`.                                                                                                                                                                                                                                      |
+| Arranque y estado           | El registro del despliegue muestra Next listo. La consulta de estado no registra fallas recientes ni operaciones pendientes. Esto no demuestra ausencia de errores funcionales de usuarios.                                                                                                                 |
+| Acceso público automatizado | Inicio, directorio, recursos, comunidad, aportes, integración de Ian e icono respondieron HTTP 403 con `cf-mitigated: challenge` y título de desafío de Cloudflare. Estas respuestas no comprueban el contenido ni prueban una falla de Next. No se eludió la protección.                                   |
+| Revisión visual             | Pendiente: no había una herramienta de navegador interactivo disponible en esta revisión. No se comprobó navegación visual en móvil o escritorio.                                                                                                                                                           |
+| Lint y tipos locales        | `npm run lint` y `npm run typecheck` terminaron correctamente.                                                                                                                                                                                                                                              |
+| Pruebas locales             | `npm test`: 11 aprobadas, ninguna fallida. Incluyen permisos y transacciones en la base local de prueba, validación, búsqueda e integración de Ian. No prueban una base remota activa.                                                                                                                      |
+| Build local                 | Compilación y comprobación TypeScript completadas; el build completo falló al generar `/_not-found` por `EPERM` al crear `.next/server/app/_not-found.segments/_not-found`. No se da por aprobado el build local ni se modificaron permisos para eludir el error. El despliegue de Railway sí está exitoso. |
+| Configuración pendiente     | El servicio web sigue con `IAN_APP_ORIGIN` como única variable de usuario listada; no se identificó configuración de Supabase. Sigue desplegando desde `main` con `checkSuites: false`. No se activaron CI, entorno de pruebas o backend comunitario durante esta revisión.                                 |
+
+### Recomendación sobre la escuela, todavía sin implementar
+
+Retirar temporalmente su promoción e integración pública en autismo.ar y conservar su servicio, repositorio y acceso independiente para Ian. La web general y la escuela tienen objetivos y ritmos distintos; compartir un proyecto de Railway no obliga a compartir presentación pública. Mover de proyecto no implica por sí solo ahorro, porque sigue existiendo consumo y puede continuar en el mismo workspace.
+
+Antes de cambiar rutas o dominios, comprobar qué acceso usa Ian y dónde se guardan sus preferencias o avances. No cambiar su URL, instalación PWA, almacenamiento ni servicio como consecuencia implícita de despublicar la ficha.
+
+Una implementación posterior debe controlar en un lugar la disponibilidad pública y aplicarla coherentemente a portada, biblioteca, pie de página, ficha y rutas de integración. No basta con borrar `IAN_APP_ORIGIN`: dejaría accesos que hoy se presentan como disponibles y pueden responder con error. Definir el estado de los enlaces anteriores y revisar manifiesto/service worker sin borrar datos del dispositivo. Este cambio de presentación todavía requiere precisar y autorizar su alcance; la consulta actual pidió una revisión y opinión.
+
+## 8. Fuentes de evidencia
+
+Consultas de GitHub al repositorio, rama y rulesets; inventario y estado de Railway, configuración por servicio y métricas de 24 horas; panel de zona y DNS de Cloudflare, pantalla de consumo; pantalla de acceso de Supabase; `.env.example`, `next.config.ts`, README y archivos versionados locales. Se evitaron valores secretos y datos de usuarios. Las observaciones son una instantánea, no una garantía sobre estados futuros.
