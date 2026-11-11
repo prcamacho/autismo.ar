@@ -1,8 +1,25 @@
 # Comunidad: implementación y activación
 
-## Estado al 24 de septiembre de 2026
+## Estado al 11 de noviembre de 2026
 
-El circuito está implementado en el repositorio. **Todavía no está conectado a una base de producción.** La cuenta de Supabase consultada tiene ocupados los dos proyectos gratuitos activos. No se pausaron proyectos ajenos ni se contrataron planes. Railway y Cloudflare no se modificaron.
+**La base está conectada a producción; el ingreso por correo y el piloto completo todavía están pendientes.** El responsable creó una cuenta nueva de Supabase y pidió usarla para autismo.ar. Se creó la organización gratuita `autismo.ar` y el proyecto dedicado `autismo-ar` (`godvlfhhnyzgoklbnwqs`), en `us-east-1`, junto a la región del servidor actual. No se contrataron planes ni se modificaron las bases de VinSalta.
+
+### Conexión comprobada
+
+- Se verificó que el esquema `public` estaba vacío y se aplicaron `202609240001_community.sql` y `202611110001_audit_fixes.sql`, en ese orden y dentro de una transacción, mediante el editor SQL. No volver a ejecutar estas migraciones iniciales. Su aplicación fue manual, no mediante el historial del CLI.
+- Las ocho tablas tienen RLS; los roles `anon` y `authenticated` no pueden insertar, actualizar ni borrar directamente. Una consulta ejecutada como `anon` confirmó búsqueda funcional, ausencia de rol moderador, reportes privados inaccesibles y falta de permiso para enviar propuestas.
+- Railway tiene `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` en el servicio existente. No se usa `service_role` ni una clave secreta. Se preparó también `.env.local`, ignorado por Git: apunta a la base real y no debe recibir datos sintéticos.
+- Despliegue `a5931a84-56a4-4fca-81e6-b516bed999fc`, estado `SUCCESS`, sobre el commit `a358cfde52ca5f2a5a716698f3afa3a37ee1b53f`. Proyecto Railway `1bf0bb1d-1a08-46d4-8f71-04c6a7aa1d48`, servicio `c1c4cd58-87c6-4912-a2c7-c1cd03001cfe`, entorno `production` (`65aed2e3-5a6f-4938-a85a-025e191189a7`).
+- Se comprobó en el navegador el directorio público y la búsqueda «educación»: ambos consultan la base y muestran el estado vacío sin error de conexión. No se crearon fichas ni cuentas de prueba en producción. Las 13 pruebas locales de PostgreSQL/PGlite aprobaron.
+- Se conservó el DNS de Cloudflare. No se creó otro servicio Railway ni un entorno remoto de pruebas; la separación operativa `test`/producción sigue pendiente.
+
+### Correo y puesta en marcha pendientes
+
+Email Auth está habilitado, con confirmación de correo y sin ingresos anónimos. Site URL es `https://autismo.ar`. **SMTP propio sigue desactivado.** El panel del plan gratuito bloquea la edición de plantillas hasta configurar SMTP propio y mantiene el correo predeterminado con enlace; la aplicación espera un código. La presencia del formulario en `/cuenta` no demuestra un ingreso operativo.
+
+Falta vincular un proveedor de correo autorizado, configurar las plantillas de alta y acceso con `{{ .Token }}`, comprobar entrega e ingreso reales, designar moderadores y ensayar el circuito completo con dos cuentas en un entorno aislado. No se reutilizaron credenciales de otros proyectos ni se enviaron correos durante esta activación.
+
+La recuperación de la configuración consiste en retirar las dos variables públicas nuevas y reconstruir el servicio; eso devuelve el modo de borradores sin eliminar la base. No se sobrescribieron datos previos. Las copias y su restauración deben comprobarse antes de abrir el piloto.
 
 Sin configuración, se puede navegar y descargar/cargar borradores locales. No se simulan cuentas ni envíos. Con configuración, las consultas distinguen una base vacía de una conexión fallida. No se importó ni publicó el chat privado de PADRES TEA: sus necesidades orientaron el producto, pero no constituyen un catálogo comprobado.
 
