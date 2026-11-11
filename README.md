@@ -45,11 +45,11 @@ npm start
 
 El catálogo público está vacío intencionalmente. Los datos ficticios de las pruebas están únicamente en `tests/`. El chat privado que orientó las necesidades no se importa ni se publica.
 
-**Estado operativo al 11 de noviembre de 2026:** Supabase está conectado en una cuenta nueva, con esquema y RLS aplicados. Railway publicó la conexión y el directorio fue comprobado en el navegador. El ingreso por código todavía requiere SMTP propio, plantillas y una prueba real de correo; el piloto completo no está habilitado. Ver [activación, evidencia y pendientes](./docs/COMUNIDAD.md).
+**Estado operativo al 11 de noviembre de 2026:** Supabase está conectado en una cuenta nueva, con esquema y RLS aplicados. Railway publicó la conexión y el directorio fue comprobado en el navegador. Resend tiene el dominio verificado y una clave dedicada limitada a autismo.ar; se comprobó la entrega del código y el ingreso real como colaborador/a. El piloto completo todavía requiere moderadores y pruebas del circuito de publicación. Ver [activación, evidencia y pendientes](./docs/COMUNIDAD.md).
 
 ## Qué falta
 
-Configurar y comprobar correo, moderadores y el circuito completo del piloto en un entorno de pruebas aislado. Después: reputación, mapa, experiencias, guías colaborativas de cuerpo completo y recordatorios. No hay pagos, anuncios operativos, mensajería ni atención de emergencias. El sitio orienta a canales oficiales.
+Designar moderadores y comprobar el circuito completo del piloto en un entorno de pruebas aislado. Después: reputación, mapa, experiencias, guías colaborativas de cuerpo completo y recordatorios. No hay pagos, anuncios operativos, mensajería ni atención de emergencias. El sitio orienta a canales oficiales.
 
 La localidad es texto libre en esta etapa y siempre va asociada a una provincia; se prevé un catálogo oficial con IDs. Las páginas todavía usan `noindex` para evitar indexar el prototipo. Cambiarlo junto con las políticas y los contenidos del lanzamiento real.
 
@@ -79,7 +79,7 @@ tests/                   Contratos de búsqueda, validación y permisos en Postg
 
 Las páginas consultan los repositorios de cada módulo. El directorio usa una consulta paginada que conserva recursos nacionales y provinciales pertinentes al filtrar localidades. Las escrituras pasan por acciones de servidor y funciones PostgreSQL; las políticas de la base siguen protegiendo las operaciones invocadas fuera de la interfaz.
 
-Los archivos subidos requerirán un flujo propio de validación y permisos; actualmente solo se importa un borrador JSON en el dispositivo. No incluir claves privadas en el navegador ni en Git. En `.env.example` figuran las variables públicas de Supabase. La configuración local actual apunta a la base real: usar PGlite o un entorno dedicado para datos sintéticos. La conexión de la base no sustituye la activación del correo indicada en la guía.
+Los archivos subidos requerirán un flujo propio de validación y permisos; actualmente solo se importa un borrador JSON en el dispositivo. No incluir claves privadas en el navegador ni en Git. En `.env.example` figuran las variables públicas de Supabase. La configuración local actual apunta a la base real: usar PGlite o un entorno dedicado para datos sintéticos. Una instalación nueva necesita activar y comprobar también el correo según la guía.
 
 ## Diseño y contenido
 
@@ -91,6 +91,6 @@ No incorporar fichas, testimonios, teléfonos ni cifras inventadas. No ofrecer a
 
 ## Publicación
 
-La [revisión del 11 de noviembre de 2026](./docs/INFRAESTRUCTURA.md) confirmó la reactivación de autismo.ar en Railway y la escuela de Ian online. Las consultas HTTP públicas automatizadas recibieron el desafío de Cloudflare. La comprobación posterior desde el navegador validó el directorio conectado y su búsqueda; el recorrido autenticado sigue pendiente del correo. El entorno `test`, protecciones y CI siguen pendientes de implementar. La eliminación de la integración se publicó el 11 de noviembre mediante PR 1 y el despliegue de Railway terminó en SUCCESS. Después se retiró el servicio alojado de Ian Escuela: el proyecto conserva únicamente autismo.ar online.
+La [revisión del 11 de noviembre de 2026](./docs/INFRAESTRUCTURA.md) confirmó la reactivación de autismo.ar en Railway y la escuela de Ian online. Las consultas HTTP públicas automatizadas recibieron el desafío de Cloudflare. La comprobación posterior desde el navegador validó el directorio conectado, su búsqueda y el ingreso real por código de correo. El entorno `test`, protecciones y CI siguen pendientes de implementar. La eliminación de la integración se publicó el 11 de noviembre mediante PR 1 y el despliegue de Railway terminó en SUCCESS. Después se retiró el servicio alojado de Ian Escuela: el proyecto conserva únicamente autismo.ar online.
 
 El sitio se publica con Railway y el dominio `autismo.ar` se gestiona mediante Cloudflare. El repositorio remoto es `https://github.com/prcamacho/autismo.ar.git`. La escuela de Ian conserva su repositorio independiente. Su servicio alojado fue retirado por indicación del responsable, que utiliza la app sin requerir internet. Las antiguas rutas de integración y la ficha del recurso se eliminaron, sin redirects ni un interruptor que conserve código inactivo. Esas URLs corresponden ahora al comportamiento 404 normal del código publicado.
