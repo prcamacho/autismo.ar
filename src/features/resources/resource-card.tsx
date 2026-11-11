@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { ArrowRight, MapPin } from "lucide-react";
-import type { ResourceRecord } from "./model";
+import { type ResourceRecord } from "./model";
 import { fieldValue } from "@/features/community/fields";
-import { formatDate } from "@/features/community/components";
-import styles from "@/features/community/community.module.css";
+import { formatDate } from "@/lib/format";
+import styles from "@/components/ui.module.css";
 
 export function ResourceCard({ resource }: { resource: ResourceRecord }) {
   return (

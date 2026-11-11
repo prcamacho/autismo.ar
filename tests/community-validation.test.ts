@@ -1,9 +1,9 @@
+import { isPublicHttpUrl } from "../src/lib/public-url";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   proposalInputSchema,
   resourceInputSchema,
-  isPublicHttpUrl,
 } from "../src/features/resources/validation";
 import { requiredFields } from "../src/features/community/fields";
 const resource = {

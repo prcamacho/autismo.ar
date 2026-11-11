@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 import { findPossibleDuplicates } from "./actions";
 import { getProvinceName } from "@/lib/geography";
-import styles from "./community.module.css";
+import styles from "@/components/ui.module.css";
 export function DuplicateFinder({ name }: { name: string }) {
   const [pending, start] = useTransition();
   const [result, setResult] = useState<Awaited<

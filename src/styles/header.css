@@ -1,0 +1,89 @@
+.announcement {
+  min-height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 24px;
+  background: #eff5fb;
+  font-size: 11px;
+  color: #4b647e;
+}
+.announcement a {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: 650;
+  color: #2c587f;
+}
+.announcement a:hover {
+  text-decoration: underline;
+}
+.site-header {
+  background: white;
+  border-bottom: 1px solid #edf1f5;
+}
+.header-inner {
+  min-height: 87px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 27px;
+  letter-spacing: -0.045em;
+  font-weight: 750;
+  line-height: 1;
+}
+.brand-mark {
+  width: 35px;
+  height: 35px;
+}
+.brand-domain {
+  color: var(--blue);
+}
+.navigation {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+.navigation > a:not(.button) {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #5a6b7d;
+}
+.navigation > a:not(.button):hover,
+.navigation > a[aria-current="page"]:not(.button) {
+  color: var(--blue);
+}
+.navigation > a[aria-current="page"]:not(.button) {
+  position: relative;
+}
+.navigation > a[aria-current="page"]:not(.button)::after {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 2px;
+  background: var(--blue);
+  left: 0;
+  bottom: 1px;
+}
+.menu-toggle {
+  display: none;
+}
+.icon-button {
+  border: 1px solid var(--line);
+  background: white;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+}

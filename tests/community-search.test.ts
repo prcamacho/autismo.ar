@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { applyMigrations } from "./helpers/migrations";
 import { PGlite } from "@electric-sql/pglite";
 
 test("database search preserves national/provincial scope, accents, ages and pagination", async () => {
@@ -9,15 +9,7 @@ test("database search preserves national/provincial scope, accents, ages and pag
     await db.exec(
       "create schema auth; create role anon; create role authenticated; create table auth.users(id uuid primary key); create function auth.uid() returns uuid language sql as 'select null::uuid'; grant usage on schema auth to anon,authenticated; grant execute on function auth.uid() to anon,authenticated;",
     );
-    await db.exec(
-      await readFile(
-        new URL(
-          "../supabase/migrations/202609240001_community.sql",
-          import.meta.url,
-        ),
-        "utf8",
-      ),
-    );
+    await applyMigrations(db);
     const common = {
       description:
         "Orientación sintética para comprobar la búsqueda geográfica.",
@@ -122,6 +114,15 @@ test("database search preserves national/provincial scope, accents, ages and pag
     assert.deepEqual(await search("", "", "", "Bahía Blanca"), []);
     assert.deepEqual(await search("", "", "", "", "Infancia"), []);
     assert.equal((await search("", "", "", "", "Adultez")).length, 5);
+    assert.deepEqual(await search("terapias"), ["local"]);
+    assert.deepEqual(await search("TRAMITES"), ["national"]);
+    assert.deepEqual(await search("redes de apoyo"), [
+      "local",
+      "national",
+      "other-locality",
+      "other-province",
+      "provincial",
+    ]);
     await db.exec("reset role");
     for (let i = 0; i < 18; i++)
       await db.query(

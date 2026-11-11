@@ -9,11 +9,9 @@ import { getProvinceName } from "@/lib/geography";
 import { findResources } from "@/features/resources/repository";
 import { ageGroups } from "@/features/resources/validation";
 import { ResourceCard } from "@/features/resources/resource-card";
-import {
-  ConnectionNotice,
-  Pagination,
-  readPage,
-} from "@/features/community/components";
+import { ConnectionNotice } from "@/components/connection-notice";
+import { Pagination } from "@/components/pagination";
+import { readPage, PAGE_SIZE } from "@/lib/pagination";
 
 export const metadata: Metadata = {
   title: "Directorio de recursos",
@@ -59,7 +57,7 @@ export default async function DirectoryPage({
   const result = invalidFilters
     ? { data: [], status: "ready" as const }
     : await findResources({ query, category, province, locality, age, page });
-  const results = result.data.slice(0, 20);
+  const results = result.data.slice(0, PAGE_SIZE);
   const locationLabel = provinceName
     ? locality
       ? `${locality}, ${provinceName}`
@@ -201,7 +199,7 @@ export default async function DirectoryPage({
         )}
         <Pagination
           page={page}
-          hasMore={result.data.length > 20}
+          hasMore={result.data.length > PAGE_SIZE}
           href={categoryHref(category)}
         />
 

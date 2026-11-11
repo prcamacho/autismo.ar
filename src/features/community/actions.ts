@@ -1,14 +1,18 @@
 "use server";
 
+import { isPublicHttpUrl } from "@/lib/public-url";
+
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { createSupabaseClient } from "@/lib/supabase/server";
 import {
   proposalInputSchema,
   proposalFromForm,
-  isPublicHttpUrl,
 } from "@/features/resources/validation";
-import { checkFields, type ActionResult } from "./model";
+import { checkFields, type CheckField } from "./model";
+import type { Database } from "@/lib/supabase/database.types";
+import { getSupabaseStatus } from "@/lib/supabase/config";
+import { type ActionResult } from "@/lib/result";
 import { findResources } from "@/features/resources/repository";
 
 export async function findPossibleDuplicates(name: string) {
@@ -17,14 +21,12 @@ export async function findPossibleDuplicates(name: string) {
   const result = await findResources({ query: parsed.data });
   return {
     status: result.status,
-    data: result.data
-      .slice(0, 5)
-      .map((r) => ({
-        slug: r.slug,
-        name: r.data.name,
-        locality: r.data.locality,
-        province: r.data.province,
-      })),
+    data: result.data.slice(0, 5).map((r) => ({
+      slug: r.slug,
+      name: r.data.name,
+      locality: r.data.locality,
+      province: r.data.province,
+    })),
   };
 }
 
@@ -52,15 +54,24 @@ function databaseMessage(message: string) {
     "No pudimos guardar el cambio. Revisá los datos e intentá nuevamente."
   );
 }
-async function perform(
-  name: string,
-  args: Record<string, unknown>,
-): Promise<ActionResult> {
+type WriteFunction = Exclude<
+  keyof Database["public"]["Functions"],
+  "community_search"
+>;
+type WriteCall = {
+  [Name in WriteFunction]: [
+    name: Name,
+    args: Database["public"]["Functions"][Name]["Args"],
+  ];
+}[WriteFunction];
+async function perform(...[name, args]: WriteCall): Promise<ActionResult> {
   const client = await createSupabaseClient();
   if (!client)
     return {
       message:
-        "Los envíos todavía no están habilitados. Podés descargar un borrador.",
+        getSupabaseStatus() === "unconfigured"
+          ? "Los envíos todavía no están habilitados. Podés descargar un borrador."
+          : "No pudimos conectar con la comunidad. Conservá tu borrador e intentá más tarde.",
     };
   const {
     data: { user },
@@ -105,7 +116,7 @@ export async function submitProposal(
     : result;
 }
 const uuid = z.uuid();
-const source = z.string().trim().max(1000).refine(isPublicHttpUrl);
+const source = z.string().trim().refine(isPublicHttpUrl);
 export async function submitCheck(
   _: ActionResult,
   form: FormData,
@@ -113,7 +124,7 @@ export async function submitCheck(
   const parsed = z
     .object({
       proposal: uuid,
-      field: z.enum(Object.keys(checkFields) as [string, ...string[]]),
+      field: z.enum(Object.keys(checkFields) as [CheckField, ...CheckField[]]),
       verdict: z.enum(["matches", "disagrees"]),
       source,
     })

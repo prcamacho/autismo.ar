@@ -1,27 +1,12 @@
 import { z } from "zod";
 import { categories } from "@/lib/catalog";
 import { getProvinceName } from "@/lib/geography";
+import { isPublicHttpUrl } from "@/lib/public-url";
 
 export const ageGroups = ["Infancia", "Adolescencia", "Adultez"] as const;
-export function isPublicHttpUrl(value: string) {
-  try {
-    const url = new URL(value);
-    return (
-      ["http:", "https:"].includes(url.protocol) &&
-      !url.username &&
-      !url.password &&
-      /^https?:\/\/[a-zA-Z0-9][a-zA-Z0-9.-]*(:[0-9]+)?([/?#][^\s]*)?$/.test(
-        value,
-      )
-    );
-  } catch {
-    return false;
-  }
-}
 const url = z
   .string()
   .trim()
-  .max(1000)
   .refine(isPublicHttpUrl, "Usá un enlace http o https sin credenciales.");
 const optionalUrl = z.union([url, z.literal("")]).default("");
 export const resourceInputSchema = z

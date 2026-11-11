@@ -2,18 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageIntro } from "@/components/page-intro";
 import { getViewer } from "@/features/auth/session";
-import { getSupabaseConfig } from "@/lib/supabase/config";
+import { getSupabaseStatus } from "@/lib/supabase/config";
 import { SignInForm } from "@/features/auth/sign-in-form";
 import { signOut } from "@/features/auth/actions";
 import { getProposals, getReports } from "@/features/community/repository";
-import {
-  ConnectionNotice,
-  ProposalCard,
-  Pagination,
-  readPage,
-  formatDate,
-} from "@/features/community/components";
-import styles from "@/features/community/community.module.css";
+import { ConnectionNotice } from "@/components/connection-notice";
+import { ProposalCard } from "@/features/community/components";
+import { Pagination } from "@/components/pagination";
+import { readPage, PAGE_SIZE } from "@/lib/pagination";
+import { formatDate } from "@/lib/format";
+import styles from "@/components/ui.module.css";
 export const metadata: Metadata = {
   title: "Mi cuenta",
   robots: { index: false, follow: false },
@@ -36,13 +34,13 @@ export default async function AccountPage({
         />
         <div className="container section-small">
           <div className={styles.narrow}>
-            {getSupabaseConfig() ? (
+            {getSupabaseStatus() === "ready" ? (
               <div className={styles.card}>
                 <SignInForm />
               </div>
             ) : (
               <div className={styles.stack}>
-                <ConnectionNotice status="unconfigured" />
+                <ConnectionNotice status={getSupabaseStatus()} />
                 <Link href="/aportar" className="button">
                   Preparar un borrador
                 </Link>
@@ -100,7 +98,7 @@ export default async function AccountPage({
             </div>
           )}
           <div className="content-grid">
-            {proposals.data.slice(0, 20).map((p) => (
+            {proposals.data.slice(0, PAGE_SIZE).map((p) => (
               <ProposalCard key={p.id} proposal={p} />
             ))}
           </div>
@@ -109,7 +107,7 @@ export default async function AccountPage({
           {reports.status === "ready" && reports.data.length === 0 && (
             <p className={styles.meta}>No hay reportes en esta página.</p>
           )}
-          {reports.data.slice(0, 20).map((report) => (
+          {reports.data.slice(0, PAGE_SIZE).map((report) => (
             <article key={report.id} className={styles.card}>
               <span className={styles.status}>
                 {report.status === "open"
@@ -127,7 +125,10 @@ export default async function AccountPage({
           ))}
           <Pagination
             page={page}
-            hasMore={proposals.data.length > 20 || reports.data.length > 20}
+            hasMore={
+              proposals.data.length > PAGE_SIZE ||
+              reports.data.length > PAGE_SIZE
+            }
             href="/cuenta"
           />
         </div>

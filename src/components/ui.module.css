@@ -55,12 +55,6 @@
 .card h3 {
   font-size: 20px;
 }
-.cardLink {
-  transition: border-color 0.15s;
-}
-.cardLink:hover {
-  border-color: var(--blue);
-}
 .cards {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -325,10 +319,5 @@
   }
   .actions > :global(.button) {
     width: 100%;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .cardLink {
-    transition: none;
   }
 }

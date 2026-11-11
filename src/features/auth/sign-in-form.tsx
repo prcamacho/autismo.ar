@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import { ActionForm } from "@/features/community/action-form";
+import { ActionForm } from "@/components/action-form";
 import { requestCode, verifyCode } from "./actions";
-import styles from "@/features/community/community.module.css";
+import styles from "@/components/ui.module.css";
 
 export function SignInForm() {
   const [email, setEmail] = useState("");

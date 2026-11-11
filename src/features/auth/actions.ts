@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { createSupabaseClient } from "@/lib/supabase/server";
-import type { ActionResult } from "@/features/community/model";
+import { type ActionResult } from "@/lib/result";
 
 export async function requestCode(
   _: ActionResult,

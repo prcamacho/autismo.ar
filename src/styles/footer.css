@@ -1,0 +1,64 @@
+.site-footer {
+  background: #f8fafc;
+  border-top: 1px solid var(--line);
+}
+.footer-main {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.25fr;
+  gap: 40px;
+  padding-block: 48px;
+}
+.footer-main .brand {
+  font-size: 23px;
+}
+.footer-main .brand-mark {
+  width: 29px;
+  height: 29px;
+}
+.footer-main p {
+  font-size: 12px;
+  line-height: 1.9;
+  margin-top: 17px;
+}
+.footer-made {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #5d7288;
+  margin-top: 17px;
+}
+.footer-heading {
+  display: block;
+  font-size: 12px;
+  font-weight: 650;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+.footer-main > div > a:not(.brand) {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: fit-content;
+  font-size: 12px;
+  color: #566e85;
+  margin-block: 8px;
+}
+.footer-main > div > a:not(.brand):hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--blue);
+}
+.footer-main .footer-help p {
+  font-size: 11px;
+  margin-top: 0;
+}
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding-block: 19px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  color: #60748a;
+}

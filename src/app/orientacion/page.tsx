@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageIntro } from "@/components/page-intro";
 import { OrientationExplorer } from "@/features/orientation/orientation-explorer";
-import styles from "@/features/community/community.module.css";
+import styles from "@/components/ui.module.css";
 export const metadata: Metadata = {
   title: "Por dónde empezar",
   description:

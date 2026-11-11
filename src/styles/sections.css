@@ -1,0 +1,339 @@
+.search-container {
+  position: relative;
+  top: 34px;
+  margin-top: -34px;
+}
+.search-card {
+  padding: 24px 25px 0;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 8px 30px #1d477614;
+  border: 1px solid #e4ebf3;
+}
+.resource-search {
+  display: grid;
+  grid-template-columns: 1.8fr 1.16fr 1fr auto;
+  align-items: end;
+  gap: 15px;
+}
+.search-field {
+  min-width: 0;
+}
+.search-field label {
+  display: block;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.search-field label span {
+  color: #6c7d8f;
+  font-size: 10px;
+  font-weight: 400;
+}
+.input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 47px;
+  padding-inline: 12px;
+  border: 1px solid #dce4ec;
+  border-radius: 7px;
+  color: #70859b;
+  background: #fff;
+}
+.input-wrap:focus-within {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 2px #245fcc18;
+}
+.input-wrap input,
+.input-wrap select {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  padding: 11px 0;
+  outline: none;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.input-wrap select {
+  cursor: pointer;
+}
+input::placeholder,
+textarea::placeholder {
+  color: #657486;
+  opacity: 1;
+}
+.input-wrap:has(input:disabled) {
+  background: #f7f9fb;
+}
+input:disabled {
+  cursor: not-allowed;
+}
+.search-submit {
+  min-height: 47px;
+  padding-inline: 21px;
+}
+.search-note {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 14px;
+  margin-top: 18px;
+  border-top: 1px solid #eef1f5;
+  font-size: 10px;
+  color: #617286;
+}
+.search-note span,
+.search-note a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.search-note a {
+  color: #496784;
+}
+.search-compact {
+  padding: 25px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: white;
+}
+.explore-section {
+  padding-top: 103px;
+}
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 30px;
+  margin-bottom: 28px;
+}
+.section-heading .eyebrow {
+  margin-bottom: 11px;
+}
+.section-heading h2 + p {
+  margin-top: 12px;
+  font-size: 14px;
+}
+.section-heading > .text-link {
+  white-space: nowrap;
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.category-card {
+  min-height: 143px;
+  display: flex;
+  align-items: start;
+  gap: 16px;
+  padding: 25px 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: white;
+  position: relative;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.category-card:hover {
+  border-color: #a2beda;
+  box-shadow: 0 5px 17px #3466910b;
+}
+.icon-box {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: #edf4fc;
+  color: #4b80ba;
+  flex-shrink: 0;
+}
+.icon-box > svg {
+  width: 25px;
+  height: 25px;
+}
+.category-card h3 {
+  font-size: 16px;
+  padding-right: 10px;
+  margin-top: 3px;
+  letter-spacing: -0.02em;
+}
+.category-card p {
+  font-size: 11px;
+  line-height: 1.8;
+  margin-top: 8px;
+  padding-right: 5px;
+  max-width: 220px;
+}
+.category-arrow {
+  color: #8296aa;
+  position: absolute;
+  bottom: 16px;
+  right: 15px;
+  width: 16px;
+}
+.category-1 .icon-box {
+  background: #edf5ef;
+  color: #588573;
+}
+.category-2 .icon-box {
+  background: #faf3e6;
+  color: #a2844f;
+}
+.category-3 .icon-box {
+  background: #eff0fa;
+  color: #7b79ae;
+}
+.category-4 .icon-box {
+  background: #eef6f7;
+  color: #508991;
+}
+.category-5 .icon-box {
+  background: #fdf0eb;
+  color: #b47d68;
+}
+.starting-note {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 25px;
+}
+.starting-note p {
+  font-size: 11px;
+}
+.status-dot {
+  width: 6px;
+  height: 6px;
+  background: #87a8cd;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.orientation-section {
+  background: #f6f9fc;
+  border-block: 1px solid #eef2f6;
+}
+.orientation-section .section {
+  padding-block: 62px;
+}
+.orientation-section h2 {
+  font-size: 30px;
+}
+.section-aside {
+  max-width: 350px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.info-card {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 12px;
+  padding: 28px;
+}
+.orientation-section .info-card {
+  border: 0;
+  border-radius: 0;
+  padding: 6px 30px 6px 0;
+  background: transparent;
+}
+.orientation-section .info-card + .info-card {
+  border-left: 1px solid #dfe7ef;
+  padding-left: 30px;
+}
+.small-icon {
+  display: inline-flex;
+  color: #5e84a9;
+  margin-bottom: 17px;
+}
+.small-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.6;
+}
+.info-card h3 {
+  font-size: 19px;
+  margin-bottom: 11px;
+}
+.info-card p {
+  font-size: 13px;
+  line-height: 1.85;
+}
+.info-card .text-link {
+  margin-top: 18px;
+  font-size: 12px;
+}
+.info-card .badge {
+  margin-top: 16px;
+}
+.info-card > .badge {
+  display: table;
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+.info-card > .icon-box {
+  margin-bottom: 20px;
+}
+.community-banner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 32px 36px;
+  border-radius: 14px;
+  background: #edf4fd;
+}
+.community-banner-icon {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  color: #6991b8;
+  flex-shrink: 0;
+}
+.community-banner h2 {
+  font-size: 25px;
+  margin-top: 7px;
+  margin-bottom: 8px;
+}
+.community-banner p:not(.eyebrow) {
+  font-size: 12px;
+}
+.community-banner .eyebrow {
+  font-size: 9px;
+}
+.community-banner .button {
+  margin-left: auto;
+  white-space: nowrap;
+  font-size: 12px;
+}
+.principles-strip {
+  display: flex;
+  justify-content: center;
+  gap: 42px;
+  padding-top: 28px;
+  font-size: 11px;
+  color: #5c7087;
+}
+.principles-strip span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.principles-strip svg {
+  color: #7d9abb;
+}
