@@ -15,15 +15,32 @@
 
 ### Correo comprobado y puesta en marcha pendiente
 
-Email Auth está habilitado, con confirmación de correo y sin ingresos anónimos. Site URL es `https://autismo.ar`. **SMTP propio está activo mediante Resend**: servidor `smtp.resend.com`, puerto `465`, usuario `resend`, remitente `autismo.ar <administracion@autismo.ar>`, elegido por el responsable. El responsable ingresó la clave API en el campo Password de Supabase; no se guardó en Git ni en variables públicas. Configurar el remitente de envío no crea un buzón para recibir respuestas ni una foto de perfil en los clientes de correo.
+Email Auth está habilitado, con confirmación de correo y sin ingresos anónimos. Site URL es `https://autismo.ar`. **SMTP propio está activo mediante Resend**: servidor `smtp.resend.com`, puerto `465`, usuario `resend`, remitente `autismo.ar <administracion@autismo.ar>`, elegido por el responsable. El responsable ingresó la clave API en el campo Password de Supabase; no se guardó en Git ni en variables públicas. La recepción de respuestas se configuró por separado mediante Cloudflare, como se describe abajo. No hay una foto de perfil de remitente configurada en los clientes de correo.
 
-- Resend verificó `autismo.ar` el 11 de noviembre de 2026 a las 21:59 UTC. El dominio tiene DKIM `resend._domainkey` y CNAME `rsend` y `send` hacia Resend Forge, sin proxy. La recepción está desactivada. No se modificaron los dominios ni las claves de VinSalta.
+- Resend verificó `autismo.ar` el 11 de noviembre de 2026 a las 21:59 UTC. El dominio tiene DKIM `resend._domainkey` y CNAME `rsend` y `send` hacia Resend Forge, sin proxy. La recepción en Resend está desactivada; Cloudflare recibe y reenvía a Gmail. No se modificaron los dominios ni las claves de VinSalta.
 - La clave dedicada `AUTISMO.AR - Supabase Auth` tiene permiso **Sending access**, limitado al dominio **autismo.ar**. Su alcance se comprobó después de recargar el panel.
 - Las plantillas **Confirm sign up** y **Magic link or OTP** muestran `{{ .Token }}` y texto en español. La interfaz espera el código, no un enlace.
 - Se solicitó un código desde `https://autismo.ar/cuenta` a la cuenta real del responsable. El correo llegó a la bandeja de entrada el 11 de noviembre de 2026 a las 22:02 UTC, con SPF y DKIM aprobados. El código permitió iniciar sesión y la web mostró el rol **Colaborador/a**, sin aportes ni reportes. Después de cambiar el remitente a `administracion@autismo.ar`, se cerró la sesión y se solicitó otro código: llegó a la bandeja de entrada a las 22:07 UTC con el nuevo remitente y permitió reingresar. Las pruebas validan alta, entrega y reingreso de una cuenta existente; no ensayan el circuito de publicación.
 - Se usa la cuenta gratuita existente de Resend: el panel indicaba 3.000 correos mensuales y 100 diarios, compartidos entre sus tres dominios. Supabase indicó un límite de 30 correos por hora al activar SMTP. Las pruebas consumieron dos envíos; no se contrató otro plan.
 
 Ante fallos de entrega, revisar primero Auth en Supabase y el envío correspondiente en Resend: distinguir rechazo SMTP, dominio sin verificar, cuota agotada y rechazo del destinatario. Comprobar también la respuesta visible del formulario y la bandeja real; no registrar claves ni códigos. Si se reemplaza una clave, el titular debe actualizar Password en SMTP y volver a comprobar un envío y un ingreso reales.
+
+#### Recepción gratuita mediante Cloudflare
+
+El responsable creó `autismo.ar@gmail.com` y pidió recibir allí los mensajes dirigidos a `administracion@autismo.ar`. Se verificó que el dominio no tenía registros MX ni recepción existente. Se activó **Email Routing** en la zona `6017a1855beac88cb4f98b0b3fe1e22d`, cuenta `cb9ed51d9733ce982c0bf09d8047513e`, sin contratar planes ni crear Workers.
+
+- Cloudflare añadió tres MX en `autismo.ar`: `route1.mx.cloudflare.net` (prioridad 60), `route2.mx.cloudflare.net` (80) y `route3.mx.cloudflare.net` (73); además, DKIM `cf2024-1._domainkey` y SPF `v=spf1 include:_spf.mx.cloudflare.net ~all` en el dominio raíz. Se conservaron los registros web y los registros de envío de Resend.
+- Se verificó el destino mediante el correo de Cloudflare recibido en el Gmail del proyecto. La única regla está **Active**: `administracion@autismo.ar` → `autismo.ar@gmail.com`. La regla catch-all permanece desactivada; no se habilitaron otras direcciones.
+- La primera prueba, a las 22:24 UTC del 11 de noviembre de 2026, rebotó con `550 5.1.1 Address does not exist` mientras el panel mostraba **Syncing**. Después de observar **Enabled**, una segunda prueba a las 22:27 UTC llegó a **Recibidos** en `autismo.ar@gmail.com`. Se comprobó en el navegador el destinatario y el mensaje real. No considerar suficiente que una regla figure guardada.
+- Se usa únicamente el [reenvío entrante gratuito](https://developers.cloudflare.com/email-service/platform/pricing/). Los envíos automáticos siguen usando Resend y su cuota compartida. Esto no configura Gmail para enviar manualmente como `administracion@autismo.ar`.
+
+Ante fallos, comprobar estado del servicio, destino verificado, regla activa, registros MX y Activity log de Cloudflare, además del rebote del remitente y spam del Gmail. Esperar la activación antes de repetir pruebas. Para detener el reenvío, desactivar únicamente esta regla; para cambiar de buzón, verificar primero el nuevo destino. No borrar registros de Resend ni modificar otros dominios. Gmail conserva los mensajes recibidos y aplica su propia cuota de almacenamiento.
+
+#### Diseño acordado para los próximos correos
+
+El 11 de noviembre de 2026 el responsable pidió priorizar que todos los correos futuros se vean cuidados, sin depender de la foto de perfil que muestre el cliente de correo. Las próximas plantillas deben compartir identidad de autismo.ar dentro del mensaje, diseño simple adaptable a celulares, texto legible con buen contraste y el código o la acción principal destacados. El nombre del remitente y los asuntos deben ser claros y coherentes.
+
+Usar el logo original cuando exista un recurso de imagen estable y compatible, con texto alternativo. El contenido esencial, los códigos y los enlaces deben seguir siendo utilizables si se bloquean imágenes. Evitar estímulos innecesarios y comprobar el resultado real en Gmail, además de la vista previa. Este criterio queda registrado para próximas implementaciones; las plantillas de acceso actuales conservan el texto simple y el código ya comprobados, sin afirmar que se rediseñaron ni que existe un avatar de remitente configurado.
 
 Falta designar moderadores y ensayar el circuito completo con dos cuentas en un entorno aislado. No se concedieron permisos de moderación durante la prueba de correo.
 
