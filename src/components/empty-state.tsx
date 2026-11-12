@@ -4,7 +4,7 @@ import { PuzzleMark } from "@/components/puzzle-mark";
 
 export function EmptyState({
   title = "Acá hay lugar para el primer aporte",
-  description = "Estamos empezando a construir esta red. La información que conocés puede ser el punto de partida para otra familia.",
+  description = "Esta red está dando sus primeros pasos. La información que conocés puede ser útil para otra persona.",
   href = "/aportar",
   action = "Preparar un aporte",
 }: {

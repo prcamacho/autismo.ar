@@ -1,5 +1,7 @@
 # Inventario de infraestructura y propuesta de pruebas
 
+**Estado final del 11 de noviembre de 2026:** la eliminación de la integración ya está publicada en autismo.ar (merge `4a4cc5318728a9cd365687b4da3f3c4b6f52b732`, despliegue `5b00e4d2-2af6-4d7d-a6db-73e89e366b0a`, `SUCCESS`). Por indicación del responsable, se retiró el servicio alojado de Ian Escuela sin migrarlo a otro proyecto. La consulta posterior confirma un solo servicio en el proyecto, autismo.ar, online. Se conserva el repositorio de la escuela. Las observaciones y propuestas inferiores son históricas; ver DEC-003 para la decisión vigente.
+
 Relevamiento del 10 de noviembre de 2026. Alcance: consultas de solo lectura a GitHub y Railway, paneles de Cloudflare y acceso al panel de Supabase. No se crearon ramas, servicios ni dominios; no se cambiaron variables, DNS, presupuestos o despliegues. Esta entrega solo actualiza documentación local.
 
 **Cambio posterior del 11 de noviembre:** el responsable pidió eliminar la conexión de código con Ian Escuela. Se retiraron rutas, visor, proxy, manifiesto, accesos, estilos y pruebas exclusivos, sin detener la escuela. La publicación sigue pendiente. La propuesta original de duplicar la escuela para pruebas de autismo.ar queda sin efecto; las secciones siguientes conservan el historial del relevamiento.

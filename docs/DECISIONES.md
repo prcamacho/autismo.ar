@@ -1,9 +1,21 @@
 # Registro de decisiones
 
+## DEC-005 — Presentación neutral centrada en el propósito
+
+- **Fecha:** 12 de noviembre de 2026.
+- **Estado:** implementado y validado automáticamente para la rama `test`. Revisión visual y publicación en producción pendientes.
+- **Decisión:** presentar autismo.ar por su propósito —facilitar el acceso a información y recursos sobre autismo en Argentina— sin atribuir su creación a familias ni a organizaciones. Mantener un tono neutral, claro, cálido y sobrio, con las personas autistas como participantes con voz propia y lugar para familias y profesionales.
+- **Motivo:** hacer explícito el alcance del espacio para sus distintos públicos y evitar que el origen familiar se perciba como una restricción a la participación. La seriedad debe apoyarse en fuentes, revisión y transparencia, sin sugerir aval institucional ni autoridad clínica.
+- **Alcance:** portada, navegación, pie, presentación del proyecto, directorio, comunidad, biblioteca, estado vacío compartido y metadatos. Frase de identidad: “Información que orienta. Una comunidad que conecta.” Descripción principal: “Información y recursos sobre autismo en Argentina.” Se conserva el sentido específico de las iniciativas familiares, las reglas de participación, los estados de disponibilidad, el logotipo y el `noindex`.
+- **Continuidad:** pauta incorporada en `AGENTS.md`, `VISION_Y_PLAN.md` y `README.md` para futuros textos, metadatos y estados de interfaz. Es un cambio editorial; no incorpora funciones ni modifica las condiciones de iniciativas futuras.
+- **Validación:** lint, las 13 pruebas existentes, compilación de producción con TypeScript y formato de los archivos modificados aprobados. El HTML generado de portada, proyecto, comunidad, biblioteca, orientación y 404 conserva el `noindex` y muestra el pie neutral, sin las antiguas atribuciones familiares. La compilación usó Supabase desconectado. Los estilos y colores semánticos de ambos temas no cambian.
+- **Límite de revisión:** pendiente comprobar visualmente el ajuste de los textos en móvil y escritorio, claro y oscuro. Computer Use se detuvo al no poder determinar con suficiente confianza la URL de Chrome. La inspección de código y HTML no reemplaza esa comprobación. No se verificaron interacciones, foco ni consola del navegador en esta entrega.
+- **Trazabilidad:** el commit que introduce DEC-005 conserva el motivo y las verificaciones; destino `test`, sin promoción a `main` ni despliegue de este cambio. Se preservan también las notas locales de seguimiento de DEC-003 y DEC-004, pendientes de versionar al iniciar esta tarea.
+
 ## DEC-004 - Modo claro y oscuro como requisito transversal
 
 - **Fecha:** 11 de noviembre de 2026.
-- **Estado:** implementado en código; verificaciones automáticas y revisión visual local completadas el 11 de noviembre de 2026. Publicación pendiente.
+- **Estado:** publicado y verificado en producción el 11 de noviembre de 2026, después de completar verificaciones automáticas y revisión visual local.
 - **Decisión:** contemplar ambos temas en cada sección y función nueva o modificada. Centralizar colores semánticos y ofrecer un botón de sol/luna en la cabecera, accesible con teclado y visible en móvil.
 - **Comportamiento:** el selector es público y no requiere iniciar sesión. Seguir el tema del dispositivo hasta que la persona elija claro u oscuro. Guardar la preferencia solo en el navegador, aplicarla antes del primer pintado y sincronizarla entre pestañas. Si el almacenamiento falla, mantener disponible el cambio durante la navegación actual. Imprimir con fondo claro.
 - **Motivo:** permitir una lectura cómoda y coherente, sin destellos claros al cargar el tema oscuro ni componentes que solo se vean correctamente en un tema.
@@ -11,6 +23,16 @@
 - **Validación al retomar:** `npm run build` completó la compilación, TypeScript y la generación de las 12 páginas estáticas; `npm run lint`, las 13 pruebas existentes y Prettier sobre los archivos de tema y documentación pasaron. No se reprodujo el error anterior de permisos durante la compilación.
 - **Revisión visual:** Chrome local, sin sesión y con Supabase desconectado. Se comprobó el cambio claro/oscuro, la persistencia al navegar y recargar, la sincronización entre dos pestañas, activación por teclado y foco visible. Se revisaron portada, directorio, orientación, biblioteca, comunidad, cuenta, formulario de aporte, proyecto y 404, incluidos campos deshabilitados, selección de categorías y avisos. Vistas de escritorio de 1366 px y móvil de 390 px; también se revisó la cabecera y el proyecto a 320 px sin desbordamiento horizontal. No se observaron errores de consola durante el recorrido.
 - **Límites:** no se enviaron aportes ni correos y no se probaron los recorridos privados de moderación. La preferencia del dispositivo, impresión y almacenamiento bloqueado se revisaron en código; no se emularon esos escenarios en esta sesión. El bloqueo inicial de acceso local se resolvió cuando el responsable inició el servidor desde su terminal, sin cambiar permisos ni protecciones.
+- **Publicación:** [PR 4](https://github.com/prcamacho/autismo.ar/pull/4) integrado en `test` y promoción a `main` mediante [PR 3](https://github.com/prcamacho/autismo.ar/pull/3), merge `ed7eec4e7210f23c65f64f0d05050229137c6915`. Railway publicó ese commit con despliegue `a31351b0-5a34-465b-8e2d-373c3253cd3f` en estado `SUCCESS`; ambas ramas quedaron sincronizadas. En https://autismo.ar se verificaron los dos temas sin sesión, persistencia al recargar y navegar, y ausencia de errores de consola durante la comprobación. No hay entorno alojado `test` ni CI configurados: las pruebas previas fueron locales con Supabase desconectado.
+
+## DEC-003 — Retirar el alojamiento de Ian Escuela
+
+- **Fecha:** 11 de noviembre de 2026.
+- **Decisión del responsable:** la escuela se usa sin requerir internet; su alojamiento existía para mostrarla en autismo.ar y se pospone ese uso. Se descarta migrarla o crear otro proyecto alojado.
+- **Resultado comprobado:** la retirada del código se integró mediante [PR 1](https://github.com/prcamacho/autismo.ar/pull/1), merge `4a4cc5318728a9cd365687b4da3f3c4b6f52b732`. Railway publicó ese commit con despliegue `5b00e4d2-2af6-4d7d-a6db-73e89e366b0a` en estado `SUCCESS` antes de retirar el servicio de la escuela.
+- **Alojamiento retirado:** servicio `ian_escuela_autismo` (`e737786b-ee52-446d-90a7-0e33c4137af0`) del proyecto autismo.ar. No tenía volúmenes ni variables configuradas. La consulta posterior lista únicamente el servicio autismo.ar, online, sin operaciones pendientes.
+- **Conservación:** el repositorio `prcamacho/ian_escuela_autismo` permanece disponible; no se modificaron archivos, instalación o datos del dispositivo de Ian. No se verificó el funcionamiento offline del dispositivo durante esta tarea ni se creó un alojamiento sustituto.
+- **Accesos:** la antigua dirección pública alojada de la escuela deja de estar disponible. Si más adelante se quiere mostrar o reinstalar desde internet, habrá que preparar un nuevo despliegue autorizado.
 
 ## DEC-002 — Eliminar la integración de Ian Escuela
 

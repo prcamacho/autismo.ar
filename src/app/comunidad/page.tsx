@@ -18,7 +18,7 @@ import styles from "@/components/ui.module.css";
 export const metadata: Metadata = {
   title: "Comunidad",
   description:
-    "Conocé cómo queremos construir una red de información y apoyo junto a familias y personas autistas de toda Argentina.",
+    "Conocé cómo participar en autismo.ar: aportar recursos, proponer correcciones y ayudar a revisar información sobre autismo en Argentina.",
 };
 
 const initiatives = [
@@ -49,7 +49,7 @@ export default async function CommunityPage() {
       <PageIntro
         eyebrow="Comunidad"
         title="Lo que sabés puede ayudar a alguien más."
-        description="Un contacto que encontraste, un horario que cambió, una fuente que vale la pena guardar. Entre familias, personas autistas y otros colaboradores construimos información que puede volver a encontrarse."
+        description="Un espacio abierto a personas autistas, familias y profesionales para aportar recursos, proponer correcciones y ayudar a revisar información. Cada aporte conserva sus fuentes y su estado de revisión."
       />
       <section
         className="section-small container"

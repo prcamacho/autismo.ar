@@ -30,7 +30,7 @@ export function CommunityArt() {
         <span>
           Un lugar para
           <br />
-          <strong>acompañarnos</strong>
+          <strong>conectar</strong>
         </span>
       </div>
       <div className="art-dot dot-blue" />

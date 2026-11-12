@@ -38,26 +38,23 @@ export default function Home() {
           <div className="hero-copy">
             <p className="eyebrow">
               <span className="eyebrow-line" />
-              EN CADA PROVINCIA, UN POCO MÁS CERCA
+              RECURSOS LOCALES Y DE TODO EL PAÍS
             </p>
             <h1>
-              Encontrar apoyo.
+              Información y recursos
               <br />
-              <span>
-                Compartir
-                <br className="desktop-break" /> el camino.
-              </span>
+              <span>sobre autismo en Argentina.</span>
             </h1>
             <p>
-              Un espacio para personas autistas y sus familias. Para encontrar
-              información, compartir recursos y acompañarnos en cada etapa de la
-              vida.
+              Un espacio para personas autistas, familias y profesionales,
+              orientado a facilitar el acceso a información y recursos en cada
+              etapa de la vida.
             </p>
             <Link className="hero-link" href="/orientacion">
               Encontrá por dónde empezar <ArrowRight size={18} />
             </Link>
             <div className="hero-footnote">
-              <Heart size={16} /> Desde la experiencia. Con lugar para todos.
+              <UsersRound size={16} /> Información, recursos y participación.
             </div>
           </div>
           <CommunityArt />
@@ -134,7 +131,7 @@ export default function Home() {
             </div>
             <p className="section-aside">
               Este espacio reúne caminos posibles para buscar orientación,
-              conocer apoyos y compartir experiencias, a tu ritmo.
+              conocer apoyos y encontrar recursos, a tu ritmo.
             </p>
           </div>
           <div className="info-grid">
@@ -171,7 +168,7 @@ export default function Home() {
               <h3>Lo que sabés puede ayudar</h3>
               <p>
                 Un contacto, un horario actualizado o un recurso útil pueden
-                hacer más sencillo el día de otra familia.
+                facilitar la búsqueda de otra persona.
               </p>
               <Link href="/comunidad" className="text-link">
                 Conocer la comunidad <ArrowRight size={16} />
@@ -206,8 +203,8 @@ export default function Home() {
             <p className="eyebrow">EL PRÓXIMO APORTE PUEDE SER EL TUYO</p>
             <h2>Una red se construye de a uno.</h2>
             <p>
-              Lo que aprendiste en el camino puede ayudar a alguien que recién
-              empieza.
+              Un recurso con su fuente o una corrección pueden ayudar a otras
+              personas a encontrar información útil.
             </p>
           </div>
           <Link href="/aportar" className="button">

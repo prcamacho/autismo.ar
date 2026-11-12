@@ -6,11 +6,11 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "autismo.ar — Compartir el camino",
+    default: "autismo.ar — Información y recursos sobre autismo en Argentina",
     template: "%s | autismo.ar",
   },
   description:
-    "Una red de información y recursos construida por familias y personas autistas. Encontrá apoyo en tu provincia y compartí lo que puede ayudar a otros.",
+    "Información y recursos sobre autismo en Argentina. Un espacio para personas autistas, familias y profesionales, en cada etapa de la vida.",
   robots: { index: false, follow: false },
 };
 

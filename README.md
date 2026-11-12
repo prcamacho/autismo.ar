@@ -1,6 +1,6 @@
 # autismo.ar
 
-Base de una red argentina de recursos construida por personas autistas y familias. La portada combina información general, búsqueda por ubicación y participación comunitaria.
+Base de una red de información y recursos sobre autismo en Argentina, para personas autistas, familias y profesionales. La portada combina información general, búsqueda por ubicación y participación comunitaria.
 
 ## Antes de trabajar
 
@@ -83,6 +83,8 @@ Las páginas consultan los repositorios de cada módulo. El directorio usa una c
 Los archivos subidos requerirán un flujo propio de validación y permisos; actualmente solo se importa un borrador JSON en el dispositivo. No incluir claves privadas en el navegador ni en Git. En `.env.example` figuran las variables públicas de Supabase. La configuración local actual apunta a la base real: usar PGlite o un entorno dedicado para datos sintéticos. Una instalación nueva necesita activar y comprobar también el correo según la guía.
 
 ## Diseño y contenido
+
+La presentación se centra en el propósito y la utilidad de autismo.ar, con tono neutral, claro, cálido y sobrio. No atribuye el proyecto a familias ni a organizaciones ni supone respaldo institucional o clínico. Las personas autistas tienen voz propia, con lugar para familias y profesionales. Esta pauta alcanza textos públicos, metadatos y estados de la interfaz; las referencias a familias se conservan cuando corresponden a necesidades o iniciativas específicas. Ver [DEC-005](./docs/DECISIONES.md#dec-005--presentación-neutral-centrada-en-el-propósito).
 
 CSS propio organizado en `src/styles`, con variables y componentes compartidos; sin fuentes remotas necesarias para compilar. Los formularios, avisos y paginación comunes están en `src/components`. El SVG del rompecabezas es parte del código y puede ajustarse sin generar imágenes nuevas.
 

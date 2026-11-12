@@ -103,7 +103,7 @@ export default async function DirectoryPage({
       <PageIntro
         eyebrow="Directorio"
         title="Encontrá recursos cerca tuyo"
-        description="Un lugar para reunir la información que las familias necesitan. Buscá por tema y ubicación, con los recursos nacionales siempre a mano."
+        description="Un directorio para consultar profesionales, servicios y redes de apoyo. Buscá por tema y ubicación, con los recursos nacionales siempre a mano."
       />
       <section className="section-small container" aria-label="Buscar recursos">
         <ResourceSearch
