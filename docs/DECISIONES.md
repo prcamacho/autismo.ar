@@ -1,5 +1,18 @@
 # Registro de decisiones
 
+## DEC-006 — Entorno de pruebas sin base y con desafío de Cloudflare
+
+- **Fecha:** 12 de noviembre de 2026.
+- **Estado:** entorno operativo por HTTPS, con suspensión y reanudación reales comprobadas el 12 de noviembre de 2026. Despliegue `6f7ccc8b-d142-42ee-9051-14ede4243ddd`, commit [ce968d1](https://github.com/prcamacho/autismo.ar/commit/ce968d1312700c1013f4a209edcfab9f0c4d8201). La evidencia, incluidos el proxy y el estado del certificado de Railway, está en [INFRAESTRUCTURA.md](./INFRAESTRUCTURA.md#entorno-test-del-12-de-noviembre-de-2026).
+- **Problema:** la rama `test` necesita una dirección propia para revisar cambios antes de promoverlos a `main`, con consumo acotado y sin escribir en la base real.
+- **Decisión:** crear un entorno Railway `test` para la web de la rama homónima, publicar `test.autismo.ar` mediante Cloudflare y habilitar suspensión por inactividad. No copiar las variables de Supabase de producción ni crear una base, correo, volúmenes o servicios de Ian para esta etapa. Conservar `noindex, nofollow`.
+- **Acceso elegido por el responsable:** usar únicamente Under Attack Mode de Cloudflare, sin Zero Trust/Access ni autenticación adicional. Esta decisión modifica para este entorno la exigencia anterior de acceso restringido: el sitio es público para quien supere el desafío. Under Attack Mode no autentica personas ni garantiza bloquear todo tráfico automatizado; `noindex` tampoco impide entrar. Verificar y documentar por separado cualquier dirección pública del origen que no pase por Cloudflare.
+- **Alcance funcional:** comprobar presentación, navegación, formularios sin envío y borradores locales. Cuentas, correos, aportes persistidos y moderación requieren después un backend de pruebas separado. No considerar aislada una futura integración solo por usar la rama o el subdominio de pruebas.
+- **Consumo:** la nueva instancia añade RAM, CPU y tráfico al mismo workspace Railway. La suspensión puede reducir el tiempo activo, con demora al reanudar; tráfico externo puede despertarla. El costo final depende del uso y del saldo compartido con otros proyectos. No se autoriza detener otros servicios ni cambiar planes o límites globales para compensarlo.
+- **Validación:** rama y despliegue correctos, ausencia de variables Supabase, DNS con proxy, desafío, HTTPS público, `noindex, nofollow`, portada en claro/oscuro y móvil, cuenta sin ingreso y ciclo real de suspensión/reanudación comprobados. Sin errores ni advertencias de consola durante el recorrido. La configuración de producción coincide con la anterior a la intervención. No se probaron todos los formularios ni estados de error, no se enviaron correos o aportes y no se modificó código de producto.
+- **Recuperación:** ante un problema, revisar el despliegue y los logs de `test`; recuperar su último despliegue correcto o detener únicamente esa instancia y su publicación si fuera necesario. Este procedimiento no se ensayó mediante una interrupción destructiva.
+- **Pendientes:** la creación de `test` no configura por sí misma CI, protecciones de GitHub, alertas de presupuesto ni backend de ensayo. Observar consumo real antes de atribuir un ahorro o un costo mensual a la suspensión.
+
 ## DEC-005 — Presentación neutral centrada en el propósito
 
 - **Fecha:** 12 de noviembre de 2026.
