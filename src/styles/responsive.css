@@ -275,10 +275,11 @@
     left: 30px;
   }
   .orbit-two {
-    width: 285px;
+    /* Keep the rotated orbit inside the 300px illustration on narrow screens. */
+    width: 250px;
     height: 160px;
     top: 42px;
-    left: 4px;
+    left: 25px;
   }
   .note-top {
     top: 10px;
