@@ -9,7 +9,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 const links = [
   { href: "/orientacion", label: "Por dónde empezar" },
-  { href: "/directorio", label: "Encontrar ayuda" },
+  { href: "/directorio", label: "Encontrar recursos" },
   { href: "/recursos", label: "Recursos" },
   { href: "/comunidad", label: "Comunidad" },
   { href: "/cuenta", label: "Mi cuenta" },
@@ -21,7 +21,7 @@ export function SiteHeader() {
   return (
     <>
       <div className="announcement">
-        Una comunidad que empieza a crecer, con vos.{" "}
+        Una red de información y recursos en construcción.{" "}
         <Link href="/proyecto">
           Conocé el proyecto <ArrowUpRight size={13} />
         </Link>

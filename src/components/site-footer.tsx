@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Heart, ArrowUpRight } from "lucide-react";
+import { UsersRound, ArrowUpRight } from "lucide-react";
 import { PuzzleMark } from "@/components/puzzle-mark";
 
 export function SiteFooter() {
@@ -16,22 +16,22 @@ export function SiteFooter() {
           <p>
             Información que orienta.
             <br />
-            Una comunidad que acompaña.
+            Una comunidad que conecta.
           </p>
           <span className="footer-made">
-            <Heart size={14} /> Hecho desde una familia, para compartir.
+            <UsersRound size={14} /> Un espacio para informarse y participar.
           </span>
         </div>
         <div>
-          <span className="footer-heading">Encontrá tu camino</span>
+          <span className="footer-heading">Explorá los recursos</span>
           <Link href="/orientacion">Por dónde empezar</Link>
-          <Link href="/directorio">Directorio de ayuda</Link>
+          <Link href="/directorio">Directorio de recursos</Link>
           <Link href="/recursos">Recursos para todos</Link>
         </div>
         <div>
           <span className="footer-heading">Construyamos juntos</span>
           <Link href="/proyecto">Sobre el proyecto</Link>
-          <Link href="/comunidad">Nuestra comunidad</Link>
+          <Link href="/comunidad">Comunidad</Link>
           <Link href="/aportar">Aportar información</Link>
           <Link href="/cuenta">Mi cuenta</Link>
         </div>

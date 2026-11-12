@@ -12,7 +12,7 @@ import { PageIntro } from "@/components/page-intro";
 export const metadata: Metadata = {
   title: "El proyecto",
   description:
-    "La visión de autismo.ar: información local confiable, recursos compartidos y una comunidad que crece paso a paso.",
+    "El propósito de autismo.ar: facilitar el acceso a información y recursos sobre autismo en Argentina, con participación y fuentes claras.",
 };
 
 const principles = [
@@ -20,7 +20,7 @@ const principles = [
     icon: UsersRound,
     title: "Todas las edades, todas las voces",
     description:
-      "Niñez, adolescencia y vida adulta. Un espacio para las familias y también para que las personas autistas participen y hablen desde su propia experiencia.",
+      "Niñez, adolescencia y vida adulta. Las personas autistas tienen voz propia, con lugar para la participación de familias y profesionales.",
   },
   {
     icon: MapPin,
@@ -45,7 +45,7 @@ const principles = [
 const stages = [
   {
     label: "Ahora",
-    title: "Dar forma a la casa",
+    title: "Organizar información y recursos",
     description:
       "Podés explorar por necesidad, buscar por ubicación y preparar un aporte. El circuito comunitario está construido y su activación se informa en las pantallas de cuenta y participación.",
   },
@@ -68,8 +68,8 @@ export default function ProjectPage() {
     <>
       <PageIntro
         eyebrow="El proyecto"
-        title="Compartir el camino, desde el principio."
-        description="Queremos que lo que una familia aprendió con esfuerzo pueda facilitarle el recorrido a otra. Así empieza autismo.ar."
+        title="Información y recursos al alcance de más personas."
+        description="autismo.ar busca facilitar el acceso a información y recursos sobre autismo en Argentina. Un espacio para personas autistas, familias y profesionales, en cada etapa de la vida."
       />
       <section
         className="section-small container"
@@ -84,7 +84,7 @@ export default function ProjectPage() {
           <p>
             Imaginamos una red de profesionales, centros, escuelas, transporte,
             beneficios y recursos cotidianos, organizada para encontrar lo que
-            sirve cerca de casa.
+            resulta útil en cada localidad y en todo el país.
           </p>
           <p>
             Las personas podrán aportar información, proponer cambios y

@@ -1,14 +1,16 @@
 # autismo.ar — Visión y plan vivo
 
-> Última actualización: 10 de noviembre de 2026 (reglas de trabajo y eliminación de la integración de Ian Escuela; publicación del cambio pendiente). Este documento orienta el producto y el trabajo de futuras personas e inteligencias artificiales. Es una propuesta evolutiva: las decisiones pueden cambiar y deben actualizarse aquí cuando cambien.
+> Última actualización editorial: 12 de noviembre de 2026 (presentación neutral centrada en el propósito, DEC-005). Los estados operativos conservan sus fechas y deben contrastarse con la documentación de operación. Este documento orienta el producto y el trabajo de futuras personas e inteligencias artificiales. Es una propuesta evolutiva: las decisiones pueden cambiar y deben actualizarse aquí cuando cambien.
 
 ## 1. Para qué existe
 
-Crear una red argentina de información y ayuda para personas autistas y sus familias. Que lo que una familia aprendió con esfuerzo pueda facilitarle el recorrido a otra, desde la infancia hasta la adolescencia y la vida adulta.
+Facilitar el acceso a información y recursos sobre autismo en Argentina. Un espacio para personas autistas, familias y profesionales, desde la infancia hasta la adolescencia y la vida adulta, con recursos nacionales, provinciales y locales.
+
+La presentación pública se centra en este propósito y su utilidad, sin atribuir la creación del proyecto a familias ni a organizaciones. El tono es neutral, claro, cálido y sobrio; no presupone respaldo institucional ni autoridad clínica. Las personas autistas tienen voz propia y familias y profesionales tienen lugar como destinatarios y participantes. Las referencias a familias se mantienen cuando describen necesidades o iniciativas específicas, sin convertirlas en la identidad de todo el sitio.
 
 La comunidad aporta información, propone correcciones y ayuda a comprobarla, con una dinámica inspirada en las contribuciones de Google Maps. El objetivo es reducir progresivamente la intervención administrativa mediante buenas herramientas y colaboradores confiables. No se presupone que una plataforma comunitaria pueda funcionar sin moderación, especialmente al comenzar.
 
-El proyecto nace sin un directorio propio ni contenido comunitario cargado. La biblioteca permanece en preparación. La escuela de Ian continúa como proyecto independiente: su integración fue eliminada del código de autismo.ar por decisión del responsable, sin detener su servicio ni modificar sus datos.
+El proyecto nace sin un directorio propio ni contenido comunitario cargado. La biblioteca permanece en preparación. La escuela de Ian continúa como proyecto independiente: su integración fue eliminada del código de autismo.ar por decisión del responsable. Posteriormente se retiró su servicio alojado; se conserva su repositorio y no se modificaron datos del dispositivo.
 
 ## 2. Principios que deben guiar las decisiones
 
@@ -80,6 +82,8 @@ La portada combinará información general con acceso práctico a los recursos:
 La navegación inicial debe ofrecer inicio, directorio, biblioteca, comunidad y participación. Las secciones aún no operativas deben explicar su estado sin simular funciones disponibles.
 
 ### Identidad y páginas vacías
+
+Aplicar el criterio de presentación neutral a portada, navegación, pie, páginas informativas, formularios, estados vacíos y metadatos. La frase de identidad es “Información que orienta. Una comunidad que conecta.” y la descripción principal es “Información y recursos sobre autismo en Argentina.” Esta pauta modifica el lenguaje, sin ampliar funciones ni cambiar los destinatarios de iniciativas específicas; ver [DEC-005](./docs/DECISIONES.md#dec-005--presentación-neutral-centrada-en-el-propósito).
 
 La identidad inicial solicitada es una pieza de rompecabezas multicolor con predominio azul. Se usará de forma tranquila, sin animaciones insistentes ni saturación visual. Esta elección podrá revisarse con el responsable del proyecto y la comunidad.
 
@@ -187,7 +191,7 @@ Observar si las personas encuentran recursos útiles, si los contactos siguen vi
 
 ## 11. Estado inicial y próximos pasos
 
-**Estado actual:** fase 0 publicada y circuito del piloto implementado localmente, pendiente de activar su base, correo y despliegue. Orientación y directorio comparten fichas; las cuentas, propuestas, corroboraciones, historial y reportes tienen código y migración, pero aún no operan en producción. Sin conexión, el formulario descarga/carga borradores en el dispositivo. La localidad sigue siendo texto libre. La integración de la escuela de Ian fue eliminada del código local; su publicación está pendiente. La escuela conserva su aplicación independiente. No hay fichas comunitarias reales ni pagos. La existencia del código no implica que la función esté operativa.
+**Estado actual:** fase 0 publicada y circuito del piloto implementado localmente, pendiente de activar su base, correo y despliegue. Orientación y directorio comparten fichas; las cuentas, propuestas, corroboraciones, historial y reportes tienen código y migración, pero aún no operan en producción. Sin conexión, el formulario descarga/carga borradores en el dispositivo. La localidad sigue siendo texto libre. La eliminación de la integración de Ian Escuela ya fue publicada y su servicio alojado fue retirado. La escuela conserva su aplicación independiente; el responsable indica que no requiere internet para usarla. No hay fichas comunitarias reales ni pagos. La existencia del código no implica que la función esté operativa.
 
 El [relevamiento operativo del 10 de noviembre de 2026](./docs/INFRAESTRUCTURA.md) observó la web sin despliegue activo en Railway y la escuela de Ian online. La publicación de fase 0 mencionada arriba describe el estado histórico; diagnosticar y comprobar la disponibilidad actual antes de presentar el sitio como operativo. La separación `test`/`main` tiene una propuesta documentada, todavía sin configuración técnica.
 

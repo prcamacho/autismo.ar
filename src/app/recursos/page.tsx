@@ -3,14 +3,18 @@ import Link from "next/link";
 import { ArrowUpRight, BookOpen, FileText, Smartphone } from "lucide-react";
 import { PageIntro } from "@/components/page-intro";
 
-export const metadata: Metadata = { title: "Recursos para compartir" };
+export const metadata: Metadata = {
+  title: "Biblioteca de recursos",
+  description:
+    "Biblioteca de autismo.ar en preparación: un espacio para guías, apps y materiales para la vida cotidiana, con fuentes y autorización.",
+};
 
 export default function ResourcesPage() {
   return (
     <>
       <PageIntro
         eyebrow="Biblioteca de recursos"
-        title="Lo que ayuda, se comparte."
+        title="Recursos para la vida cotidiana."
         description="Un espacio para apps, guías y materiales que puedan acompañar la vida cotidiana, estés donde estés."
       />
       <div className="container section">

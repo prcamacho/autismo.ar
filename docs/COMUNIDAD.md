@@ -116,4 +116,3 @@ Comprobación del 11 de noviembre de 2026: lint, TypeScript, formato y las 13 pr
 Antes de abrir el piloto: designar moderadores, revisar privacidad/condiciones y definir atención de pedidos de eliminación, exportación y apelación. No se exige documentación médica. Los correos permanecen en Supabase Auth. Administración puede purgar eventos de límites de `community_check_events` anteriores a 30 días. Respaldar la base y ensayar su restauración según el plan elegido.
 
 Pendientes fuera de esta entrega: experiencias personales, guías con edición de cuerpo completo, mapa geográfico, reputación, recordatorios, archivos, mensajería, pagos, campañas y publicidad. Cada módulo requiere sus propias reglas. La orientación actual organiza búsquedas; no responde consultas médicas o legales ni ofrece atención en vivo.
-
