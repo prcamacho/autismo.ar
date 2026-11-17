@@ -32,7 +32,7 @@ export const checkFields = {
 export type CheckField = keyof typeof checkFields;
 export type Proposal = {
   id: string;
-  author_id: string;
+  author_id: string | null;
   resource_id: string | null;
   base_version: number;
   data: import("@/features/resources/validation").ResourceInput;
@@ -45,7 +45,7 @@ export type Proposal = {
 export type Corroboration = {
   id: string;
   proposal_id: string;
-  reviewer_id: string;
+  reviewer_id: string | null;
   field: CheckField;
   verdict: "matches" | "disagrees";
   source_url: string;

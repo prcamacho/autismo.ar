@@ -11,6 +11,8 @@ const links = [
   { href: "/orientacion", label: "Por dónde empezar" },
   { href: "/directorio", label: "Encontrar recursos" },
   { href: "/recursos", label: "Recursos" },
+  { href: "/articulos", label: "Artículos" },
+  { href: "/busquedas", label: "Búsquedas" },
   { href: "/comunidad", label: "Comunidad" },
   { href: "/cuenta", label: "Mi cuenta" },
 ];

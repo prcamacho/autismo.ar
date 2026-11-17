@@ -55,7 +55,7 @@ function databaseMessage(message: string) {
   );
 }
 type WriteFunction = Exclude<
-  keyof Database["public"]["Functions"],
+  Extract<keyof Database["public"]["Functions"], `community_${string}`>,
   "community_search"
 >;
 type WriteCall = {

@@ -38,6 +38,8 @@ npm start
 - Biblioteca en preparación, con estado vacío explícito y sin recursos ficticios.
 - Orientación por necesidades que conserva provincia y localidad al consultar el directorio; filtro de edades atendidas.
 - Circuito comunitario modular: ingreso por código de correo, aportes, correcciones, revisión inicial, corroboración de datos, decisión de moderación, historial y reportes.
+- Artículos y agendas: editor por bloques, resúmenes para compartir, perfil editorial con Cafecito opcional, borradores privados, moderación e historial. Implementación y activación separadas; ver [guía de artículos](./docs/ARTICULOS.md).
+- Búsquedas de personas y familias, perfiles profesionales, disponibilidad en varias ubicaciones y contacto privado por aceptación. Código y pruebas locales preparados; activación y circuito remoto pendientes. Ver [guía de Búsquedas](./docs/BUSQUEDAS.md) y [catálogo territorial oficial](./docs/UBICACIONES.md).
 - Formularios con validación en servidor y migración PostgreSQL con políticas RLS, permisos y límites de frecuencia.
 - Búsqueda de posibles duplicados y fichas canónicas con fuentes y fechas. Recuperar una versión genera una propuesta nueva.
 - Sin conexión configurada: descarga y carga de borradores JSON en el dispositivo, con estado explícito de **no enviado**.
@@ -50,9 +52,9 @@ El catálogo público está vacío intencionalmente. Los datos ficticios de las 
 
 ## Qué falta
 
-Designar moderadores y comprobar el circuito completo del piloto en un entorno de pruebas aislado. Después: reputación, mapa, experiencias, guías colaborativas de cuerpo completo y recordatorios. No hay pagos, anuncios operativos, mensajería ni atención de emergencias. El sitio orienta a canales oficiales.
+Designar moderadores y comprobar el circuito completo del piloto en un entorno de pruebas aislado. Después: reputación, mapa, experiencias, guías colaborativas de cuerpo completo y recordatorios. No hay pagos, anuncios operativos, mensajería privada operativa ni atención de emergencias. El sitio orienta a canales oficiales.
 
-La localidad es texto libre en esta etapa y siempre va asociada a una provincia; se prevé un catálogo oficial con IDs. Las páginas todavía usan `noindex` para evitar indexar el prototipo. Cambiarlo junto con las políticas y los contenidos del lanzamiento real.
+La localidad del directorio comunitario sigue siendo texto libre y va asociada a una provincia. Búsquedas incorpora un catálogo oficial con IDs; eso no migra las fichas existentes del directorio. Las páginas todavía usan `noindex` para evitar indexar el prototipo. Cambiarlo junto con las políticas y los contenidos del lanzamiento real.
 
 ## Estructura
 
@@ -62,13 +64,14 @@ src/
     page.tsx             Portada
     directorio/          Búsqueda, ficha e historial
     recursos/            Biblioteca en preparación
+    articulos/           Publicaciones, autores y preparación de artículos
     comunidad/           Participación, revisión y seguimiento de propuestas
     cuenta/              Código de ingreso, aportes y reportes propios
     orientacion/         Accesos por necesidad
     proyecto/            Propósito y etapas
     aportar/             Aporte o corrección, con borrador local como alternativa
   components/            Navegación, búsqueda e identidad compartidas
-  features/              auth, community, orientation, resources
+  features/              Dominios: auth, community, articles y otros módulos
   lib/
     catalog.ts           Categorías compartidas
     geography.ts         Jurisdicciones e identificadores
@@ -80,7 +83,7 @@ tests/                   Contratos de búsqueda, validación y permisos en Postg
 
 Las páginas consultan los repositorios de cada módulo. El directorio usa una consulta paginada que conserva recursos nacionales y provinciales pertinentes al filtrar localidades. Las escrituras pasan por acciones de servidor y funciones PostgreSQL; las políticas de la base siguen protegiendo las operaciones invocadas fuera de la interfaz.
 
-Los archivos subidos requerirán un flujo propio de validación y permisos; actualmente solo se importa un borrador JSON en el dispositivo. No incluir claves privadas en el navegador ni en Git. En `.env.example` figuran las variables públicas de Supabase. La configuración local actual apunta a la base real: usar PGlite o un entorno dedicado para datos sintéticos. Una instalación nueva necesita activar y comprobar también el correo según la guía.
+Los aportes comunitarios importan borradores JSON en el dispositivo; las fotografías opcionales de Búsquedas tienen su propio flujo de validación y permisos, pendiente de comprobación remota según [su guía](./docs/BUSQUEDAS.md). No incluir claves privadas en el navegador ni en Git. En `.env.example` figuran las variables públicas de Supabase. La configuración local principal apunta a la base real: usar PGlite o un entorno dedicado para datos sintéticos. Una instalación nueva necesita activar y comprobar también el correo según la guía.
 
 ## Diseño y contenido
 

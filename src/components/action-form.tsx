@@ -17,13 +17,18 @@ export function ActionForm({
   return (
     <form
       className={styles.form}
-      onSubmit={(e) => {
-        e.preventDefault();
-        const data = new FormData(e.currentTarget);
-        startTransition(() => dispatch(data));
+      action={dispatch}
+      aria-label={label}
+      onSubmit={(event) => {
+        // Keep the entered values after expected validation/network failures.
+        // The native action remains available before JavaScript hydrates.
+        event.preventDefault();
+        const form = new FormData(event.currentTarget);
+        startTransition(() => dispatch(form));
       }}
     >
       <fieldset disabled={pending} className={styles.stack}>
+        <legend className="sr-only">{label}</legend>
         {children}
         <div>
           <button className="button" type="submit">

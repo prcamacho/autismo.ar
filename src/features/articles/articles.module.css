@@ -1,0 +1,385 @@
+.editor,
+.section,
+.field,
+.blocks,
+.article,
+.preview,
+.share {
+  display: grid;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+.editor {
+  max-width: 58rem;
+  margin-inline: auto;
+}
+
+.section,
+.preview {
+  padding: clamp(1rem, 3vw, 1.75rem);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+}
+
+.editor fieldset {
+  min-width: 0;
+  margin: 0;
+}
+
+.editor legend {
+  padding-inline: 0.35rem;
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 1.15rem;
+}
+
+.fieldset {
+  display: grid;
+  gap: 1.25rem;
+  border: 0;
+  padding: 0;
+}
+
+.fieldset:disabled {
+  opacity: 0.7;
+}
+
+.field {
+  gap: 0.4rem;
+}
+
+.field label,
+.field > span {
+  font-weight: 600;
+}
+
+.editor
+  :is(
+    input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+    textarea,
+    select
+  ),
+.share textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 3rem;
+  padding: 0.65rem 0.8rem;
+  font: inherit;
+  font-size: max(1rem, 1em);
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--input-line);
+  border-radius: 0.5rem;
+}
+
+.editor textarea,
+.share textarea {
+  resize: vertical;
+}
+
+.editor input[type="file"] {
+  padding: 0.5rem;
+}
+
+.editor :is(input, textarea, select):user-invalid,
+.editor [aria-invalid="true"] {
+  border-color: var(--error-ink);
+}
+
+.editor :is(button, input, textarea, select):focus-visible,
+.editor [tabindex="-1"]:focus-visible,
+.share :is(button, textarea):focus-visible,
+.tableWrap:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.editor button,
+.share button {
+  min-height: 3rem;
+}
+
+.toolbar,
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.choice {
+  display: flex;
+  gap: 0.65rem;
+  align-items: center;
+  min-height: 3rem;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 0.6rem;
+  background: var(--surface);
+}
+
+.choice label {
+  cursor: pointer;
+}
+.choice input {
+  accent-color: var(--action);
+  width: 1.15rem;
+  height: 1.15rem;
+}
+.choice:has(input:checked) {
+  border-color: var(--selected-line);
+  background: var(--selected-bg);
+}
+.choice[data-accent="blue"] {
+  border-inline-start: 0.3rem solid var(--icon-blue);
+}
+.choice[data-accent="teal"] {
+  border-inline-start: 0.3rem solid var(--icon-teal);
+}
+.choice[data-accent="violet"] {
+  border-inline-start: 0.3rem solid var(--icon-purple);
+}
+
+.muted,
+.hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.notice,
+.error,
+.success {
+  padding: 1rem;
+  border-radius: 0.65rem;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.notice {
+  background: var(--info-bg);
+  color: var(--info-ink);
+}
+.error {
+  background: var(--error-bg);
+  color: var(--error-ink);
+}
+.success {
+  background: var(--success-bg);
+  color: var(--success-ink);
+}
+.notice p,
+.error p,
+.success p {
+  margin: 0;
+}
+.error ul {
+  padding-inline-start: 1.3rem;
+  margin-bottom: 0;
+}
+
+.block {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 0.75rem;
+  background: var(--surface-soft);
+}
+
+.blockTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.blockTop h3 {
+  font-size: 1rem;
+  margin: 0;
+}
+.smallButton {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--input-line);
+  border-radius: 0.5rem;
+  padding: 0.45rem 0.75rem;
+  font: inherit;
+  cursor: pointer;
+}
+.smallButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.smallButton:hover:not(:disabled) {
+  background: var(--selected-bg);
+}
+
+.tableWrap {
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: 0.6rem;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 1rem;
+}
+.table :is(th, td) {
+  padding: 0.7rem;
+  text-align: start;
+  vertical-align: top;
+  border-block-end: 1px solid var(--line);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  min-width: 8rem;
+}
+.table th {
+  background: var(--surface-soft);
+}
+.table tr:last-child td {
+  border-block-end: 0;
+}
+.editor .table :is(th, td) {
+  min-width: 10rem;
+}
+
+.article {
+  --article-accent: var(--icon-blue);
+  --article-tint: var(--icon-blue-bg);
+  line-height: 1.8;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.article[data-accent="teal"] {
+  --article-accent: var(--icon-teal);
+  --article-tint: var(--icon-teal-bg);
+}
+.article[data-accent="violet"] {
+  --article-accent: var(--icon-purple);
+  --article-tint: var(--icon-purple-bg);
+}
+.article > :is(p, ul, h2, aside) {
+  margin: 0;
+}
+.sectionHeading {
+  font-size: clamp(1.2rem, 3vw, 1.55rem);
+  line-height: 1.4;
+  margin: 0 0 1rem;
+}
+.article[data-heading="band"] .sectionHeading {
+  background: var(--article-tint);
+  padding: 0.75rem 1rem;
+  border-inline-start: 0.25rem solid var(--article-accent);
+  border-radius: 0.3rem;
+}
+.paragraph {
+  white-space: pre-wrap;
+  margin: 0;
+}
+.list {
+  padding-inline-start: 1.5rem;
+}
+.list li + li {
+  margin-block-start: 0.5rem;
+}
+.callout {
+  background: var(--article-tint);
+  border-inline-start: 0.25rem solid var(--article-accent);
+  padding: 1rem 1.25rem;
+  border-radius: 0.4rem;
+  white-space: pre-wrap;
+}
+.external {
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  overflow-wrap: anywhere;
+}
+.agenda {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.8rem;
+}
+.agendaItem {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.35fr) minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+}
+.agendaItem h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.1rem;
+}
+.agendaDate {
+  display: grid;
+  align-content: start;
+  gap: 0.3rem;
+}
+.agendaDate time {
+  font-weight: 700;
+}
+.agendaDate span {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.sources {
+  border-block-start: 1px solid var(--line);
+  padding-block-start: 1.5rem;
+}
+.previewTitle {
+  font-size: clamp(1.6rem, 4vw, 2.3rem);
+  line-height: 1.3;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.previewCard {
+  padding: 1rem;
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: 0.65rem;
+}
+.previewCard strong {
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.previewCard p {
+  margin: 0;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.share p {
+  margin: 0;
+  color: var(--muted);
+}
+
+@media (max-width: 600px) {
+  .agendaItem {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+  .toolbar > :global(.button) {
+    width: 100%;
+  }
+  .choices {
+    align-items: stretch;
+  }
+  .choice {
+    flex: 1 1 auto;
+  }
+  .block {
+    padding: 0.8rem;
+  }
+}
