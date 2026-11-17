@@ -1,7 +1,6 @@
 import "server-only";
 import { exchangeAdmin, recordExchangeFailure } from "./server";
-import { deliverNotification, notificationContent } from "./notification";
-import { notificationBudget } from "./settings";
+import { deliverNotification, notificationSettings } from "./notification";
 import { removeProfilePhoto } from "./photos";
 
 /** One bounded batch. Scheduling belongs to the explicitly configured environment. */
@@ -62,14 +61,9 @@ export async function runExchangeMaintenance() {
     }
   }
 
-  const budget = notificationBudget(process.env.EXCHANGES_EMAIL_DAILY_BUDGET);
-  if (budget === 0) return summary;
-  const key = process.env.EXCHANGES_RESEND_API_KEY;
-  const from = process.env.EXCHANGES_EMAIL_FROM;
-  const origin = process.env.EXCHANGES_SITE_URL;
-  if (!key || !from || !origin || /[\r\n]/.test(from))
-    throw new Error("NOTIFICATIONS_UNCONFIGURED");
-  notificationContent("activity", origin); // Validate before reserving quota.
+  const notifications = notificationSettings(process.env);
+  if (!notifications) return summary;
+  const { budget, key, from, origin } = notifications;
   const claimed = await admin.rpc("exchange_claim_notifications", {
     p_limit: 10,
     p_daily_budget: budget,

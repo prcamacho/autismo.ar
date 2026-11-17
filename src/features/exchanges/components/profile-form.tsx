@@ -1,5 +1,6 @@
 "use client";
 
+import { useId } from "react";
 import { saveProfile, enrollAccount } from "../actions";
 import { AGE_GROUPS } from "../model";
 import type { ProfileRow } from "../db-contract";
@@ -11,11 +12,14 @@ export function EnrollmentForm({
   disabled = false,
   enrolled = false,
   notifications = false,
+  notificationsAvailable = false,
 }: {
   disabled?: boolean;
   enrolled?: boolean;
   notifications?: boolean;
+  notificationsAvailable?: boolean;
 }) {
+  const notificationHelpId = useId();
   return (
     <MutationForm
       action={enrollAccount}
@@ -36,12 +40,22 @@ export function EnrollmentForm({
       />
       <CheckField
         name="notifications"
-        label="Quiero recibir avisos agrupados por correo cuando tenga novedades."
+        label={
+          notificationsAvailable
+            ? "Quiero recibir avisos agrupados por correo cuando tenga novedades."
+            : "Recibir avisos agrupados por correo (no disponibles por ahora)."
+        }
         defaultChecked={notifications}
+        disabled={!notificationsAvailable && !notifications}
+        aria-describedby={notificationHelpId}
       />
-      <p className={styles.meta}>
-        Las novedades siempre estarán en tu bandeja. El correo es opcional y no
-        incluye el contenido de los mensajes.
+      <p className={styles.meta} id={notificationHelpId}>
+        {notificationsAvailable
+          ? "Las novedades siempre estarán en tu bandeja. El correo es opcional y no incluye el contenido de los mensajes."
+          : "Por ahora no enviamos avisos por correo. Revisá las novedades en tu bandeja."}
+        {!notificationsAvailable &&
+          notifications &&
+          " Tu preferencia sigue guardada; podés desmarcarla para cancelar los avisos."}
       </p>
     </MutationForm>
   );

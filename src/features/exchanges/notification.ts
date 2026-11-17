@@ -1,4 +1,5 @@
 import { timingSafeEqual } from "node:crypto";
+import { notificationBudget } from "./settings";
 
 export function isWorkerAuthorized(
   header: string | null,
@@ -23,6 +24,18 @@ function notificationOrigin(value: string) {
   )
     throw new Error("INVALID_NOTIFICATION_ORIGIN");
   return url.origin;
+}
+
+/** Shared by the worker and server-rendered availability; never pass to the client. */
+export function notificationSettings(env: Record<string, string | undefined>) {
+  const budget = notificationBudget(env.EXCHANGES_EMAIL_DAILY_BUDGET);
+  if (budget === 0) return null;
+  const key = env.EXCHANGES_RESEND_API_KEY;
+  const from = env.EXCHANGES_EMAIL_FROM;
+  const origin = env.EXCHANGES_SITE_URL;
+  if (!key || !from || !origin || /[\r\n]/.test(from))
+    throw new Error("NOTIFICATIONS_UNCONFIGURED");
+  return { budget, key, from, origin: notificationOrigin(origin) };
 }
 
 export function notificationContent(

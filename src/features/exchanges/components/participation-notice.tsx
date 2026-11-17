@@ -14,7 +14,9 @@ export function ParticipationNotice({
   if (!context.account)
     return (
       <div className={styles.card}>
-        <EnrollmentForm />
+        <EnrollmentForm
+          notificationsAvailable={context.notificationsAvailable}
+        />
       </div>
     );
   return null;

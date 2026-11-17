@@ -18,6 +18,7 @@ import { EXCHANGE_LIMITS } from "./model";
 import {
   exchangeClient,
   getExchangeStatus,
+  notificationEmailsAvailable,
   recordExchangeFailure,
 } from "./server";
 import { uuidSchema } from "./validation";
@@ -56,7 +57,13 @@ async function read<T>(
 
 export const getExchangeContext = cache(async () => {
   const status = getExchangeStatus();
-  const empty = { status, viewer: null, account: null, photosAvailable: false };
+  const empty = {
+    status,
+    viewer: null,
+    account: null,
+    photosAvailable: false,
+    notificationsAvailable: false,
+  };
   if (status !== "ready") return empty;
   try {
     const client = await exchangeClient();
@@ -78,6 +85,7 @@ export const getExchangeContext = cache(async () => {
       viewer,
       account,
       photosAvailable: Boolean(process.env.EXCHANGES_SUPABASE_SECRET_KEY),
+      notificationsAvailable: notificationEmailsAvailable(),
     };
   } catch (error) {
     unstable_rethrow(error);
