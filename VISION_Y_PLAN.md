@@ -1,6 +1,6 @@
 # autismo.ar — Visión y plan vivo
 
-> Última actualización editorial: 17 de noviembre de 2026 (implementación de artículos y Cafecito, DEC-007; activación operativa por comprobar). Los estados operativos conservan sus fechas y deben contrastarse con la documentación de operación. Este documento orienta el producto y el trabajo de futuras personas e inteligencias artificiales. Es una propuesta evolutiva: las decisiones pueden cambiar y deben actualizarse aquí cuando cambien.
+> Última actualización editorial: 17 de noviembre de 2026 (bases migradas y pruebas remotas de Búsquedas y Artículos aprobadas; activación web preparada). Los estados operativos conservan sus fechas y deben contrastarse con la documentación de operación. Este documento orienta el producto y el trabajo de futuras personas e inteligencias artificiales. Es una propuesta evolutiva: las decisiones pueden cambiar y deben actualizarse aquí cuando cambien.
 
 ## 1. Para qué existe
 
@@ -78,7 +78,7 @@ En esta etapa, el apoyo al autor se limitará al botón externo de Cafecito. No 
 
 La implementación incluye bloques de texto, subtítulos, listas, recuadros, enlaces y tablas, con tres colores de detalles y dos estilos de subtítulos. Las agendas distinguen solicitud de turno, atención y actividad; requieren fechas válidas y una fuente antes de enviarse. Cada publicación y sus cambios requieren revisión independiente. El borrador permanece privado mientras se muestra la última versión aprobada; el autor puede retirar la publicación y recuperar una versión anterior como borrador.
 
-El destino de Cafecito requiere revisión y se oculta al cambiarlo, eliminarlo o modificar el nombre público del autor, hasta una nueva aprobación cuando corresponda. Se mantienen los principios de privacidad, fuentes, accesibilidad y separación entre apoyo económico y reputación. La implementación local no acredita activación en producción; ver [DEC-007](./docs/DECISIONES.md#dec-007--artículos-con-personalización-guiada-y-cafecito-en-el-perfil) y [estado técnico y comprobaciones](./docs/ARTICULOS.md).
+El destino de Cafecito requiere revisión y se oculta al cambiarlo, eliminarlo o modificar el nombre público del autor, hasta una nueva aprobación cuando corresponda. Se mantienen los principios de privacidad, fuentes, accesibilidad y separación entre apoyo económico y reputación. El recorrido remoto de ensayo pasó autenticación, permisos, moderación y metadatos públicos; la activación web productiva sigue su comprobación independiente. Ver [DEC-007](./docs/DECISIONES.md#dec-007--artículos-con-personalización-guiada-y-cafecito-en-el-perfil) y [estado técnico y comprobaciones](./docs/ARTICULOS.md).
 
 ### Búsquedas, disponibilidad y contacto privado
 
@@ -88,7 +88,7 @@ Una publicación podrá abarcar varias ubicaciones sin crear copias. La selecci�
 
 El contacto comienza con una solicitud vinculada a un aviso. Solo la aceptación de la otra persona habilita mensajes privados, sin publicar teléfonos ni correos; incluye rechazo, bloqueo y reporte con evidencia acotada. Los avisos vencen y se pueden renovar. Los mensajes tienen un plazo de retención y aviso previo a su eliminación. La baja de cuenta también alcanza artículos y perfiles, mientras conserva recursos comunitarios verificados con referencias de identidad anonimizadas.
 
-La implementación prioriza carga bajo demanda, límites de uso, fotografías reducidas y notificaciones genéricas agrupadas, sin mensajería en tiempo real. El presupuesto de correo comienza en cero y las cuotas siguen siendo compartidas. El 17 de noviembre se aplicaron las siete migraciones revisadas a la base de ensayo separada y se confirmaron 4.027 ubicaciones oficiales. Pasaron las 67 pruebas locales, el lint global y la compilación final; la aplicación compilada arrancó contra ese entorno. Las pruebas de integración remota se iniciaron, pero falta registrar sus resultados finales y verificar la interfaz; no se declara abierto el piloto ni se modificó producción. El diseño aceptado está en [DEC-008](./docs/DECISIONES.md#dec-008--búsquedas-disponibilidad-y-contacto-privado); los permisos, plazos, configuración, recuperación y pruebas pendientes se detallan en [BUSQUEDAS.md](./docs/BUSQUEDAS.md).
+La implementación prioriza carga bajo demanda, límites de uso y fotografías reducidas, sin mensajería en tiempo real. Los avisos agrupados por correo mantienen presupuesto cero y la interfaz informa que no se envían; las novedades se consultan en la bandeja. El 17 de noviembre se completaron las migraciones de ensayo y se aplicaron las siete nuevas en producción, con 4.027 ubicaciones oficiales, RLS y fotos privadas verificados. Pasaron 69 pruebas locales, lint, TypeScript, compilación y las integraciones remotas de Búsquedas y Artículos, con limpieza de datos sintéticos. El mantenimiento de ensayo también eliminó una cuenta y una foto vencida de prueba y respetó la gracia de las cargas recientes. Se asignó moderación al responsable y se preparó la activación web; faltan observar el despliegue final, comprobar el mantenimiento productivo y ampliar la revisión visual autenticada. El diseño aceptado está en [DEC-008](./docs/DECISIONES.md#dec-008--búsquedas-disponibilidad-y-contacto-privado); los permisos, plazos, configuración, recuperación y pruebas pendientes se detallan en [BUSQUEDAS.md](./docs/BUSQUEDAS.md).
 
 ## 5. Portada y navegación inicial
 
@@ -174,10 +174,10 @@ No se asume que el sitio custodiará dinero, procesará pagos para terceros ni g
 
 - **TypeScript, React y Next.js** para la aplicación web, sus rutas y la evolución hacia funciones de servidor.
 - **CSS propio al comienzo**, con estilos y componentes reutilizables. Tailwind es una alternativa futura, no una dependencia obligatoria.
-- **PostgreSQL y Supabase como dirección prevista** para datos, autenticación y archivos cuando se implemente la comunidad.
+- **PostgreSQL y Supabase** para datos, autenticación y archivos, con proyectos separados de ensayo y producción.
 - Experiencia orientada primero a celulares; listas útiles desde el inicio. Un mapa y funciones PWA pueden sumarse cuando resuelvan necesidades reales.
 
-El repositorio incorpora el primer circuito comunitario: cuentas por código de correo, propuestas, revisión inicial, corroboración por campo, publicación moderada, historial y reportes. La conexión de producción sigue pendiente: la cuenta de Supabase consultada llegó al límite de proyectos gratuitos. Sin configuración se ofrecen borradores locales y se explica ese estado. Nunca incluir claves privadas en el navegador ni en el repositorio. La activación y los límites del piloto están en [docs/COMUNIDAD.md](./docs/COMUNIDAD.md).
+El repositorio incorpora el primer circuito comunitario: cuentas por código de correo, propuestas, revisión inicial, corroboración por campo, publicación moderada, historial y reportes. La conexión productiva de Supabase y el ingreso por correo se comprobaron el 11 de noviembre; posteriormente se creó una base de ensayo separada y se preparó la activación de Búsquedas y Artículos. Sin configuración se ofrecen borradores locales y se explica ese estado. Nunca incluir claves privadas en el navegador ni en el repositorio. La evidencia comunitaria y los límites del piloto están en [docs/COMUNIDAD.md](./docs/COMUNIDAD.md); la activación actual se registra en [operación](./docs/OPERACION.md).
 
 ### Límites entre partes
 
@@ -213,9 +213,9 @@ Observar si las personas encuentran recursos útiles, si los contactos siguen vi
 
 ## 11. Estado inicial y próximos pasos
 
-**Estado actual:** fase 0 publicada y circuito del piloto implementado localmente, pendiente de activar su base, correo y despliegue. Orientación y directorio comparten fichas; las cuentas, propuestas, corroboraciones, historial y reportes tienen código y migración, pero aún no operan en producción. Sin conexión, el formulario descarga/carga borradores en el dispositivo. La localidad sigue siendo texto libre. La eliminación de la integración de Ian Escuela ya fue publicada y su servicio alojado fue retirado. La escuela conserva su aplicación independiente; el responsable indica que no requiere internet para usarla. No hay fichas comunitarias reales ni pagos. La existencia del código no implica que la función esté operativa.
+**Estado al 17 de noviembre:** fase 0 publicada, base comunitaria productiva conectada e ingreso por correo comprobado. Búsquedas y Artículos tienen esquema aplicado en ensayo y producción, recorridos remotos de ensayo aprobados y moderación asignada al responsable. Su activación web está preparada y producción mantiene los módulos apagados hasta completar la entrega y el mantenimiento. Orientación y directorio comparten fichas; la localidad del directorio sigue siendo texto libre, mientras Búsquedas usa IDs del catálogo oficial. La eliminación de la integración de Ian Escuela ya fue publicada y su servicio alojado fue retirado. La escuela conserva su aplicación independiente; el responsable indica que no requiere internet para usarla. No hay fichas comunitarias reales ni pagos. El esquema y los ensayos no acreditan por sí solos un circuito productivo habilitado.
 
-El [relevamiento operativo del 10 de noviembre de 2026](./docs/INFRAESTRUCTURA.md) observó la web sin despliegue activo en Railway y la escuela de Ian online. La publicación de fase 0 mencionada arriba describe el estado histórico; diagnosticar y comprobar la disponibilidad actual antes de presentar el sitio como operativo. La separación `test`/`main` tiene una propuesta documentada, todavía sin configuración técnica.
+El [relevamiento operativo del 10 de noviembre de 2026](./docs/INFRAESTRUCTURA.md) conserva una observación histórica anterior a la reactivación de la web y al retiro del servicio de Ian. La separación Railway `test`/`main` se configuró después y ahora cuenta con proyectos Supabase distintos. La [guía de operación](./docs/OPERACION.md) distingue esos antecedentes del estado de activación actual; no hay un respaldo integral ni alertas completas acreditados por esos despliegues.
 
 Próximos pasos concretos:
 
@@ -223,10 +223,10 @@ Próximos pasos concretos:
 2. Elegir una localidad o un grupo pequeño para el piloto, manteniendo la estructura nacional.
 3. Preparar la biblioteca para incorporar materiales reales con fuente y autorización, sin presentar recursos que todavía no están publicados.
 4. Validar con el grupo las reglas iniciales y los campos ya implementados.
-5. Resolver el cupo de Supabase, aplicar la migración y configurar correo, moderadores y despliegue.
+5. Completar y verificar el despliegue de activación, el mantenimiento productivo y la revisión visual autenticada, conservando los avisos opcionales por correo deshabilitados hasta probar su envío.
 6. Cargar las primeras fichas con información verificable y probar corrección, reporte y actualización con familias participantes.
 
-Pendientes de decisión: localidad inicial, responsables de moderación, términos de participación, canales de contacto y presupuesto de la base. Railway aloja la web y Cloudflare gestiona el dominio. Resolver lo pendiente al activar el piloto.
+Pendientes de decisión: localidad inicial, cobertura humana de moderación, términos de participación, canales de contacto y presupuesto de crecimiento. Railway aloja la web y Cloudflare gestiona el dominio. Resolver lo pendiente al abrir el piloto; el rol asignado al responsable no define por sí solo horarios ni tiempos de respuesta.
 
 ## 12. Cómo mantener este documento
 

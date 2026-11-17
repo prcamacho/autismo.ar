@@ -8,6 +8,7 @@ import {
 import {
   isWorkerAuthorized,
   notificationContent,
+  notificationSettings,
   deliverNotification,
 } from "../src/features/exchanges/notification";
 import { normalizeProfilePhoto } from "../src/features/exchanges/photo-processing";
@@ -56,6 +57,30 @@ test("exchange activation is bound to one exact backend and permits HTTP only on
   );
   for (const budget of ["-1", "0.5", "NaN", "Infinity", "10001"])
     assert.throws(() => notificationBudget(budget));
+});
+
+test("notification availability requires both explicit budget and valid delivery settings", () => {
+  const configured = {
+    EXCHANGES_EMAIL_DAILY_BUDGET: "10",
+    EXCHANGES_RESEND_API_KEY: "synthetic-provider-key",
+    EXCHANGES_EMAIL_FROM: "autismo.ar <prueba@example.org>",
+    EXCHANGES_SITE_URL: "https://test.autismo.ar",
+  };
+  assert.equal(notificationSettings({}), null);
+  assert.equal(
+    notificationSettings({ ...configured, EXCHANGES_EMAIL_DAILY_BUDGET: "0" }),
+    null,
+  );
+  assert.equal(notificationSettings(configured)?.budget, 10);
+  for (const setting of [
+    { EXCHANGES_EMAIL_DAILY_BUDGET: "NaN" },
+    { EXCHANGES_RESEND_API_KEY: "" },
+    { EXCHANGES_EMAIL_FROM: "invalid\r\nsender" },
+    { EXCHANGES_SITE_URL: "" },
+    { EXCHANGES_SITE_URL: "http://test.autismo.ar" },
+    { EXCHANGES_SITE_URL: "https://test.autismo.ar/messages" },
+  ])
+    assert.throws(() => notificationSettings({ ...configured, ...setting }));
 });
 
 test("maintenance authorization rejects absent, weak and altered credentials without throwing", () => {

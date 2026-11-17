@@ -92,6 +92,7 @@ export default async function MyListingsPage({
                 <EnrollmentForm
                   enrolled
                   notifications={context.account.notifications}
+                  notificationsAvailable={context.notificationsAvailable}
                 />
                 <DeleteExchangeAccountForm />
               </div>

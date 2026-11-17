@@ -39,20 +39,20 @@ npm start
 - Orientación por necesidades que conserva provincia y localidad al consultar el directorio; filtro de edades atendidas.
 - Circuito comunitario modular: ingreso por código de correo, aportes, correcciones, revisión inicial, corroboración de datos, decisión de moderación, historial y reportes.
 - Artículos y agendas: editor por bloques, resúmenes para compartir, perfil editorial con Cafecito opcional, borradores privados, moderación e historial. Implementación y activación separadas; ver [guía de artículos](./docs/ARTICULOS.md).
-- Búsquedas de personas y familias, perfiles profesionales, disponibilidad en varias ubicaciones y contacto privado por aceptación. Código y pruebas locales preparados; activación y circuito remoto pendientes. Ver [guía de Búsquedas](./docs/BUSQUEDAS.md) y [catálogo territorial oficial](./docs/UBICACIONES.md).
+- Búsquedas de personas y familias, perfiles profesionales, disponibilidad en varias ubicaciones y contacto privado por aceptación. Migraciones y pruebas remotas completas; activación web preparada y mantenimiento productivo en comprobación. Ver [guía de Búsquedas](./docs/BUSQUEDAS.md) y [catálogo territorial oficial](./docs/UBICACIONES.md).
 - Formularios con validación en servidor y migración PostgreSQL con políticas RLS, permisos y límites de frecuencia.
 - Búsqueda de posibles duplicados y fichas canónicas con fuentes y fechas. Recuperar una versión genera una propuesta nueva.
 - Sin conexión configurada: descarga y carga de borradores JSON en el dispositivo, con estado explícito de **no enviado**.
 - Estados vacíos honestos, navegación con teclado y página 404.
 - Pruebas de búsqueda, validación y flujo real de permisos/transacciones en PostgreSQL local (PGlite).
 
-El catálogo público está vacío intencionalmente. Los datos ficticios de las pruebas están únicamente en `tests/`. El chat privado que orientó las necesidades no se importa ni se publica.
+El catálogo público de recursos está vacío intencionalmente. Las pruebas usan datos sintéticos locales o cuentas temporales de la base aislada de ensayo; los guiones remotos confirmaron su limpieza y no cargan datos ficticios en producción. El chat privado que orientó las necesidades no se importa ni se publica.
 
-**Estado operativo al 11 de noviembre de 2026:** Supabase está conectado en una cuenta nueva, con esquema y RLS aplicados. Railway publicó la conexión y el directorio fue comprobado en el navegador. Resend tiene el dominio verificado y una clave dedicada limitada a autismo.ar; se comprobó la entrega del código y el ingreso real como colaborador/a. El piloto completo todavía requiere moderadores y pruebas del circuito de publicación. Ver [activación, evidencia y pendientes](./docs/COMUNIDAD.md).
+**Estado al 17 de noviembre de 2026:** la conexión comunitaria de producción y el ingreso por código se comprobaron el 11 de noviembre. Búsquedas y Artículos tienen ahora sus migraciones aplicadas en las bases separadas de ensayo y producción, y un responsable de moderación asignado. Pasaron 69 pruebas locales, lint, TypeScript, compilación y los recorridos remotos de ambos módulos, más el mantenimiento real de ensayo. La activación web está preparada; producción mantiene las funciones apagadas hasta completar el despliegue y la comprobación de mantenimiento. Los avisos por correo permanecen deshabilitados con presupuesto cero. Ver [Búsquedas](./docs/BUSQUEDAS.md), [Artículos](./docs/ARTICULOS.md) y [operación](./docs/OPERACION.md) para alcance y pendientes.
 
 ## Qué falta
 
-Designar moderadores y comprobar el circuito completo del piloto en un entorno de pruebas aislado. Después: reputación, mapa, experiencias, guías colaborativas de cuerpo completo y recordatorios. No hay pagos, anuncios operativos, mensajería privada operativa ni atención de emergencias. El sitio orienta a canales oficiales.
+Completar el despliegue de activación, comprobar el mantenimiento productivo y ampliar la revisión visual autenticada del piloto en ambos temas y móvil. La moderación requiere atención humana; una cuenta no puede aprobar sus propios contenidos. Después: reputación, mapa, experiencias, guías colaborativas de cuerpo completo y recordatorios. No hay pagos, anuncios operativos ni atención de emergencias. La mensajería implementada no se declara operativa hasta comprobar su activación. El sitio orienta a canales oficiales.
 
 La localidad del directorio comunitario sigue siendo texto libre y va asociada a una provincia. Búsquedas incorpora un catálogo oficial con IDs; eso no migra las fichas existentes del directorio. Las páginas todavía usan `noindex` para evitar indexar el prototipo. Cambiarlo junto con las políticas y los contenidos del lanzamiento real.
 
@@ -83,7 +83,7 @@ tests/                   Contratos de búsqueda, validación y permisos en Postg
 
 Las páginas consultan los repositorios de cada módulo. El directorio usa una consulta paginada que conserva recursos nacionales y provinciales pertinentes al filtrar localidades. Las escrituras pasan por acciones de servidor y funciones PostgreSQL; las políticas de la base siguen protegiendo las operaciones invocadas fuera de la interfaz.
 
-Los aportes comunitarios importan borradores JSON en el dispositivo; las fotografías opcionales de Búsquedas tienen su propio flujo de validación y permisos, pendiente de comprobación remota según [su guía](./docs/BUSQUEDAS.md). No incluir claves privadas en el navegador ni en Git. En `.env.example` figuran las variables públicas de Supabase. La configuración local principal apunta a la base real: usar PGlite o un entorno dedicado para datos sintéticos. Una instalación nueva necesita activar y comprobar también el correo según la guía.
+Los aportes comunitarios importan borradores JSON en el dispositivo; las fotografías opcionales de Búsquedas tienen su propio flujo de validación y permisos, comprobado en el entorno remoto de ensayo según [su guía](./docs/BUSQUEDAS.md). No incluir claves privadas en el navegador ni en Git. En `.env.example` figuran las variables públicas de Supabase y las opciones de servidor. La configuración local principal apunta a la base real: usar PGlite o el lanzador aislado `scripts/run-isolated-test.mjs` para datos sintéticos. Una instalación nueva necesita activar y comprobar también el correo de autenticación según la guía; este es independiente de los avisos opcionales de Búsquedas.
 
 ## Diseño y contenido
 
@@ -100,6 +100,8 @@ No incorporar fichas, testimonios, teléfonos ni cifras inventadas. No ofrecer a
 ## Publicación
 
 **Pruebas, 12 de noviembre de 2026:** [test.autismo.ar](https://test.autismo.ar) está operativo por HTTPS desde la rama `test`, en un entorno Railway separado con suspensión por inactividad y sin variables de Supabase. Permite revisar interfaz, navegación y borradores locales; las cuentas, el correo y los envíos quedan deshabilitados. El responsable eligió únicamente Under Attack Mode de Cloudflare: el entorno es público tras el desafío, sin Zero Trust/Access ni autenticación adicional. El desafío no garantiza bloquear bots y `noindex` no restringe el acceso. Se comprobaron suspensión y reanudación reales, portada en claro/oscuro y móvil, y cuenta sin formulario de ingreso. Consultá [estado, certificados y límites de comprobación](./docs/INFRAESTRUCTURA.md#entorno-test-del-12-de-noviembre-de-2026) y [DEC-006](./docs/DECISIONES.md#dec-006--entorno-de-pruebas-sin-base-y-con-desafío-de-cloudflare).
+
+**Preparación del 17 de noviembre:** la etapa inicial anterior tiene una base separada sucesora, `autismo-ar-test`, con esquema, permisos y recorridos remotos comprobados. Railway tiene preparada la configuración de activación para el próximo despliegue de `test`, sin claves de producción y con avisos por correo deshabilitados. Se conserva el desafío de Cloudflare. El resultado final del despliegue y la promoción a `main` se registrará en la PR de activación; la [PR #9](https://github.com/prcamacho/autismo.ar/pull/9) publicó el código previo con ambos módulos apagados.
 
 Producción conserva `main` y `autismo.ar`, con Supabase y correo según la [guía comunitaria](./docs/COMUNIDAD.md). Las protecciones y CI siguen pendientes; crear un entorno de pruebas no los configura. El costo de `test` se agrega al consumo compartido del workspace Railway, con importe dependiente del uso real.
 

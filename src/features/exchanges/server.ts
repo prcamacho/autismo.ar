@@ -4,9 +4,17 @@ import { createSupabaseClient } from "@/lib/supabase/server";
 import { getSupabaseConfig } from "@/lib/supabase/config";
 import type { Database } from "@/lib/supabase/database.types";
 import { exchangeStatus } from "./settings";
+import { notificationSettings } from "./notification";
 
 export function getExchangeStatus() {
   return exchangeStatus(process.env);
+}
+export function notificationEmailsAvailable() {
+  try {
+    return Boolean(notificationSettings(process.env));
+  } catch {
+    return false;
+  }
 }
 export async function exchangeClient() {
   return getExchangeStatus() === "ready" ? createSupabaseClient() : null;
