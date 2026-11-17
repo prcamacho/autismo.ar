@@ -4,6 +4,8 @@ Pautas acordadas el 10 de noviembre de 2026. Este documento distingue decisiones
 
 La decisión DEC-002 del 11 de noviembre elimina la integración de Ian Escuela del código de autismo.ar. Las menciones siguientes a esa integración describen la configuración histórica o precauciones de aislamiento; no autorizan reconstruirla ni duplicar su servicio para autismo.ar.
 
+**Actualización del 12 de noviembre de 2026:** [DEC-006](./DECISIONES.md#dec-006--entorno-de-pruebas-sin-base-y-con-desafío-de-cloudflare) registra el entorno web `test`, sin Supabase, con suspensión por inactividad y dirección [test.autismo.ar](https://test.autismo.ar). El responsable eligió solo Under Attack Mode de Cloudflare: es público tras el desafío, sin Zero Trust/Access ni autenticación adicional. Esto sustituye para ese entorno la propuesta anterior de acceso restringido. Se comprobaron HTTPS, suspensión y reanudación reales, portada en ambos temas y móvil, y cuenta sin formulario de ingreso. Consultar [evidencia, certificados y límites](./INFRAESTRUCTURA.md#entorno-test-del-12-de-noviembre-de-2026); la tabla histórica de la sección 1 no describe por sí sola el estado actual.
+
 ## 1. Estado y evidencia disponibles
 
 Actualización de solo lectura del 10 de noviembre de 2026: ver [inventario y propuesta de pruebas](./INFRAESTRUCTURA.md). Ese relevamiento posterior comprobó servicios, DNS y ausencia de protección en `main`, y detectó la web sin despliegue activo. La tabla siguiente conserva la evidencia disponible al adoptar inicialmente estas guías; el inventario posterior distingue lo actualizado de lo todavía pendiente.
@@ -19,16 +21,16 @@ Actualización de solo lectura del 10 de noviembre de 2026: ver [inventario y pr
 
 ## 2. Flujo acordado de publicación
 
-| Rama prevista | Uso                                                   | Entorno y dirección previstos                                                                   |
-| ------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `test`        | Implementar y comprobar cambios antes de publicarlos. | Pruebas con URL propia, acceso restringido y sin indexación. Dirección pendiente de configurar. |
-| `main`        | Versión pública verificada.                           | Producción en el dominio principal. Asociación de rama y despliegue pendiente de comprobar.     |
+| Rama prevista | Uso                                                   | Entorno y dirección previstos                                                                                            |
+| ------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `test`        | Implementar y comprobar cambios antes de publicarlos. | `test.autismo.ar`, operativo por HTTPS, sin base y sin indexación; público tras el desafío de Cloudflare, según DEC-006. |
+| `main`        | Versión pública verificada.                           | Producción en `autismo.ar`, con Supabase y correo. Configuración conservada al activar `test`.                           |
 
 Orden: cambio acotado en `test`, verificaciones automáticas, prueba del entorno, solicitud de integración a `main`, comprobaciones sobre el resultado a integrar, publicación autorizada y verificación de los recorridos afectados. Mantener ambas ramas coherentes después de integrar; una recuperación urgente debe seguir siendo trazable y reflejarse también en pruebas.
 
 Antes de habilitar el flujo, verificar en GitHub las protecciones disponibles según plan y repositorio: integración por solicitud, comprobaciones requeridas y bloqueo de cambios directos o saltos de reglas. No exigir la aprobación de una persona revisora inexistente ni presentar una revisión de IA como aprobación humana.
 
-En la adopción inicial solo se preparan documentos locales. No se crea ni publica `test`, no se hace commit o push a `main` y no se despliega desde este cambio documental. La configuración del flujo es un trabajo posterior con su propio alcance e impacto de recursos.
+La adopción inicial fue documental. La configuración de `test` autorizada el 12 de noviembre se registra por separado; no implica publicar directamente en `main` ni configurar automáticamente todas las protecciones del flujo.
 
 ## 3. Aislamiento real de las pruebas
 
@@ -37,6 +39,10 @@ Inventariar por entorno los servicios, bases, almacenamiento, variables, credenc
 Comprobar también caché, dominios, URLs de autenticación y orígenes independientes como la PWA de Ian. No reutilizar bases ni credenciales de Vin para completar autismo.ar. Un subdominio, una rama o la etiqueta `test` no demuestran aislamiento; impedir indexación tampoco restringe el acceso.
 
 Duplicar servicios puede aumentar el consumo. Revisar variables e integraciones antes de duplicar un entorno y comprobar qué recursos siguen compartidos.
+
+Para la primera etapa de `test`, omitir `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` tanto al compilar como al ejecutar. El código contempla la ausencia de configuración: cuentas y envíos quedan deshabilitados, y los borradores permanecen en el dispositivo. No copiar `.env.local`, que apunta a la base real. Antes de habilitar persistencia de pruebas, resolver una base separada y sus destinatarios de correo.
+
+Under Attack Mode es un desafío público, no un control de identidad. No subir información privada a este entorno. Revisar cualquier dominio Railway u otro acceso directo al origen antes de afirmar que todo el tráfico pasa por Cloudflare. Mantener `noindex` sin presentarlo como una restricción de acceso.
 
 ## 4. Impacto de consumo y costos
 
@@ -53,6 +59,8 @@ Consultar tarifas y límites vigentes antes de comprometer gastos; respetar auto
 Registrar referencias a servicio, entorno y responsable cuando se haga el inventario, sin valores secretos. Distinguir recurso compartido de recurso dedicado. En Cloudflare, revisar el producto concreto y su unidad de consumo: DNS, Stream y almacenamiento no son una misma cuota.
 
 Proponer alertas antes de límites que interrumpen servicios. Documentar alcance y efecto de cada umbral: un límite de cómputo de Railway a nivel workspace puede dejar sus cargas fuera de servicio. Un presupuesto de alertas y el almacenamiento de logs también consumen recursos.
+
+La suspensión de `test` debe configurarse y comprobarse por separado de producción. Puede reducir el tiempo de cómputo activo, pero una visita puede reanudarlo y la primera respuesta puede demorar. Vigilar métricas por entorno y la facturación agregada del workspace; no prometer un importe fijo ni ahorro garantizado por activar esa opción. No usar un corte global para controlar solo el costo de pruebas.
 
 ## 5. Detección de errores
 
@@ -82,6 +90,8 @@ La cobertura siempre es parcial y debe revisarse al incorporar funciones o descu
 
 ## 7. Siguiente trabajo técnico
 
-Primero relevar en modo lectura GitHub, Railway, Cloudflare, Supabase y el origen de Ian según el alcance autorizado, e identificar recursos compartidos. Después presentar la configuración concreta de `test` y las verificaciones, con impacto de costos e incógnitas. Implementar y comprobar ese flujo antes de promover nuevas funciones. Definir luego la cobertura inicial de alertas y recuperación para los recorridos que realmente estén activos.
+Mantener `test` y comprobar en cada despliegue la rama, ausencia de variables de producción, estado, acceso y recorridos afectados. Resolver CI y protecciones de integración, alertas de consumo y, cuando se necesite probar el circuito comunitario completo, un backend de ensayo separado. La escuela de Ian queda fuera de este trabajo. Definir la cobertura de alertas y recuperación para los recorridos que realmente estén activos; el inventario registra las comprobaciones iniciales de `test` y sus límites.
+
+Ante errores de `test`, comprobar DNS y TLS, el resultado del desafío de Cloudflare, estado/commit del despliegue y logs de su instancia. Distinguir una demora de reanudación de un fallo persistente. Recuperar el último despliegue correcto de `test`; si hace falta retirarlo, actuar únicamente sobre esa instancia y su publicación. No cambiar el dominio principal, los datos de producción, límites de todo el workspace ni servicios de otros proyectos para recuperar pruebas. Registrar qué se recuperó y comprobar nuevamente el recorrido afectado.
 
 Referencias: [protecciones de ramas](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches), [entornos de Railway](https://docs.railway.com/environments), [control de costos de Railway](https://docs.railway.com/pricing/cost-control), [consumo de Stream](https://developers.cloudflare.com/stream/pricing/) y [monitoreo de Google SRE](https://sre.google/sre-book/monitoring-distributed-systems/). Revalidar capacidades y tarifas al configurar; esta lista no prueba el estado de ninguna cuenta.
