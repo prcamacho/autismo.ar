@@ -36,6 +36,14 @@ export default async function ReviewPage({
           <nav className={styles.subnav} aria-label="Comunidad">
             <Link href="/comunidad">Comunidad</Link>
             <Link href="/cuenta">Mis aportes</Link>
+            {viewer?.moderator && (
+              <>
+                <Link href="/comunidad/revisar/articulos">
+                  Moderar artículos y Cafecito
+                </Link>
+                <Link href="/busquedas/moderar">Moderar búsquedas</Link>
+              </>
+            )}
           </nav>
           {!viewer ? (
             <>

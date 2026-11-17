@@ -78,6 +78,16 @@ export default async function AccountPage({
             <Link href="/aportar">Nuevo aporte</Link>
             <Link href="/comunidad/revisar">Ayudar a revisar</Link>
             <Link href="/comunidad">Comunidad</Link>
+            <Link href="/cuenta/articulos">Mis artículos</Link>
+            <Link href="/cuenta/perfil-autor">Perfil de autor y Cafecito</Link>
+            <Link href="/busquedas/mis-publicaciones">
+              Mis búsquedas y disponibilidades
+            </Link>
+            <Link href="/busquedas/perfil">Mi perfil profesional</Link>
+            <Link href="/mensajes">Mis mensajes</Link>
+            {viewer.moderator && (
+              <Link href="/busquedas/moderar">Moderar búsquedas</Link>
+            )}
           </nav>
           <h2>Mis aportes</h2>
           <ConnectionNotice status={proposals.status} />

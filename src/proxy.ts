@@ -31,5 +31,10 @@ export const config = {
     "/comunidad/:path*",
     "/auth/:path*",
     "/directorio/:path*",
+    "/articulos/:path*",
+    "/busquedas/:path*",
+    "/profesionales/:path*",
+    "/mensajes/:path*",
+    "/api/exchanges/:path*",
   ],
 };
