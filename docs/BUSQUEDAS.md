@@ -4,6 +4,10 @@ Estado de esta entrega al **17 de noviembre de 2026**. Complementa [la visión](
 
 ## Implementado y pendiente de activación
 
+**Publicación del código, 17 de noviembre:** el responsable autorizó publicar la entrega mediante [PR #9](https://github.com/prcamacho/autismo.ar/pull/9), siguiendo `test` → `main`. Railway confirmó el commit `2e429ed` en `test`, despliegue `f46953f0-682f-4585-b431-9dd84e3e3b47`, con estado `SUCCESS` y arranque correcto. Se configuraron explícitamente `EXCHANGES_ENABLED=false`, `ARTICLES_ENABLED=false` y presupuesto de avisos cero en ambos entornos. Esto permite publicar las pantallas de preparación y el editor local sin acceder a tablas nuevas de producción. La activación del circuito sigue pendiente: no confundir el despliegue del código con búsquedas, contacto o artículos operativos. El PR registra el resultado final de producción.
+
+La consulta HTTP a `test.autismo.ar` devuelve el desafío de Cloudflare; no se retiró esa protección. El control de navegador no permite completar las migraciones ni la revisión visual autenticada. Se identificó la conexión directa de Supabase como alternativa, pero aún no se confirmó su autorización. Las migraciones correctivas de ensayo, la migración productiva, las pruebas remotas, la moderación responsable y el disparador de mantenimiento siguen siendo condiciones de activación.
+
 El código incorpora perfiles profesionales, avisos de oferta y búsqueda, ubicaciones múltiples, revisión, contacto por aceptación, bandeja privada de texto, bloqueos, reportes, fotos opcionales y mantenimiento. Una cuenta puede buscar apoyo y ofrecer servicios. Publicar o contactar requiere iniciar sesión y declarar mayoría de edad; no se solicita fecha de nacimiento ni documentación médica.
 
 Se reutilizan cuentas y sesión de Supabase, validación de permisos en servidor, roles comunitarios y colores semánticos. El módulo tiene datos y reglas propios: actualizar disponibilidad no exige corroboración externa del directorio. No incorpora pagos, recomendaciones clínicas, reseñas, chat en tiempo real, adjuntos ni geolocalización del usuario.

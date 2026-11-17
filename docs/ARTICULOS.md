@@ -4,7 +4,7 @@
 
 Implementación local del 17 de noviembre de 2026, según [DEC-007](./DECISIONES.md#dec-007--artículos-con-personalización-guiada-y-cafecito-en-el-perfil). Incluye artículos y agendas con lectura pública, borradores, revisión independiente, historial, reportes, firma editorial y apoyo opcional mediante Cafecito. El editor ofrece bloques y estilos predefinidos; no admite código ejecutable ni CSS libre.
 
-Las pruebas locales de dominio y permisos no prueban un circuito alojado. La migración de artículos se aplicó en la base separada de pruebas y se verificó su lectura pública por API, según la evidencia siguiente. La prueba de extremo a extremo autenticada y la publicación web siguen pendientes. Este documento no acredita publicación en producción, entrega de correos ni aportes monetarios realizados. Consultar [OPERACION.md](./OPERACION.md) antes de habilitar servicios.
+Las pruebas locales de dominio y permisos no prueban un circuito alojado. La migración de artículos se aplicó en la base separada de pruebas y se verificó su lectura pública por API, según la evidencia siguiente. La prueba de extremo a extremo autenticada y la activación del circuito siguen pendientes. El responsable autorizó publicar el código mediante [PR #9](https://github.com/prcamacho/autismo.ar/pull/9); Railway confirmó `2e429ed` en `test` con estado `SUCCESS`. Ambos entornos conservan `ARTICLES_ENABLED=false`: el editor permite preparar y descargar borradores locales, pero no guardarlos en la cuenta ni publicarlos. El PR registra el resultado final del despliegue de producción. Esto no acredita entrega de correos ni aportes monetarios realizados. Consultar [OPERACION.md](./OPERACION.md) antes de habilitar servicios.
 
 ## Organización y recorridos
 

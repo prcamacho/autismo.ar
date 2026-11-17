@@ -21,6 +21,8 @@ Actualización de solo lectura del 10 de noviembre de 2026: ver [inventario y pr
 
 ## 2. Flujo acordado de publicación
 
+**Entrega del 17 de noviembre de 2026:** el responsable autorizó publicar el código de Búsquedas y Artículos mediante [PR #9](https://github.com/prcamacho/autismo.ar/pull/9), conservando ambos módulos desactivados hasta completar su activación. Railway confirmó `2e429ed` en `test` (`f46953f0-682f-4585-b431-9dd84e3e3b47`, `SUCCESS` y Next listo). Se mantuvo el aislamiento: `test` no recibió variables de Supabase de producción; no se aplicaron migraciones nuevas a la base productiva. Las variables de ambos servicios fijan explícitamente los interruptores en `false`, el origen público propio y presupuesto de notificaciones cero. No se añadieron servicios, planes ni cron. Ver [estado y pendientes de Búsquedas](./BUSQUEDAS.md) y [Artículos](./ARTICULOS.md); el PR conserva el resultado final de producción. El desafío de Cloudflare impidió comprobar contenido de `test` por HTTP automatizado y el control de navegador sigue interrumpido.
+
 | Rama prevista | Uso                                                   | Entorno y dirección previstos                                                                                            |
 | ------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | `test`        | Implementar y comprobar cambios antes de publicarlos. | `test.autismo.ar`, operativo por HTTPS, sin base y sin indexación; público tras el desafío de Cloudflare, según DEC-006. |
