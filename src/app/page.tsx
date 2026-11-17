@@ -41,25 +41,21 @@ export default function Home() {
               RECURSOS LOCALES Y DE TODO EL PAÍS
             </p>
             <h1>
-              Información y recursos
-              <br />
-              <span>sobre autismo en Argentina.</span>
+              Información y recursos <span>sobre autismo en Argentina.</span>
             </h1>
             <p>
-              Un espacio para personas autistas, familias y profesionales,
-              orientado a facilitar el acceso a información y recursos en cada
-              etapa de la vida.
+              Para personas autistas, familias y profesionales, en cada etapa de
+              la vida.
             </p>
             <Link className="hero-link" href="/orientacion">
               Encontrá por dónde empezar <ArrowRight size={18} />
             </Link>
-            <div className="hero-footnote">
-              <UsersRound size={16} /> Información, recursos y participación.
-            </div>
           </div>
-          <CommunityArt />
+          <div className="hero-art">
+            <CommunityArt />
+          </div>
         </div>
-        <div className="container search-container">
+        <div className="container">
           <div className="search-card">
             <ResourceSearch />
             <div className="search-note">

@@ -1,14 +1,21 @@
-.search-container {
-  position: relative;
-  top: 34px;
-  margin-top: -34px;
-}
 .search-card {
   padding: 24px 25px 0;
   border-radius: 14px;
   background: var(--surface);
   box-shadow: 0 8px 30px var(--shadow);
-  border: 1px solid var(--line);
+  border: 1px solid var(--selected-line);
+  border-block-start: 3px solid var(--blue);
+}
+.search-card .search-query label {
+  font-size: 1.125rem;
+}
+.search-card .input-wrap,
+.search-card .search-submit {
+  min-block-size: 52px;
+}
+.search-card .input-wrap input,
+.search-card .input-wrap select {
+  font-size: 1rem;
 }
 .resource-search {
   display: grid;
@@ -102,7 +109,7 @@ input:disabled {
   background: var(--surface);
 }
 .explore-section {
-  padding-top: 103px;
+  padding-top: 56px;
 }
 .section-heading {
   display: flex;

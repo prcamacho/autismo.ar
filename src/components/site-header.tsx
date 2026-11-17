@@ -20,12 +20,14 @@ export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
     <>
-      <div className="announcement">
-        Una red de información y recursos en construcción.{" "}
-        <Link href="/proyecto">
-          Conocé el proyecto <ArrowUpRight size={13} />
-        </Link>
-      </div>
+      {pathname !== "/" && (
+        <div className="announcement">
+          Una red de información y recursos en construcción.{" "}
+          <Link href="/proyecto">
+            Conocé el proyecto <ArrowUpRight size={13} />
+          </Link>
+        </div>
+      )}
       <header className="site-header">
         <div className="container header-inner">
           <Link
@@ -63,7 +65,7 @@ export function SiteHeader() {
               href="/aportar"
               onClick={() => setMenuOpen(false)}
             >
-              <Plus size={17} /> Aportar
+              <Plus size={17} /> Sumar Info!
             </Link>
           </nav>
           <div className="header-actions">

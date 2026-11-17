@@ -31,7 +31,7 @@ npm start
 
 ## Qué está implementado
 
-- Portada informativa, identidad SVG con rompecabezas multicolor y diseño adaptable a celulares.
+- Portada con presentación compacta y buscador destacado, identidad SVG con rompecabezas multicolor y diseño adaptable a celulares. La ilustración se reduce en escritorio y se oculta en móvil para priorizar la búsqueda.
 - Modo claro y oscuro en todas las secciones, con botón de sol/luna en la cabecera pública, visible también en móvil y sin necesidad de iniciar sesión. Sigue el tema del dispositivo hasta elegir uno manualmente; recuerda esa elección en este navegador y la sincroniza entre pestañas.
 - Directorio con categorías, 23 provincias y CABA, localidad escrita y filtros compartibles en la URL.
 - Contrato de búsqueda que conserva recursos nacionales y provinciales pertinentes al filtrar una localidad.
