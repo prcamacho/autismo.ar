@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { AGE_GROUPS, DAYS, EXCHANGE_LIMITS, SERVICES, SHIFTS } from "./model";
+import { AGE_GROUPS, DAYS, EXCHANGE_LIMITS, SHIFTS } from "./model";
+import { ENGAGEMENTS, COVERAGES } from "@/features/services/model";
 
 const text = (min: number, max: number) =>
   z
@@ -49,15 +50,18 @@ export const profileSchema = z.strictObject({
 });
 export const listingSchema = z.strictObject({
   title: publicText(5, 120),
-  service: z.enum(SERVICES.map((item) => item.id)),
+  service: z
+    .string()
+    .regex(/^[a-z0-9][a-z0-9-]{1,59}$/, "Elegí un servicio de la lista."),
   role: publicText(2, 120),
-  description: publicText(20, 1500),
+  description: publicText(0, 1500),
   modality: z.enum(["presencial", "virtual", "mixta"]),
   days: unique(DAYS, 7).min(1, "Elegí al menos un día."),
   shifts: unique(SHIFTS, 3).min(1, "Elegí al menos un turno."),
   startDate: z.union([z.literal(""), z.iso.date()]),
   availability: z.enum(["available", "limited", "unavailable"]),
-  engagement: publicText(0, 200),
+  engagement: z.enum(ENGAGEMENTS),
+  coverage: z.enum(COVERAGES).optional(),
   ageGroups: unique(AGE_GROUPS, 4),
   locationIds: z
     .array(text(1, 80))
@@ -86,7 +90,7 @@ export function fromProfileForm(form: FormData, photoPath: string | null) {
 }
 export function fromListingForm(form: FormData) {
   return {
-    title: form.get("title"),
+    title: "Publicación de servicio",
     service: form.get("service"),
     role: form.get("role"),
     description: form.get("description"),
@@ -96,6 +100,7 @@ export function fromListingForm(form: FormData) {
     startDate: form.get("startDate") ?? "",
     availability: form.get("availability") ?? "available",
     engagement: form.get("engagement") ?? "",
+    coverage: form.get("coverage") ?? "",
     ageGroups: form.getAll("ageGroups"),
     locationIds: form.getAll("locationIds"),
     receiveRequests: form.get("receiveRequests") === "on",

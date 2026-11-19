@@ -58,11 +58,7 @@ export function DuplicateFinder({ name }: { name: string }) {
           </>
         )}
       </div>
-      <Link
-        href={`/directorio?q=${encodeURIComponent(name.trim())}`}
-        target="_blank"
-        className="text-link"
-      >
+      <Link href="/directorio" target="_blank" className="text-link">
         Explorar el directorio ↗<span className="sr-only"> (otra pestaña)</span>
       </Link>
     </div>

@@ -46,6 +46,10 @@ export function MutationForm({
   const nonceRef = useRef(initialNonce);
   const headingId = useId();
   const [state, dispatch, pending] = useActionState(action, {});
+  const resultHref =
+    state.href?.startsWith("/") && !state.href.startsWith("//")
+      ? state.href
+      : successHref;
   useEffect(() => {
     if (!state.message) return;
     if (state.ok) {
@@ -56,17 +60,17 @@ export function MutationForm({
         });
       if (
         redirectOnSuccess &&
-        successHref &&
-        (!successHref.includes(":id") || state.id)
+        resultHref &&
+        (!resultHref.includes(":id") || state.id)
       ) {
-        router.push(successHref.replace(":id", state.id ?? ""));
+        router.push(resultHref.replace(":id", state.id ?? ""));
         return;
       }
       if (resetOnSuccess) formRef.current?.reset();
       if (nonceRef.current) nonceRef.current = crypto.randomUUID();
       router.refresh();
     } else feedbackRef.current?.focus();
-  }, [state, resetOnSuccess, redirectOnSuccess, successHref, router]);
+  }, [state, resetOnSuccess, redirectOnSuccess, resultHref, router]);
   return (
     <form
       ref={formRef}
@@ -76,7 +80,10 @@ export function MutationForm({
       onSubmit={(event) => {
         event.preventDefault();
         if (disabled || pending) return;
-        const data = new FormData(event.currentTarget);
+        const data = new FormData(
+          event.currentTarget,
+          (event.nativeEvent as SubmitEvent).submitter,
+        );
         if (nonceRef.current) data.set("nonce", nonceRef.current);
         startTransition(() => dispatch(data));
       }}
@@ -104,9 +111,9 @@ export function MutationForm({
             data-ok={Boolean(state.ok)}
           >
             <p>{state.message}</p>
-            {state.ok && successHref && (
+            {state.ok && resultHref && (
               <Link
-                href={successHref.replace(":id", state.id ?? "")}
+                href={resultHref.replace(":id", state.id ?? "")}
                 className="text-link"
               >
                 Continuar →

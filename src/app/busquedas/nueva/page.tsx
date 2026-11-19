@@ -13,6 +13,13 @@ import {
 import { ParticipationNotice } from "@/features/exchanges/components/participation-notice";
 import { ListingForm } from "@/features/exchanges/components/listing-form";
 import styles from "@/features/exchanges/exchanges.module.css";
+import {
+  getServiceCatalog,
+  getCatalogRequests,
+} from "@/features/services/repository";
+import { getPlaces } from "@/features/locations/catalog";
+import { listingSchema, uuidSchema } from "@/features/exchanges/validation";
+import type { ListingData } from "@/features/exchanges/model";
 
 export const metadata: Metadata = {
   ...privateMetadata,
@@ -21,13 +28,45 @@ export const metadata: Metadata = {
 export default async function NewListingPage({
   searchParams,
 }: {
-  searchParams: Promise<{ tipo?: string }>;
+  searchParams: Promise<{
+    tipo?: string;
+    solicitud?: string;
+    service?: string;
+  }>;
 }) {
-  const kind = (await searchParams).tipo === "offer" ? "offer" : "request";
-  const [context, profile] = await Promise.all([
+  const params = await searchParams;
+  const kind = params.tipo === "offer" ? "offer" : "request";
+  const [context, profile, catalog] = await Promise.all([
     getExchangeContext(),
     getOwnProfile(),
+    getServiceCatalog(),
   ]);
+  const draft: Partial<ListingData> = {};
+  if (params.service && catalog.data.some((s) => s.id === params.service))
+    draft.service = params.service;
+  if (params.solicitud && uuidSchema.safeParse(params.solicitud).success) {
+    const requests = await getCatalogRequests({ id: params.solicitud });
+    const request = requests.data[0];
+    if (
+      request?.status === "accepted" &&
+      request.service_id &&
+      request.draft &&
+      request.draft.kind === kind
+    ) {
+      for (const [key, schema] of Object.entries(listingSchema.shape)) {
+        const parsed = schema.safeParse(request.draft[key]);
+        if (parsed.success) Object.assign(draft, { [key]: parsed.data });
+      }
+      draft.service = request.service_id;
+      draft.role = catalog.data.find((s) => s.id === request.service_id)?.name;
+    }
+  }
+  let initialPlaces: ReturnType<typeof getPlaces> = [];
+  try {
+    initialPlaces = getPlaces(draft.locationIds ?? []);
+  } catch {
+    draft.locationIds = [];
+  }
   const canOffer =
     kind !== "offer" ||
     Boolean(profile.data?.is_public && profile.data?.status === "approved");
@@ -43,6 +82,7 @@ export default async function NewListingPage({
       <div className={styles.narrow}>
         <div className={styles.stack}>
           <ParticipationNotice context={context} />
+          <ExchangeNotice status={catalog.status} />
           {kind === "offer" && !canOffer && (
             <div className={styles.notice}>
               <p>
@@ -59,12 +99,17 @@ export default async function NewListingPage({
           )}
           <div className={styles.card}>
             <ListingForm
-              key={`${kind}:${context.viewer?.id ?? "preview"}`}
+              key={`${kind}:${context.viewer?.id ?? "preview"}:${params.solicitud ?? ""}:${params.service ?? ""}`}
               kind={kind}
-              initialPlaces={[]}
+              services={catalog.data}
+              draft={draft}
+              initialPlaces={initialPlaces}
               nonce={randomUUID()}
               disabled={
-                context.status !== "ready" || !context.account || !canOffer
+                context.status !== "ready" ||
+                catalog.status !== "ready" ||
+                !context.account ||
+                !canOffer
               }
             />
           </div>

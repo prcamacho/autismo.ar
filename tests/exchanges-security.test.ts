@@ -171,7 +171,7 @@ test("adversarial exchange access, photo visibility and private report boundarie
         const listing: ListingData = {
           title: "Búsqueda sintética privada",
           service: "inclusion-escolar",
-          role: "Apoyo escolar",
+          role: "Apoyo a la inclusión escolar",
           description:
             "Búsqueda sintética de pruebas, sin información de ninguna persona real.",
           modality: "presencial",

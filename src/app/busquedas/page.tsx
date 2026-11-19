@@ -7,12 +7,7 @@ import {
   getExchangeContext,
   searchListings,
 } from "@/features/exchanges/repository";
-import {
-  AVAILABILITY,
-  EXCHANGE_LIMITS,
-  MODALITIES,
-  SERVICES,
-} from "@/features/exchanges/model";
+import { EXCHANGE_LIMITS } from "@/features/exchanges/model";
 import {
   EmptyPanel,
   ExchangeNotice,
@@ -21,9 +16,11 @@ import {
   SignInNotice,
   privateMetadata,
 } from "@/features/exchanges/components/shared";
-import { LocationPicker } from "@/features/exchanges/components/location-picker";
-import { RadioChoices } from "@/features/exchanges/components/fields";
-import { isNomenclatorPreviewEnabled } from "@/features/nomenclator-preview/availability";
+import { SearchForm } from "@/features/services/search-form";
+import { getServiceCatalog } from "@/features/services/repository";
+import { getProvinceName } from "@/lib/geography";
+import { findCatalogResources } from "@/features/resources/repository";
+import { ResourceCard } from "@/features/resources/resource-card";
 import styles from "@/features/exchanges/exchanges.module.css";
 
 export const metadata: Metadata = {
@@ -54,19 +51,39 @@ export default async function SearchesPage({
     ? string(params.availability)
     : "";
   const page = readPage(params.pagina);
-  const context = await getExchangeContext();
+  const [context, catalog] = await Promise.all([
+    getExchangeContext(),
+    getServiceCatalog(),
+  ]);
+  let validPlace = !place;
+  try {
+    validPlace = !place || getPlaces([place])[0]?.province === province;
+  } catch {}
+  const invalidFilters = Boolean(
+    params.q ||
+    (service && !catalog.data.some((s) => s.id === service)) ||
+    (province && !getProvinceName(province)) ||
+    !validPlace ||
+    (string(params["service-texto"]) && !service) ||
+    (string(params["place-texto"]) && !place),
+  );
   const restricted = kind === "request" && !context.viewer;
-  const result = restricted
-    ? { status: context.status, data: [] }
-    : await searchListings({
-        kind,
-        service,
-        province,
-        place,
-        modality,
-        availability,
-        page,
-      });
+  const result =
+    restricted || invalidFilters
+      ? { status: context.status, data: [] }
+      : await searchListings({
+          kind,
+          service,
+          province,
+          place,
+          modality,
+          availability,
+          page,
+        });
+  const resources =
+    kind === "offer" && service && !invalidFilters
+      ? await findCatalogResources({ service, province, place })
+      : { status: "ready" as const, data: [] };
   let selectedPlaces: ReturnType<typeof getPlaces> = [];
   try {
     selectedPlaces = place ? getPlaces([place]) : [];
@@ -76,19 +93,14 @@ export default async function SearchesPage({
   const href = `/busquedas?${new URLSearchParams({ tipo: kind, service, province, place, modality, availability })}`;
   return (
     <ExchangePage
-      title="Encontrarse para dar el próximo paso."
+      title={
+        kind === "request"
+          ? "Personas y familias que buscan apoyo"
+          : "Encontrá profesionales y servicios"
+      }
       description="Explorá disponibilidad profesional o publicá una búsqueda. Elegí las zonas que te sirven y conversá sin publicar tu teléfono."
       current="/busquedas"
     >
-      {isNomenclatorPreviewEnabled() && (
-        <p className={styles.notice}>
-          Vista previa:{" "}
-          <Link href="/busquedas/prestaciones">
-            probá el buscador por prestación y categorías
-          </Link>
-          .
-        </p>
-      )}
       <div className={styles.actions}>
         <Link href="/busquedas/nueva?tipo=request" className="button">
           Busco un profesional
@@ -100,83 +112,34 @@ export default async function SearchesPage({
           Ofrezco mis servicios
         </Link>
       </div>
-      <nav className={styles.nav} aria-label="Tipo de publicaciones">
-        <Link
-          href="/busquedas?tipo=offer"
-          aria-current={kind === "offer" ? "page" : undefined}
-        >
-          Profesionales disponibles
-        </Link>
-        <Link
-          href="/busquedas?tipo=request"
-          aria-current={kind === "request" ? "page" : undefined}
-        >
-          Personas y familias que buscan
-        </Link>
-      </nav>
-      <search className={styles.card}>
-        <form
-          action="/busquedas"
-          method="get"
-          className={styles.form}
-          aria-label="Filtrar publicaciones"
-        >
-          <input type="hidden" name="tipo" value={kind} />
-          <div className={styles.field}>
-            <label htmlFor="search-service">Servicio</label>
-            <select
-              key={service}
-              id="search-service"
-              name="service"
-              defaultValue={service}
-            >
-              <option value="">Todos los servicios</option>
-              {SERVICES.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <LocationPicker
-            key={`${province}:${place}`}
-            initialPlaces={selectedPlaces}
-            initialProvince={province}
-            multiple={false}
-            name="place"
-          />
-          <RadioChoices
-            key={`modality:${modality}`}
-            name="modality"
-            legend="Modalidad"
-            options={{ "": "Todas", ...MODALITIES }}
-            value={modality}
-          />
-          <RadioChoices
-            key={`availability:${availability}`}
-            name="availability"
-            legend="Disponibilidad"
-            options={{
-              "": "Cualquier disponibilidad",
-              available: AVAILABILITY.available,
-              limited: AVAILABILITY.limited,
-            }}
-            value={availability}
-          />
-          <div className={styles.actions}>
-            <button type="submit" className="button">
-              Buscar publicaciones
-            </button>
-            <Link href={`/busquedas?tipo=${kind}`} className="text-link">
-              Limpiar filtros
-            </Link>
-          </div>
-        </form>
-      </search>
+      <div className={styles.card}>
+        <SearchForm
+          key={href}
+          services={catalog.data}
+          status={catalog.status}
+          initialService={service}
+          initialKind={kind}
+          initialProvince={province}
+          initialPlace={selectedPlaces[0] ?? null}
+          required={false}
+          advanced
+          modality={modality}
+          availability={availability}
+        />
+      </div>
+      {invalidFilters && (
+        <EmptyPanel title="Elegí opciones válidas del catálogo">
+          <p>
+            Seleccioná el servicio y la ubicación en el formulario para buscar.
+          </p>
+        </EmptyPanel>
+      )}
       <ExchangeNotice status={result.status} />
       {restricted && context.status === "ready" ? (
         <SignInNotice />
-      ) : result.status === "ready" && result.data.length === 0 ? (
+      ) : !invalidFilters &&
+        result.status === "ready" &&
+        result.data.length === 0 ? (
         <EmptyPanel title="Todavía no hay publicaciones para esta búsqueda">
           <p>
             Probá con otra zona o servicio. También podés publicar una búsqueda
@@ -184,6 +147,33 @@ export default async function SearchesPage({
           </p>
         </EmptyPanel>
       ) : null}
+      {kind === "offer" && service && (
+        <section className={styles.stack}>
+          <h2>Recursos del directorio</h2>
+          <ExchangeNotice status={resources.status} />
+          {resources.data.length > 0 ? (
+            <>
+              <div className={styles.cards}>
+                {resources.data.slice(0, 3).map((resource) => (
+                  <ResourceCard key={resource.id} resource={resource} />
+                ))}
+              </div>
+              <Link
+                href={`/directorio?${new URLSearchParams({ service, province, place })}`}
+              >
+                Ver todas las fichas de este servicio
+              </Link>
+            </>
+          ) : (
+            resources.status === "ready" && (
+              <p className={styles.meta}>
+                Todavía no hay fichas clasificadas con este servicio en la zona
+                elegida.
+              </p>
+            )
+          )}
+        </section>
+      )}
       <div className={styles.cards}>
         {result.data.slice(0, EXCHANGE_LIMITS.pageSize).map((listing) => (
           <ListingCard key={listing.id} listing={listing} />

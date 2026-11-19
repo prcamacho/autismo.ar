@@ -13,7 +13,9 @@ const fixture = {
   categoryIds: ["profesionales"],
   scope: "local",
   province: "salta",
-  locality: "Capital",
+  locality: "Salta",
+  placeId: "georef:66028050",
+  serviceIds: ["fonoaudiologia"],
   website: "",
   phone: "",
   hours: "",
@@ -149,7 +151,7 @@ test("community permissions, independent review, revisions, conflicts and privac
     assert.equal(
       (
         await db.query(
-          "select * from public.community_search('sintetico','','salta','Capital')",
+          "select * from public.community_search('sintetico','','salta','Salta')",
         )
       ).rows.length,
       1,
@@ -163,7 +165,7 @@ test("community permissions, independent review, revisions, conflicts and privac
       0,
     );
     await as(author);
-    const changed = { ...fixture, coverage: "Cobertura sintética" };
+    const changed = { ...fixture, coverage: "Obra social" };
     const correction = await submit(changed, resource, 1);
     const concurrent = await submit(
       { ...fixture, hours: "Horario sintético" },

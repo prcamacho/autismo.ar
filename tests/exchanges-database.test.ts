@@ -49,7 +49,7 @@ test("exchanges protect publications, private contact, quotas, moderation and de
     const listing: ListingData = {
       title: "Aviso sintético para probar ubicaciones",
       service: "inclusion-escolar",
-      role: "Apoyo escolar",
+      role: "Apoyo a la inclusión escolar",
       description:
         "Esta publicación sintética permite comprobar reglas sin datos personales reales.",
       modality: "presencial",
@@ -229,7 +229,7 @@ test("exchanges protect publications, private contact, quotas, moderation and de
         await assert.rejects(
           save(
             "offer",
-            { ...listing, title: "Otro texto para el mismo envío" },
+            { ...listing, description: "Otro texto para el mismo envío" },
             null,
             0,
             creationNonce,

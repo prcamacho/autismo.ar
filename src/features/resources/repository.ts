@@ -10,6 +10,29 @@ import {
   type FieldConfirmation,
 } from "./model";
 
+export async function findCatalogResources(
+  filters: {
+    service?: string;
+    category?: string;
+    province?: string;
+    place?: string;
+    age?: string;
+    page?: number;
+  } = {},
+): Promise<QueryResult<ResourceRecord[]>> {
+  const client = await createSupabaseClient();
+  if (!client) return { data: [], status: getSupabaseStatus() };
+  const { data, error } = await client.rpc("catalog_search_resources", {
+    p_service: filters.service ?? "",
+    p_category: filters.category ?? "",
+    p_province: filters.province ?? "",
+    p_place: filters.place ?? "",
+    p_age: filters.age ?? "",
+    p_page: filters.page ?? 1,
+  });
+  return { data: data ?? [], status: error ? "unavailable" : "ready" };
+}
+
 export async function findResources(
   filters: {
     query?: string;

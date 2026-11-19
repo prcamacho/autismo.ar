@@ -269,7 +269,7 @@ async function main() {
     let listing: ListingData = {
       title: "Oferta sintética para integración aislada",
       service: "inclusion-escolar",
-      role: "Apoyo escolar",
+      role: "Apoyo a la inclusión escolar",
       description:
         "Aviso sintético de integración que se eliminará al terminar la comprobación.",
       modality: "presencial",
@@ -302,7 +302,10 @@ async function main() {
     rejected(
       await professional.client.rpc("exchange_save_listing", {
         ...createArgs,
-        p_data: { ...listing, title: "Contenido cambiado con el mismo envío" },
+        p_data: {
+          ...listing,
+          description: "Contenido cambiado con el mismo envío",
+        },
       }),
       "NONCE_REUSED",
     );

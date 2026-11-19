@@ -1,5 +1,9 @@
 import { type Proposal, type Corroboration } from "@/features/community/model";
 import type {
+  CatalogTables,
+  CatalogFunctions,
+} from "@/features/services/db-contract";
+import type {
   ResourceRecord,
   ResourceRevision,
   FieldConfirmation,
@@ -36,7 +40,8 @@ type Table<Row> = {
 
 export type Database = {
   public: {
-    Tables: ArticleTables &
+    Tables: CatalogTables &
+      ArticleTables &
       ExchangeTables & {
         community_members: Table<{
           user_id: string;
@@ -59,7 +64,8 @@ export type Database = {
         community_reports: Table<Report>;
       };
     Views: Record<string, never>;
-    Functions: ArticleFunctions &
+    Functions: CatalogFunctions &
+      ArticleFunctions &
       ExchangeFunctions &
       PhotoFunctions & {
         community_submit: {

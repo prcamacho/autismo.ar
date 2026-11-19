@@ -1,5 +1,7 @@
 # Búsquedas, disponibilidad y contacto privado
 
+Actualización para test del 19/11/2026: [catálogo normalizado compartido](./CATALOGO_SERVICIOS.md), selector con aliases, especialidades médicas y modos «Busco apoyo»/«Soy profesional». Las reglas de privacidad y contacto descriptas aquí siguen vigentes. El catálogo nuevo no se ha promovido a producción.
+
 Estado de esta entrega al **17 de noviembre de 2026**. Complementa [la visión](../VISION_Y_PLAN.md), [operación](./OPERACION.md), [comunidad](./COMUNIDAD.md) y [el catálogo territorial](./UBICACIONES.md). Tener código, migraciones o un proyecto de Supabase disponible no demuestra que el circuito esté operativo.
 
 ## Preparación y registro de activación

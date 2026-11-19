@@ -93,7 +93,7 @@ export default async function ListingPage({
                 data={listing.profile.data}
               />
             )}
-            <h2>{serviceName(listing.data.service)}</h2>
+            <h2>{serviceName(listing.data.service, listing.data.role)}</h2>
             <p className={styles.prose}>{listing.data.description}</p>
             <dl className={styles.facts}>
               <div>
@@ -128,6 +128,12 @@ export default async function ListingPage({
                   <dd>{listing.data.ageGroups.join(", ")}</dd>
                 </div>
               )}
+              {listing.data.coverage && (
+                <div>
+                  <dt>Cobertura declarada</dt>
+                  <dd>{listing.data.coverage}</dd>
+                </div>
+              )}
               {listing.data.engagement && (
                 <div>
                   <dt>Contratación</dt>
@@ -135,11 +141,11 @@ export default async function ListingPage({
                 </div>
               )}
             </dl>
-          <h2>
-            {listing.kind === "offer"
-              ? "Zonas de trabajo"
-              : "Dónde se necesita el servicio"}
-          </h2>
+            <h2>
+              {listing.kind === "offer"
+                ? "Zonas de trabajo"
+                : "Dónde se necesita el servicio"}
+            </h2>
             <LocationList ids={listing.data.locationIds} />
             {listing.expires_at && (
               <p className={styles.meta}>
