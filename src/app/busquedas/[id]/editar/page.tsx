@@ -16,6 +16,7 @@ import {
 import { ListingForm } from "@/features/exchanges/components/listing-form";
 import { ListingStateForm } from "@/features/exchanges/components/management-forms";
 import styles from "@/features/exchanges/exchanges.module.css";
+import { getServiceCatalog } from "@/features/services/repository";
 
 export const metadata: Metadata = {
   ...privateMetadata,
@@ -27,9 +28,10 @@ export default async function EditListingPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [context, result] = await Promise.all([
+  const [context, result, catalog] = await Promise.all([
     getExchangeContext(),
     getListing(id),
+    getServiceCatalog(),
   ]);
   const listing = result.data;
   return (
@@ -40,6 +42,7 @@ export default async function EditListingPage({
       <div className={styles.narrow}>
         <div className={styles.stack}>
           <ExchangeNotice status={result.status} />
+          <ExchangeNotice status={catalog.status} />
           {listing?.owner ? (
             <>
               <div className={styles.card}>
@@ -56,9 +59,14 @@ export default async function EditListingPage({
                   key={listing.id}
                   kind={listing.kind}
                   listing={listing}
+                  services={catalog.data}
                   nonce={randomUUID()}
                   initialPlaces={getPlaces(listing.data.locationIds)}
-                  disabled={context.status !== "ready" || !context.account}
+                  disabled={
+                    context.status !== "ready" ||
+                    catalog.status !== "ready" ||
+                    !context.account
+                  }
                 />
               </div>
               <div className={styles.card}>

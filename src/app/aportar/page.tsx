@@ -15,6 +15,8 @@ import {
 } from "@/features/resources/repository";
 import type { ResourceInput } from "@/features/resources/validation";
 import styles from "@/components/ui.module.css";
+import { getServiceCatalog } from "@/features/services/repository";
+import { getPlaces } from "@/features/locations/catalog";
 
 export const metadata: Metadata = { title: "Aportar información" };
 export default async function ContributePage({
@@ -24,6 +26,7 @@ export default async function ContributePage({
 }) {
   const params = await searchParams;
   const viewer = await getViewer();
+  const catalog = await getServiceCatalog();
   const resourceId = typeof params.ficha === "string" ? params.ficha : "";
   const resource = resourceId ? await getResource(resourceId) : null;
   if (resourceId && resource?.status === "ready" && !resource.data) notFound();
@@ -32,14 +35,19 @@ export default async function ContributePage({
       ? params.provincia
       : "";
   const category = categories.find((c) => c.id === params.categoria)?.id;
+  const service = catalog.data.find((item) => item.id === params.service);
+  let requestedPlace = null;
+  try {
+    requestedPlace =
+      typeof params.place === "string" ? getPlaces([params.place])[0] : null;
+  } catch {}
   let defaults: Partial<ResourceInput> = resource?.data?.data || {
     categoryIds: category ? [category] : [],
-    province,
-    locality:
-      province && typeof params.localidad === "string"
-        ? params.localidad.slice(0, 120)
-        : "",
-    scope: province ? "local" : "national",
+    serviceIds: service ? [service.id] : [],
+    province: requestedPlace?.province ?? province,
+    locality: requestedPlace?.name ?? "",
+    placeId: requestedPlace?.id ?? "",
+    scope: requestedPlace ? "local" : province ? "province" : "national",
   };
   let source = resource?.data?.source_url || "";
   const restore = Number(params.version);
@@ -81,6 +89,10 @@ export default async function ContributePage({
     source = revision.data.source_url;
   }
   const status = resource?.status || getSupabaseStatus();
+  let initialPlace = null;
+  try {
+    initialPlace = defaults.placeId ? getPlaces([defaults.placeId])[0] : null;
+  } catch {}
   return (
     <>
       <PageIntro
@@ -91,6 +103,7 @@ export default async function ContributePage({
       <div className="container section-small">
         <div className={styles.stack}>
           <ConnectionNotice status={status} />
+          <ConnectionNotice status={catalog.status} />
           {status === "ready" && !viewer && (
             <div className={styles.callout}>
               <strong>Ingresá para enviar tu aporte</strong>
@@ -108,12 +121,16 @@ export default async function ContributePage({
           ) : (
             <div className={styles.layout}>
               <ContributionForm
+                services={catalog.data}
+                initialPlace={initialPlace}
                 key={`${resource?.data?.id || "new"}:${resource?.data?.version || 0}:${restore || 0}:${category || ""}:${province}:${defaults.locality || ""}`}
                 defaults={defaults}
                 resourceId={resource?.data?.id}
                 version={resource?.data?.version}
                 sourceUrl={source}
-                canSubmit={Boolean(viewer && status === "ready")}
+                canSubmit={Boolean(
+                  viewer && status === "ready" && catalog.status === "ready",
+                )}
               />
               <aside className={styles.stack}>
                 <div className={styles.card}>

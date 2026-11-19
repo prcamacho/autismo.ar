@@ -34,6 +34,8 @@ Las provincias y localidades serán entidades con identificadores estables. La b
 
 ### Una ficha, varias formas de encontrarla
 
+Decisión del 19/11/2026 para test: un catálogo compartido normaliza los servicios de búsquedas, publicaciones y fichas profesionales. El buscador propone nombres para seleccionar y distingue «Busco apoyo» de «Soy profesional». Las opciones faltantes se solicitan y revisan; no se equiparan automáticamente a prestaciones del nomenclador. Alcance, lista inicial y estado en [CATALOGO_SERVICIOS.md](./docs/CATALOGO_SERVICIOS.md) y DEC-009. Producción conserva su versión hasta una promoción autorizada.
+
 Cada entidad real tiene una ficha canónica. Un centro con varias terapias aparece en múltiples categorías sin duplicarse. Las sedes y sus horarios se modelan por separado cuando corresponda.
 
 Un beneficio nacional tendrá una guía nacional y, si hace falta, instrucciones o contactos locales vinculados. No se copiará toda la guía en cada provincia. Antes de crear fichas se sugerirán posibles coincidencias; deberá existir una forma de proponer la unión de duplicados.

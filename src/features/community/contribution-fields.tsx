@@ -1,4 +1,9 @@
 import { categories } from "@/lib/catalog";
+import { useState } from "react";
+import { ServiceMultiPicker } from "@/features/services/multi-picker";
+import { PlacePicker } from "@/features/services/search-form";
+import { COVERAGES, type Service } from "@/features/services/model";
+import type { Place } from "@/features/locations/model";
 import { PROVINCES } from "@/lib/geography";
 import { ageGroups, type ResourceInput } from "@/features/resources/validation";
 import { DuplicateFinder } from "./duplicate-finder";
@@ -13,6 +18,8 @@ export function ContributionFields({
   onScopeChange,
   sourceUrl,
   note,
+  services,
+  initialPlace,
 }: {
   defaults: Partial<ResourceInput>;
   resourceId: string;
@@ -22,7 +29,14 @@ export function ContributionFields({
   onScopeChange: (value: ResourceInput["scope"]) => void;
   sourceUrl: string;
   note: string;
+  services: Service[];
+  initialPlace?: Place | null;
 }) {
+  const [selectedCategories, setSelectedCategories] = useState(
+    defaults.categoryIds ?? [],
+  );
+  const [province, setProvince] = useState(defaults.province ?? "");
+  const [place, setPlace] = useState<Place | null>(initialPlace ?? null);
   return (
     <>
       <div className="form-field">
@@ -49,12 +63,26 @@ export function ContributionFields({
                 type="checkbox"
                 value={c.id}
                 defaultChecked={defaults.categoryIds?.includes(c.id)}
+                onChange={(event) =>
+                  setSelectedCategories(
+                    event.target.checked
+                      ? [...selectedCategories, c.id]
+                      : selectedCategories.filter((id) => id !== c.id),
+                  )
+                }
               />
               {c.name}
             </label>
           ))}
         </div>
       </fieldset>
+      <ServiceMultiPicker
+        services={services}
+        initial={defaults.serviceIds}
+        required={selectedCategories.some(
+          (id) => id === "profesionales" || id === "centros",
+        )}
+      />
       <div className="form-field">
         <label htmlFor="description">Qué ofrece *</label>
         <textarea
@@ -85,14 +113,18 @@ export function ContributionFields({
             <option value="local">Una localidad</option>
           </select>
         </div>
-        {scope !== "national" && (
+        {scope === "province" && (
           <div className="form-field">
             <label htmlFor="province">Provincia *</label>
             <select
               id="province"
               name="province"
               required
-              defaultValue={defaults.province || ""}
+              value={province}
+              onChange={(event) => {
+                setProvince(event.target.value);
+                setPlace(null);
+              }}
             >
               <option value="">Elegí una provincia</option>
               {PROVINCES.map((p) => (
@@ -104,16 +136,17 @@ export function ContributionFields({
           </div>
         )}
         {scope === "local" && (
-          <div className="form-field">
-            <label htmlFor="locality">Localidad *</label>
-            <input
-              id="locality"
-              name="locality"
+          <div className={styles.stack}>
+            <PlacePicker
+              key={scope}
+              province={province}
+              onProvinceChange={setProvince}
+              initialPlace={place}
+              onPlaceChange={setPlace}
+              placeName="placeId"
               required
-              minLength={2}
-              maxLength={120}
-              defaultValue={defaults.locality}
             />
+            <input type="hidden" name="locality" value={place?.name ?? ""} />
             <p className={styles.meta}>
               Compartí la localidad del recurso. No incluyas domicilios
               familiares.
@@ -157,12 +190,21 @@ export function ContributionFields({
         </div>
         <div className="form-field">
           <label htmlFor="coverage">Obras sociales o cobertura informada</label>
-          <input
+          <select
             id="coverage"
             name="coverage"
-            maxLength={400}
-            defaultValue={defaults.coverage}
-          />
+            defaultValue={
+              COVERAGES.some((value) => value === defaults.coverage)
+                ? defaults.coverage
+                : ""
+            }
+          >
+            {COVERAGES.map((value) => (
+              <option key={value} value={value}>
+                {value || "Sin informar"}
+              </option>
+            ))}
+          </select>
           <p className={styles.meta}>
             Incluí solo lo que la fuente informa. La cobertura y los turnos
             pueden cambiar.

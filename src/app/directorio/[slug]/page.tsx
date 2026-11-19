@@ -7,6 +7,7 @@ import {
 } from "@/features/resources/repository";
 import { checkFields, type CheckField } from "@/features/community/model";
 import { fieldValue } from "@/features/community/fields";
+import { getServiceCatalog } from "@/features/services/repository";
 import { ConnectionNotice } from "@/components/connection-notice";
 import { formatDate } from "@/lib/format";
 import { Pagination } from "@/components/pagination";
@@ -34,10 +35,11 @@ export default async function ResourcePage({
     );
   if (!result.data) notFound();
   const resource = result.data;
-  const [confirmations, history, viewer] = await Promise.all([
+  const [confirmations, history, viewer, catalog] = await Promise.all([
     getConfirmations(resource.id),
     getResourceHistory(resource.id, page),
     getViewer(),
+    getServiceCatalog(),
   ]);
   return (
     <div className="container section">
@@ -69,7 +71,7 @@ export default async function ResourcePage({
                       <div key={field}>
                         <dt>{checkFields[field]}</dt>
                         <dd>
-                          {fieldValue(resource.data, field)}
+                          {fieldValue(resource.data, field, catalog.data)}
                           {confirmation && (
                             <small>
                               Corroborado el{" "}
@@ -132,7 +134,9 @@ export default async function ResourcePage({
                         {(Object.keys(checkFields) as CheckField[]).map((f) => (
                           <div key={f}>
                             <dt>{checkFields[f]}</dt>
-                            <dd>{fieldValue(revision.data, f)}</dd>
+                            <dd>
+                              {fieldValue(revision.data, f, catalog.data)}
+                            </dd>
                           </div>
                         ))}
                       </dl>

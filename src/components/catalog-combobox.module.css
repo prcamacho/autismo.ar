@@ -1,0 +1,122 @@
+.field {
+  position: relative;
+  min-inline-size: 0;
+  display: grid;
+  gap: 0.4rem;
+  align-content: start;
+}
+.field > label {
+  color: var(--ink);
+  font-weight: 700;
+}
+.required {
+  font-size: 0.78rem;
+  font-weight: 400;
+}
+.control {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid var(--input-line);
+  background: var(--surface);
+  color: var(--muted);
+  border-radius: 8px;
+  padding-inline: 0.8rem;
+  min-block-size: 52px;
+}
+.control:focus-within {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.control input {
+  min-inline-size: 0;
+  inline-size: 100%;
+  border: 0;
+  border-radius: 0;
+  padding: 0.75rem 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: max(1rem, 1em);
+}
+.control input:focus-visible {
+  outline: 0;
+}
+.control:has(input:disabled) {
+  background: var(--surface-soft);
+}
+.control > svg {
+  flex: 0 0 auto;
+}
+.selected {
+  color: var(--success-ink);
+}
+.clear {
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  min-inline-size: 44px;
+  min-block-size: 44px;
+  cursor: pointer;
+}
+.popup {
+  position: absolute;
+  z-index: 20;
+  inset-inline: 0;
+  inset-block-start: 100%;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--input-line);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px var(--shadow);
+  overflow: hidden;
+}
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-block-size: 20rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.list li {
+  padding: 0.85rem 1rem;
+  min-block-size: 48px;
+  cursor: pointer;
+  border-block-end: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.list li:hover,
+.active {
+  background: var(--selected-bg);
+  color: var(--ink);
+}
+.active {
+  outline: 2px solid var(--selected-line);
+  outline-offset: -2px;
+}
+.note {
+  display: block;
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin: 0;
+  padding: 0.65rem 1rem;
+}
+li .note {
+  padding: 0.2rem 0 0;
+}
+.error {
+  color: var(--error-ink);
+  background: var(--error-bg);
+  padding: 0.65rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  margin: 0;
+}
+@media (max-width: 600px) {
+  .list {
+    max-block-size: 15rem;
+  }
+}

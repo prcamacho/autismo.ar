@@ -1,5 +1,7 @@
 # Vista previa de búsqueda por prestación
 
+> Actualización del 19/11/2026: esta experiencia se sustituyó en la nueva implementación para test por el [catálogo normalizado de servicios](./CATALOGO_SERVICIOS.md). La ruta redirige a `/busquedas` y las tarjetas relacionadas ya no aparecen en la portada. Lo siguiente conserva el contexto de la prueba anterior, no el comportamiento nuevo.
+
 Pedido: combinar búsqueda por palabras habituales y exploración por categorías, para revisar exclusivamente en `test` antes de decidir su incorporación a producción.
 
 Ruta: `/busquedas/prestaciones`, enlazada desde Búsquedas únicamente cuando el servidor está en el entorno Railway `test` o en desarrollo local sin un entorno Railway definido. El control se evalúa por petición; producción y entornos desconocidos no habilitan la página. No se cambia la configuración de servicios.

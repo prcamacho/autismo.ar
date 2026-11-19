@@ -1,4 +1,5 @@
-export const SERVICES = [
+import { INITIAL_SERVICES } from "@/features/services/seed";
+export const LEGACY_SERVICES = [
   { id: "inclusion-escolar", name: "Apoyo a la inclusión escolar" },
   { id: "acompanamiento-terapeutico", name: "Acompañamiento terapéutico" },
   { id: "psicologia", name: "Psicología" },
@@ -9,6 +10,7 @@ export const SERVICES = [
   { id: "medicina", name: "Medicina" },
   { id: "otros-apoyos", name: "Otros apoyos profesionales" },
 ] as const;
+export const SERVICES = INITIAL_SERVICES;
 
 export const DAYS = [
   "lunes",
@@ -84,14 +86,16 @@ export type ListingData = {
   startDate: string;
   availability: keyof typeof AVAILABILITY;
   engagement: string;
+  coverage?: string;
   ageGroups: string[];
   locationIds: string[];
   receiveRequests: boolean;
 };
 
-export function serviceName(id: string) {
+export function serviceName(id: string, fallback = "Servicio profesional") {
   return (
     SERVICES.find((service) => service.id === id)?.name ??
-    "Servicio profesional"
+    LEGACY_SERVICES.find((service) => service.id === id)?.name ??
+    fallback
   );
 }
