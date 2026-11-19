@@ -30,6 +30,7 @@ test("busca por palabras, tildes y siglas sin imponer equivalencias", () => {
   );
   assert.equal(searchBenefits("CET")[0]?.id, "centro-educativo-terapeutico");
   assert.equal(searchBenefits("fono").length, 3);
+  assert.deepEqual(searchBenefits("FONOAUDIOLOGÍA"), searchBenefits("fono"));
   assert.equal(searchBenefits("MAI").length, 2);
   assert.equal(searchBenefits("acompañante terapéutico").length, 0);
 });

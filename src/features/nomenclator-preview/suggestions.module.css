@@ -1,0 +1,95 @@
+/* En test el texto y su ayuda preceden a los filtros territoriales. */
+.search {
+  grid-template-columns: 1.16fr 1fr auto;
+}
+.search > :first-child {
+  grid-column: 1 / -1;
+}
+.suggestions {
+  margin-top: 10px;
+  color: var(--ink);
+}
+.hint {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+.badge {
+  display: inline-block;
+  padding: 1px 7px;
+  margin-right: 5px;
+  border-radius: 5px;
+  background: var(--info-bg);
+  color: var(--info-ink);
+  font-size: 0.75rem;
+  font-weight: 650;
+}
+.matches {
+  margin-top: 14px;
+}
+.serviceHint {
+  margin: 0 0 12px;
+  color: var(--ink);
+  font-size: 0.9375rem;
+}
+.title {
+  margin: 0 0 10px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  list-style: none;
+  gap: 10px;
+  padding: 0;
+  margin: 0 0 10px;
+}
+.list li {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  padding: 14px;
+  background: var(--sky);
+  border: 1px solid var(--line-strong);
+  border-radius: 9px;
+}
+.list strong {
+  font-size: 0.875rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+.list span {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.link {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 44px;
+  padding-block: 7px;
+  font-size: 0.875rem;
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.link svg {
+  flex-shrink: 0;
+}
+@media (max-width: 900px) {
+  .search {
+    grid-template-columns: 1fr 1fr;
+  }
+  .search > button {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 600px) {
+  .list {
+    grid-template-columns: 1fr;
+  }
+}

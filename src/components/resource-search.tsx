@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { MapPin, Search } from "lucide-react";
 import { PROVINCES } from "@/lib/geography";
+import { BenefitSuggestions } from "@/features/nomenclator-preview/suggestions";
+import previewStyles from "@/features/nomenclator-preview/suggestions.module.css";
 
 type Defaults = {
   query?: string;
@@ -15,10 +17,13 @@ type Defaults = {
 export function ResourceSearch({
   defaults = {},
   compact = false,
+  nomenclatorPreview = false,
 }: {
   defaults?: Defaults;
   compact?: boolean;
+  nomenclatorPreview?: boolean;
 }) {
+  const [query, setQuery] = useState(defaults.query ?? "");
   const [province, setProvince] = useState(defaults.province ?? "");
   const [locality, setLocality] = useState(defaults.locality ?? "");
 
@@ -26,7 +31,7 @@ export function ResourceSearch({
     <form
       action="/directorio"
       method="get"
-      className={`resource-search ${compact ? "search-compact" : ""}`}
+      className={`resource-search ${compact ? "search-compact" : ""} ${nomenclatorPreview ? previewStyles.search : ""}`}
     >
       {defaults.category && (
         <input type="hidden" name="categoria" value={defaults.category} />
@@ -41,10 +46,15 @@ export function ResourceSearch({
             name="q"
             type="search"
             placeholder="Un profesional, una escuela, un apoyo…"
-            defaultValue={defaults.query ?? ""}
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            aria-describedby={
+              nomenclatorPreview ? "benefit-suggestions-hint" : undefined
+            }
             maxLength={160}
           />
         </div>
+        {nomenclatorPreview && <BenefitSuggestions query={query} />}
       </div>
       <div className="search-field">
         <label htmlFor="resource-province">Provincia</label>

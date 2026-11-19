@@ -33,8 +33,12 @@ const icons = {
 };
 const INITIAL_RESULTS = 5;
 
-export function NomenclatorPreview() {
-  const [query, setQuery] = useState("");
+export function NomenclatorPreview({
+  initialQuery = "",
+}: {
+  initialQuery?: string;
+}) {
+  const [query, setQuery] = useState(initialQuery);
   const [category, setCategory] = useState<CategoryId | "">("");
   const [showAll, setShowAll] = useState(false);
   const [selected, setSelected] = useState<Benefit | null>(null);

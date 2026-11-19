@@ -135,7 +135,7 @@ export const BENEFITS: Benefit[] = [
   },
 ];
 
-const normalize = (value: string) =>
+export const normalizeSearchText = (value: string) =>
   value
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
@@ -143,10 +143,12 @@ const normalize = (value: string) =>
     .trim();
 
 export function searchBenefits(query: string, category: CategoryId | "" = "") {
-  const words = normalize(query).split(/\s+/).filter(Boolean);
+  const words = normalizeSearchText(query).split(/\s+/).filter(Boolean);
   return BENEFITS.filter((item) => {
     if (category && item.category !== category) return false;
-    const searchable = normalize([item.name, ...item.terms].join(" "));
+    const searchable = normalizeSearchText(
+      [item.name, ...item.terms].join(" "),
+    );
     return words.every((word) => searchable.includes(word));
   });
 }
