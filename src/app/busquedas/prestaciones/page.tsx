@@ -10,8 +10,15 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function BenefitsPreviewPage() {
+export default async function BenefitsPreviewPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string | string[] }>;
+}) {
   await connection();
   if (!isNomenclatorPreviewEnabled()) notFound();
-  return <NomenclatorPreview />;
+  const params = await searchParams;
+  const query =
+    typeof params.q === "string" ? params.q.slice(0, 160).trim() : "";
+  return <NomenclatorPreview key={query} initialQuery={query} />;
 }

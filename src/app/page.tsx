@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { connection } from "next/server";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -20,6 +21,7 @@ import { ResourceSearch } from "@/components/resource-search";
 import { CommunityArt } from "@/components/community-art";
 import { categories } from "@/lib/catalog";
 import { CommunitySteps } from "@/features/community/components";
+import { isNomenclatorPreviewEnabled } from "@/features/nomenclator-preview/availability";
 
 const categoryIcons = {
   profesionales: Stethoscope,
@@ -30,7 +32,8 @@ const categoryIcons = {
   comunidad: UsersRound,
 };
 
-export default function Home() {
+export default async function Home() {
+  await connection();
   return (
     <>
       <section className="hero">
@@ -57,7 +60,9 @@ export default function Home() {
         </div>
         <div className="container">
           <div className="search-card">
-            <ResourceSearch />
+            <ResourceSearch
+              nomenclatorPreview={isNomenclatorPreviewEnabled()}
+            />
             <div className="search-note">
               <span>
                 <MapPin size={14} /> Ayuda local e información para todo el
