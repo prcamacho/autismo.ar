@@ -23,6 +23,7 @@ import {
 } from "@/features/exchanges/components/shared";
 import { LocationPicker } from "@/features/exchanges/components/location-picker";
 import { RadioChoices } from "@/features/exchanges/components/fields";
+import { isNomenclatorPreviewEnabled } from "@/features/nomenclator-preview/availability";
 import styles from "@/features/exchanges/exchanges.module.css";
 
 export const metadata: Metadata = {
@@ -79,6 +80,15 @@ export default async function SearchesPage({
       description="Explorá disponibilidad profesional o publicá una búsqueda. Elegí las zonas que te sirven y conversá sin publicar tu teléfono."
       current="/busquedas"
     >
+      {isNomenclatorPreviewEnabled() && (
+        <p className={styles.notice}>
+          Vista previa:{" "}
+          <Link href="/busquedas/prestaciones">
+            probá el buscador por prestación y categorías
+          </Link>
+          .
+        </p>
+      )}
       <div className={styles.actions}>
         <Link href="/busquedas/nueva?tipo=request" className="button">
           Busco un profesional
