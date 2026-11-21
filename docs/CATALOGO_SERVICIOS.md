@@ -1,6 +1,6 @@
 # Catálogo normalizado de servicios
 
-Implementación autorizada el 19/11/2026 exclusivamente para `test`. Sustituye la ayuda experimental de prestaciones de la portada. La migración `20261119224728_normalized_service_catalog.sql` se aplicó a Supabase `hmpqojhurrtujbcakzkv` (registro remoto `20261119230538`); no se aplicó a producción. El commit y el despliegue de la aplicación se registran en la solicitud de integración a `test`.
+Implementación inicialmente autorizada el 19/11/2026 para `test`, publicada mediante la [PR #13](https://github.com/prcamacho/autismo.ar/pull/13). Sustituye la ayuda experimental de prestaciones de la portada. La migración `20261119224728_normalized_service_catalog.sql` se aplicó primero a Supabase `hmpqojhurrtujbcakzkv` (registro remoto `20261119230538`). El responsable autorizó la promoción a producción el 21/11/2026; las migraciones productivas, el commit, el despliegue y las comprobaciones resultantes se registran en la [PR #14](https://github.com/prcamacho/autismo.ar/pull/14).
 
 ## Buscar y publicar
 

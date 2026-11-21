@@ -3,7 +3,7 @@
 ## DEC-009 — Catálogo compartido y búsqueda por selección
 
 - **Fecha:** 19 de noviembre de 2026.
-- **Estado:** implementación y publicación autorizadas únicamente en `test`. Migración aplicada a su base aislada; evidencia y alcance en [CATALOGO_SERVICIOS.md](./CATALOGO_SERVICIOS.md).
+- **Estado:** implementado y publicado inicialmente en `test`. Promoción a producción autorizada por el responsable el 21/11/2026; la [PR #14](https://github.com/prcamacho/autismo.ar/pull/14) registra migraciones, publicación y verificación. Evidencia y alcance en [CATALOGO_SERVICIOS.md](./CATALOGO_SERVICIOS.md).
 - **Decisión:** sustituir las prestaciones relacionadas por un autocompletado sencillo de nombres normalizados. Compartir IDs entre búsquedas, publicaciones y fichas comunitarias; ampliar la lista inicial a 33 opciones, incluidas 22 especialidades médicas. Ofrecer los modos «Busco apoyo» y «Soy profesional», conservando las restricciones de acceso a solicitudes familiares.
 - **Gobierno:** pedir opciones faltantes mediante solicitudes privadas revisadas. Admitir sinónimos, nuevas opciones con fuente y borradores recuperables; nunca publicar automáticamente. Mantener textos descriptivos y nombres de entidades, pero no clasificaciones libres. Conservar datos históricos sin asignaciones automáticas.
 - **Nomenclador:** queda separado de las especialidades y roles. No hay equivalencias automáticas ni promesas de cobertura. La vista experimental previa se retira de la navegación activa.

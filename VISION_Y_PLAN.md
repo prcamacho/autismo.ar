@@ -34,7 +34,7 @@ Las provincias y localidades serán entidades con identificadores estables. La b
 
 ### Una ficha, varias formas de encontrarla
 
-Decisión del 19/11/2026 para test: un catálogo compartido normaliza los servicios de búsquedas, publicaciones y fichas profesionales. El buscador propone nombres para seleccionar y distingue «Busco apoyo» de «Soy profesional». Las opciones faltantes se solicitan y revisan; no se equiparan automáticamente a prestaciones del nomenclador. Alcance, lista inicial y estado en [CATALOGO_SERVICIOS.md](./docs/CATALOGO_SERVICIOS.md) y DEC-009. Producción conserva su versión hasta una promoción autorizada.
+Decisión del 19/11/2026, implementada primero en test: un catálogo compartido normaliza los servicios de búsquedas, publicaciones y fichas profesionales. El buscador propone nombres para seleccionar y distingue «Busco apoyo» de «Soy profesional». Las opciones faltantes se solicitan y revisan; no se equiparan automáticamente a prestaciones del nomenclador. Alcance, lista inicial y estado en [CATALOGO_SERVICIOS.md](./docs/CATALOGO_SERVICIOS.md) y DEC-009. La promoción a producción fue autorizada el 21/11/2026; la [PR #14](https://github.com/prcamacho/autismo.ar/pull/14) registra el resultado operativo.
 
 Cada entidad real tiene una ficha canónica. Un centro con varias terapias aparece en múltiples categorías sin duplicarse. Las sedes y sus horarios se modelan por separado cuando corresponda.
 
