@@ -14,6 +14,9 @@ import type { Database } from "@/lib/supabase/database.types";
 import { getSupabaseStatus } from "@/lib/supabase/config";
 import { type ActionResult } from "@/lib/result";
 import { findResources } from "@/features/resources/repository";
+import { getServiceCatalog } from "@/features/services/repository";
+import { getPlaces } from "@/features/locations/catalog";
+import { COVERAGES } from "@/features/services/model";
 
 export async function findPossibleDuplicates(name: string) {
   const parsed = z.string().trim().min(3).max(160).safeParse(name);
@@ -101,6 +104,36 @@ export async function submitProposal(
       message: parsed.error.issues[0]?.message || "Revisá el formulario.",
     };
   const p = parsed.data;
+  const catalog = await getServiceCatalog();
+  if (catalog.status !== "ready")
+    return { message: "No pudimos verificar el catálogo. Volvé a intentar." };
+  if (
+    p.resource.serviceIds?.some(
+      (id) => !catalog.data.some((s) => s.id === id),
+    ) ||
+    (p.resource.categoryIds.some(
+      (id) => id === "profesionales" || id === "centros",
+    ) &&
+      !p.resource.serviceIds?.length)
+  )
+    return {
+      message:
+        "Elegí al menos un servicio válido del catálogo para el profesional o centro.",
+    };
+  if (!COVERAGES.some((value) => value === p.resource.coverage))
+    return { message: "Elegí una cobertura de la lista." };
+  if (p.resource.scope === "local") {
+    try {
+      const place = getPlaces([p.resource.placeId ?? ""])[0];
+      if (
+        place.province !== p.resource.province ||
+        place.name !== p.resource.locality
+      )
+        throw new Error("location");
+    } catch {
+      return { message: "Elegí la localidad en la lista de ubicaciones." };
+    }
+  }
   const result = await perform("community_submit", {
     p_data: p.resource,
     p_source: p.sourceUrl,

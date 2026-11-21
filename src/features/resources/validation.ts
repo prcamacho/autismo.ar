@@ -28,6 +28,11 @@ export const resourceInputSchema = z
       )
       .min(1, "Elegí una categoría.")
       .max(6),
+    serviceIds: z
+      .array(z.string().regex(/^[a-z0-9][a-z0-9-]{1,59}$/))
+      .max(33)
+      .optional(),
+    placeId: z.string().max(80).optional(),
     scope: z.enum(["national", "province", "local"]),
     province: z.string().default(""),
     locality: z.string().trim().max(120).default(""),
@@ -89,6 +94,8 @@ export function proposalFromForm(form: FormData) {
   return {
     resource: Object.assign(Object.fromEntries(form), {
       categoryIds: form.getAll("categoryIds"),
+      serviceIds: form.getAll("serviceIds"),
+      placeId: form.get("placeId") ?? "",
       ageGroups: form.getAll("ageGroups"),
     }),
     resourceId: String(form.get("resourceId") || ""),

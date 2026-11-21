@@ -61,6 +61,9 @@ export default async function ModeratePage({
       description="Revisá privacidad, pertinencia y datos de presentación. Esta aprobación no certifica calidad ni credenciales profesionales."
     >
       <ExchangeNotice status={queue.status} />
+      <Link href="/catalogo/moderar" className="button button-secondary">
+        Revisar solicitudes al catálogo
+      </Link>
       <section className={styles.stack}>
         <h2>Perfiles pendientes</h2>
         {queue.status === "ready" && queue.data.profiles.length === 0 && (

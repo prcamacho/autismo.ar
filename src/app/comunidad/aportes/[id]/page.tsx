@@ -10,6 +10,8 @@ import {
   type CheckField,
 } from "@/features/community/model";
 import { fieldValue, requiredFields } from "@/features/community/fields";
+import { getServiceCatalog } from "@/features/services/repository";
+import { DuplicateFinder } from "@/features/community/duplicate-finder";
 import { ConnectionNotice } from "@/components/connection-notice";
 import { formatDate } from "@/lib/format";
 import { ActionForm } from "@/components/action-form";
@@ -51,9 +53,10 @@ export default async function ProposalPage({
     );
   if (!result.data) notFound();
   const p = result.data;
-  const [checks, current] = await Promise.all([
+  const [checks, current, catalog] = await Promise.all([
     getChecks(id),
     p.resource_id ? getResource(p.resource_id) : Promise.resolve(null),
+    getServiceCatalog(),
   ]);
   const required = requiredFields(p.data, current?.data?.data);
   const own = p.author_id === viewer.id;
@@ -109,15 +112,15 @@ export default async function ProposalPage({
                         <div className={styles.compare}>
                           <div>
                             <strong>Ficha actual</strong>
-                            {fieldValue(current.data.data, field)}
+                            {fieldValue(current.data.data, field, catalog.data)}
                           </div>
                           <div>
                             <strong>Propuesta</strong>
-                            {fieldValue(p.data, field)}
+                            {fieldValue(p.data, field, catalog.data)}
                           </div>
                         </div>
                       ) : (
-                        fieldValue(p.data, field)
+                        fieldValue(p.data, field, catalog.data)
                       )}
                     </dd>
                   </div>
@@ -242,13 +245,7 @@ export default async function ProposalPage({
                   Revisá que no haya datos privados, promesas sin sustento ni
                   duplicados antes de habilitar la revisión.
                 </p>
-                <Link
-                  target="_blank"
-                  href={`/directorio?q=${encodeURIComponent(p.data.name)}`}
-                  className="text-link"
-                >
-                  Buscar posibles duplicados ↗
-                </Link>
+                <DuplicateFinder name={p.data.name} />
                 <ActionForm action={moderateProposal} label="Guardar decisión">
                   <input type="hidden" name="proposal" value={id} />
                   <div className="form-field">

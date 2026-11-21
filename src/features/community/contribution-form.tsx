@@ -9,6 +9,8 @@ import { type ActionResult } from "@/lib/result";
 import styles from "@/components/ui.module.css";
 import { ContributionFields } from "./contribution-fields";
 import { DRAFT_MAX_BYTES, parseDraft, serializeDraft } from "./draft";
+import type { Service } from "@/features/services/model";
+import type { Place } from "@/features/locations/model";
 
 type Defaults = Partial<ResourceInput>;
 export function ContributionForm({
@@ -17,18 +19,23 @@ export function ContributionForm({
   version = 0,
   sourceUrl = "",
   canSubmit,
+  services,
+  initialPlace,
 }: {
   defaults?: Defaults;
   resourceId?: string;
   version?: number;
   sourceUrl?: string;
   canSubmit: boolean;
+  services: Service[];
+  initialPlace?: Place | null;
 }) {
   const [initial, setInitial] = useState({
     data: defaults,
     sourceUrl,
     note: "",
     key: 0,
+    place: initialPlace,
   });
   const [scope, setScope] = useState(defaults.scope || "national");
   const [name, setName] = useState(defaults.name || "");
@@ -69,11 +76,31 @@ export function ContributionForm({
     }
     try {
       const draft = parseDraft(await file.text(), resourceId, version);
+      let place: Place | null = null;
+      if (draft.resource.placeId) {
+        const response = await fetch(
+          `/api/ubicaciones?${new URLSearchParams({ ids: draft.resource.placeId })}`,
+        );
+        if (!response.ok)
+          throw new Error(
+            "No pudimos recuperar la localidad del borrador. Volvé a intentar.",
+          );
+        const result = await response.json();
+        place =
+          result.places?.find(
+            (item: Place) => item.id === draft.resource.placeId,
+          ) ?? null;
+        if (!place || place.province !== draft.resource.province)
+          throw new Error(
+            "La localidad del borrador no coincide con su provincia.",
+          );
+      }
       setInitial((previous) => ({
         data: draft.resource,
         sourceUrl: draft.sourceUrl,
         note: draft.note,
         key: previous.key + 1,
+        place,
       }));
       setScope(draft.resource.scope);
       setName(draft.resource.name);
@@ -137,6 +164,8 @@ export function ContributionForm({
           onScopeChange={setScope}
           sourceUrl={initial.sourceUrl}
           note={initial.note}
+          services={services}
+          initialPlace={initial.place}
         />
         <div className={styles.actions}>
           <button className="button" type="submit">

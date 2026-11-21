@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { connection } from "next/server";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -16,7 +17,8 @@ import {
   Stethoscope,
   UsersRound,
 } from "lucide-react";
-import { ResourceSearch } from "@/components/resource-search";
+import { SearchForm } from "@/features/services/search-form";
+import { getServiceCatalog } from "@/features/services/repository";
 import { CommunityArt } from "@/components/community-art";
 import { categories } from "@/lib/catalog";
 import { CommunitySteps } from "@/features/community/components";
@@ -30,7 +32,9 @@ const categoryIcons = {
   comunidad: UsersRound,
 };
 
-export default function Home() {
+export default async function Home() {
+  await connection();
+  const catalog = await getServiceCatalog();
   return (
     <>
       <section className="hero">
@@ -57,7 +61,7 @@ export default function Home() {
         </div>
         <div className="container">
           <div className="search-card">
-            <ResourceSearch />
+            <SearchForm services={catalog.data} status={catalog.status} />
             <div className="search-note">
               <span>
                 <MapPin size={14} /> Ayuda local e información para todo el
@@ -127,7 +131,7 @@ export default function Home() {
             </div>
             <p className="section-aside">
               Este espacio reúne caminos posibles para buscar orientación,
-              conocer apoyos y encontrar recursos, a tu ritmo.
+              conocer apoyos y encontrar recursos.
             </p>
           </div>
           <div className="info-grid">

@@ -2,8 +2,14 @@ import { checkFields, type CheckField } from "./model";
 import type { ResourceInput } from "@/features/resources/validation";
 import { getProvinceName } from "@/lib/geography";
 import { categories } from "@/lib/catalog";
+import { serviceName } from "@/features/exchanges/model";
+import type { Service } from "@/features/services/model";
 
-export function fieldValue(data: ResourceInput, field: CheckField): string {
+export function fieldValue(
+  data: ResourceInput,
+  field: CheckField,
+  services: Service[] = [],
+): string {
   switch (field) {
     case "name":
       return data.name;
@@ -26,7 +32,9 @@ export function fieldValue(data: ResourceInput, field: CheckField): string {
       return `${data.description}\n${categories
         .filter((c) => data.categoryIds.includes(c.id))
         .map((c) => c.name)
-        .join(", ")}`;
+        .join(
+          ", ",
+        )}${data.serviceIds?.length ? `\nServicios: ${data.serviceIds.map((id) => services.find((service) => service.id === id)?.name ?? serviceName(id, "Servicio pendiente de recuperar")).join(", ")}` : ""}`;
   }
 }
 
@@ -36,7 +44,7 @@ export function fieldSnapshot(data: ResourceInput, field: CheckField): unknown {
     case "name":
       return data.name;
     case "location":
-      return [data.scope, data.province, data.locality];
+      return [data.scope, data.province, data.locality, data.placeId ?? ""];
     case "contact":
       return [data.website, data.phone, data.hours];
     case "coverage":
@@ -44,7 +52,7 @@ export function fieldSnapshot(data: ResourceInput, field: CheckField): unknown {
     case "ages":
       return data.ageGroups;
     case "description":
-      return [data.description, data.categoryIds];
+      return [data.description, data.categoryIds, data.serviceIds ?? []];
   }
 }
 export function requiredFields(

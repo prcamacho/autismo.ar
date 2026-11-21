@@ -8,6 +8,9 @@ import { getPlaces } from "@/features/locations/catalog";
 import type { ExchangeFunctions } from "./db-contract";
 import { exchangeClient, recordExchangeFailure } from "./server";
 import { getOwnProfile } from "./repository";
+import { getServiceCatalog } from "@/features/services/repository";
+import { serviceRoles } from "@/features/services/model";
+import { requestService } from "@/features/services/actions";
 import {
   fromListingForm,
   fromProfileForm,
@@ -48,6 +51,7 @@ const errors: Record<string, string> = {
     "La publicación necesita revisión antes de cambiar su estado.",
   REPORT_RESOLVED: "El reporte ya fue resuelto. Actualizá la página.",
   INVALID_INPUT: "Revisá los datos antes de volver a enviar.",
+  INVALID_SERVICE: "Elegí un servicio y un rol válidos del catálogo.",
   INVALID_PHOTO: "La foto no pertenece al perfil. Volvé a cargarla.",
   INVALID_LOCATION: "Revisá las ubicaciones seleccionadas.",
   PHOTO_SIZE:
@@ -204,6 +208,15 @@ export async function saveListing(
   _: ActionResult,
   form: FormData,
 ): Promise<ActionResult> {
+  if (form.get("intent") === "catalog-request") return requestService(_, form);
+  const catalog = await getServiceCatalog();
+  if (catalog.status !== "ready")
+    return invalid(
+      "No pudimos verificar el catálogo. Conservá el formulario y volvé a intentar.",
+    );
+  const service = catalog.data.find((item) => item.id === form.get("service"));
+  if (!service || !serviceRoles(service).includes(String(form.get("role"))))
+    return invalid(errors.INVALID_SERVICE);
   const data = listingSchema.safeParse(fromListingForm(form));
   const fields = z
     .object({

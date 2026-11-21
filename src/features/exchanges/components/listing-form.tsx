@@ -1,6 +1,14 @@
 "use client";
 
-import { useId } from "react";
+import { useId, useState } from "react";
+import { ServicePicker } from "@/features/services/service-picker";
+import {
+  serviceRoles,
+  ENGAGEMENTS,
+  COVERAGES,
+  type Service,
+} from "@/features/services/model";
+import type { ListingData } from "../model";
 import type { Place } from "@/features/locations/model";
 import { saveListing } from "../actions";
 import {
@@ -8,7 +16,6 @@ import {
   AVAILABILITY,
   DAYS,
   MODALITIES,
-  SERVICES,
   SHIFTS,
   type ListingKind,
 } from "../model";
@@ -30,15 +37,24 @@ export function ListingForm({
   initialPlaces,
   disabled,
   nonce,
+  services,
+  draft,
 }: {
   kind: ListingKind;
   listing?: ListingView;
   initialPlaces: Place[];
   disabled: boolean;
   nonce: string;
+  services: Service[];
+  draft?: Partial<ListingData>;
 }) {
   const id = useId();
-  const data = listing?.data;
+  const data = listing?.data ?? draft;
+  const [serviceId, setServiceId] = useState(
+    services.some((s) => s.id === data?.service) ? (data?.service ?? "") : "",
+  );
+  const selectedService = services.find((s) => s.id === serviceId);
+  const roles = serviceRoles(selectedService);
   const offering = kind === "offer";
   return (
     <MutationForm
@@ -58,44 +74,93 @@ export function ListingForm({
           ? "Publicá las zonas donde aceptás trabajar. No hace falta indicar dónde vivís."
           : "Tu búsqueda será visible para cuentas registradas. No incluyas nombres de menores, diagnósticos, escuela concreta ni domicilio."}
       </p>
-      <TextField
-        name="title"
-        label="Título de la publicación"
-        required
-        minLength={5}
-        maxLength={120}
-        defaultValue={data?.title}
+      <p className={styles.meta}>
+        El título se arma con el servicio, la ubicación y la modalidad que
+        elijas.
+      </p>
+      {data?.service && !services.some((s) => s.id === data.service) && (
+        <p className={styles.notice}>
+          La clasificación anterior necesita actualizarse. Elegí el servicio
+          específico para guardar los cambios.
+        </p>
+      )}
+      <ServicePicker
+        services={services}
+        value={serviceId}
+        onChange={setServiceId}
+        requestLink={false}
       />
+      <details className={styles.disclosure}>
+        <summary>No encuentro lo que necesito</summary>
+        <div className={styles.stack}>
+          <p>
+            Pedí que incorporemos una opción. Guardaremos los datos de este
+            formulario como borrador privado junto con tu solicitud.
+          </p>
+          <TextField
+            name="requestedName"
+            label="Nombre de la opción que falta"
+            maxLength={100}
+          />
+          <TextAreaField
+            name="reason"
+            label="Por qué necesitás esta opción"
+            maxLength={1000}
+            help="No incluyas nombres de menores, diagnósticos, domicilios ni datos de contacto."
+          />
+          <TextField
+            name="source"
+            label="Fuente pública (opcional)"
+            type="url"
+            maxLength={1000}
+          />
+          <input type="hidden" name="withDraft" value="on" />
+          <button
+            type="submit"
+            name="intent"
+            value="catalog-request"
+            formNoValidate
+            disabled={disabled}
+            className="button button-secondary"
+          >
+            Guardar borrador y pedir opción
+          </button>
+        </div>
+      </details>
       <div className={styles.field}>
-        <label htmlFor={`${id}-service`}>Servicio (obligatorio)</label>
+        <label htmlFor={`${id}-role`}>Rol (obligatorio)</label>
         <select
-          id={`${id}-service`}
-          name="service"
+          key={serviceId}
+          id={`${id}-role`}
+          name="role"
           required
-          defaultValue={data?.service ?? ""}
+          defaultValue={
+            roles.includes(data?.role ?? "")
+              ? data?.role
+              : roles.length === 1
+                ? roles[0]
+                : ""
+          }
         >
-          <option value="">Elegí un servicio</option>
-          {SERVICES.map((service) => (
-            <option key={service.id} value={service.id}>
-              {service.name}
+          <option value="">
+            {serviceId ? "Elegí un rol" : "Elegí primero un servicio"}
+          </option>
+          {roles.map((role) => (
+            <option key={role} value={role}>
+              {role}
             </option>
           ))}
         </select>
       </div>
-      <TextField
-        name="role"
-        label={offering ? "Rol que ofrecés" : "Rol o apoyo que buscás"}
-        required
-        minLength={2}
-        maxLength={120}
-        defaultValue={data?.role}
-        help="Las denominaciones pueden variar por jurisdicción. MAI, AIE y acompañamiento terapéutico tienen funciones diferentes. Si no conocés el nombre del rol, describí el apoyo."
-      />
+      {serviceId === "inclusion-escolar" && (
+        <p className={styles.meta}>
+          MAI, AIE y acompañamiento terapéutico tienen funciones diferentes. Las
+          denominaciones y requisitos dependen de la jurisdicción.
+        </p>
+      )}
       <TextAreaField
         name="description"
-        label={offering ? "Sobre este servicio" : "Descripción de la búsqueda"}
-        required
-        minLength={20}
+        label="Aclaraciones (opcional)"
         maxLength={1500}
         defaultValue={data?.description}
         help="Usá el contacto privado para conversar. No publiques teléfonos, correos ni documentación personal o médica."
@@ -144,13 +209,41 @@ export function ListingForm({
         options={AGE_GROUPS}
         selected={data?.ageGroups}
       />
-      <TextField
-        name="engagement"
-        label="Modalidad de contratación o cobertura (opcional)"
-        maxLength={200}
-        defaultValue={data?.engagement}
-        help="Por ejemplo, si trabajás de forma particular o a través de una institución. No adjuntes credenciales ni documentación."
-      />
+      <div className={styles.field}>
+        <label htmlFor={`${id}-engagement`}>Contratación (opcional)</label>
+        <select
+          id={`${id}-engagement`}
+          name="engagement"
+          defaultValue={
+            ENGAGEMENTS.some((x) => x === data?.engagement)
+              ? data?.engagement
+              : ""
+          }
+        >
+          {ENGAGEMENTS.map((value) => (
+            <option key={value} value={value}>
+              {value || "Sin informar"}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className={styles.field}>
+        <label htmlFor={`${id}-coverage`}>Cobertura (opcional)</label>
+        <select
+          id={`${id}-coverage`}
+          name="coverage"
+          defaultValue={data?.coverage ?? ""}
+        >
+          {COVERAGES.map((value) => (
+            <option key={value} value={value}>
+              {value || "Sin informar"}
+            </option>
+          ))}
+        </select>
+        <p className={styles.meta}>
+          Es información declarada. Confirmá los requisitos con la otra persona.
+        </p>
+      </div>
       <CheckField
         name="receiveRequests"
         label="Acepto recibir solicitudes de contacto vinculadas a esta publicación."

@@ -49,6 +49,7 @@ export function ExchangeNav({ current }: { current?: string }) {
         ["/busquedas/mis-publicaciones", "Mis publicaciones"],
         ["/busquedas/perfil", "Mi perfil profesional"],
         ["/mensajes", "Mensajes"],
+        ["/catalogo/solicitudes", "Mis solicitudes al catálogo"],
       ].map(([href, label]) => (
         <Link
           key={href}
@@ -96,7 +97,7 @@ export function EmptyPanel({
   children,
 }: {
   title: string;
-  children: ReactNode;
+  children?: ReactNode;
 }) {
   return (
     <div className={styles.card}>
@@ -147,7 +148,7 @@ export function ListingCard({
         <Link href={`/busquedas/${listing.id}`}>{listing.data.title}</Link>
       </h2>
       <p>
-        {serviceName(listing.data.service)} ·{" "}
+        {serviceName(listing.data.service, listing.data.role)} ·{" "}
         {MODALITIES[listing.data.modality]}
       </p>
       <LocationList ids={listing.data.locationIds} />

@@ -3,10 +3,12 @@ import Link from "next/link";
 import { Info } from "lucide-react";
 import { EmptyState } from "@/components/empty-state";
 import { PageIntro } from "@/components/page-intro";
-import { ResourceSearch } from "@/components/resource-search";
+import { SearchForm } from "@/features/services/search-form";
+import { getServiceCatalog } from "@/features/services/repository";
+import { getPlaces } from "@/features/locations/catalog";
 import { categories } from "@/lib/catalog";
 import { getProvinceName } from "@/lib/geography";
-import { findResources } from "@/features/resources/repository";
+import { findCatalogResources } from "@/features/resources/repository";
 import { ageGroups } from "@/features/resources/validation";
 import { ResourceCard } from "@/features/resources/resource-card";
 import { ConnectionNotice } from "@/components/connection-notice";
@@ -37,10 +39,17 @@ export default async function DirectoryPage({
   searchParams: Promise<SearchParams>;
 }) {
   const params = await searchParams;
-  const query = firstValue(params.q, 160);
+  const catalog = await getServiceCatalog();
+  const service = firstValue(params.service, 60);
+  const query = catalog.data.find((s) => s.id === service)?.name ?? "";
+  const place = firstValue(params.place, 80);
+  let selectedPlace = null;
+  try {
+    selectedPlace = place ? getPlaces([place])[0] : null;
+  } catch {}
   const category = firstValue(params.categoria);
-  const province = firstValue(params.provincia);
-  const locality = firstValue(params.localidad, 120);
+  const province = firstValue(params.province ?? params.provincia);
+  const locality = selectedPlace?.name ?? "";
   const age = firstValue(params.edad);
   const page = readPage(params.pagina);
   const activeCategory = categories.find((item) => item.id === category);
@@ -50,13 +59,28 @@ export default async function DirectoryPage({
   const invalidProvince = Boolean(province && !provinceName);
   const missingProvince = Boolean(locality && !province);
   const invalidFilters =
+    Boolean(
+      (service && !query) ||
+      (place && selectedPlace?.province !== province) ||
+      params.q ||
+      params.localidad ||
+      (!service && firstValue(params["service-texto"])) ||
+      (!place && firstValue(params["place-texto"])),
+    ) ||
     invalidCategory ||
     invalidProvince ||
     missingProvince ||
     Boolean(age && !ageGroups.some((a) => a === age));
   const result = invalidFilters
     ? { data: [], status: "ready" as const }
-    : await findResources({ query, category, province, locality, age, page });
+    : await findCatalogResources({
+        service,
+        category,
+        province,
+        place,
+        age,
+        page,
+      });
   const results = result.data.slice(0, PAGE_SIZE);
   const locationLabel = provinceName
     ? locality
@@ -66,10 +90,10 @@ export default async function DirectoryPage({
 
   function categoryHref(nextCategory?: string, nextAge = age): string {
     const filters = new URLSearchParams();
-    if (query) filters.set("q", query);
+    if (service) filters.set("service", service);
     if (nextCategory) filters.set("categoria", nextCategory);
-    if (province) filters.set("provincia", province);
-    if (locality) filters.set("localidad", locality);
+    if (province) filters.set("province", province);
+    if (place) filters.set("place", place);
     if (nextAge) filters.set("edad", nextAge);
     return filters.size ? `/directorio?${filters.toString()}` : "/directorio";
   }
@@ -77,7 +101,8 @@ export default async function DirectoryPage({
   const contributionParams = new URLSearchParams();
   if (activeCategory) contributionParams.set("categoria", activeCategory.id);
   if (provinceName) contributionParams.set("provincia", province);
-  if (locality && provinceName) contributionParams.set("localidad", locality);
+  if (place && provinceName) contributionParams.set("place", place);
+  if (service) contributionParams.set("service", service);
   const contributionHref = contributionParams.size
     ? `/aportar?${contributionParams.toString()}`
     : "/aportar";
@@ -95,7 +120,7 @@ export default async function DirectoryPage({
     emptyTitle = "Revisá los filtros de tu búsqueda";
     emptyDescription = missingProvince
       ? "Para buscar una localidad, elegí primero su provincia. Así evitamos confundir lugares con el mismo nombre."
-      : "La búsqueda incluye una provincia o categoría que no reconocemos. Elegí una opción del formulario o limpiá los filtros para empezar de nuevo.";
+      : "La búsqueda incluye texto sin seleccionar o una opción que no reconocemos. Elegí una opción del formulario o limpiá los filtros para empezar de nuevo.";
   }
 
   return (
@@ -106,10 +131,17 @@ export default async function DirectoryPage({
         description="Un directorio para consultar profesionales, servicios y redes de apoyo. Buscá por tema y ubicación, con los recursos nacionales siempre a mano."
       />
       <section className="section-small container" aria-label="Buscar recursos">
-        <ResourceSearch
-          key={JSON.stringify({ query, category, province, locality, age })}
-          defaults={{ query, category, province, locality, age }}
-          compact
+        <SearchForm
+          key={JSON.stringify({ service, province, place, category, age })}
+          services={catalog.data}
+          status={catalog.status}
+          initialService={service}
+          initialProvince={province}
+          initialPlace={selectedPlace}
+          directory
+          category={category}
+          age={age}
+          required={false}
         />
         <nav className="chips" aria-label="Filtrar por categoría">
           <Link
