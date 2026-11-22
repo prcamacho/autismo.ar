@@ -37,6 +37,8 @@ Para detener la captura, establecer `POSTHOG_ENABLED=false` únicamente en el se
 
 ## Evidencia de entrega
 
-Implementación en [PR #15 hacia test](https://github.com/prcamacho/autismo.ar/pull/15). La solicitud de promoción y su registro de verificación deben acreditar el despliegue y la recepción real; este documento por sí solo no acredita activación. Las 80 pruebas generales y el lint pasaron el 22/11/2026. La primera compilación local encontró una restricción de Windows al crear un junction de `sharp`; se repite fuera del sandbox, sin cambiar la configuración del producto.
+Implementación en [PR #15 hacia test](https://github.com/prcamacho/autismo.ar/pull/15) y promoción a producción en [PR #16](https://github.com/prcamacho/autismo.ar/pull/16). El registro de verificación de la PR #16 es la evidencia del despliegue y de la recepción real, incluidos los pendientes; este documento por sí solo no acredita activación.
+
+El 22/11/2026 pasaron las 80 pruebas generales, las cinco pruebas específicas repetidas tras el ajuste de sesiones, lint, TypeScript y la compilación local de producción. Esta compilación debió ejecutarse fuera del sandbox por una restricción de Windows al crear un junction de `sharp`, sin cambiar la configuración del producto. La configuración local no activa PostHog. npm también informó vulnerabilidades de dependencias existentes, incluidas Next.js y sharp; no se actualizan en esta entrega.
 
 Referencias: [proyectos y separación por dominio](https://posthog.com/docs/settings/projects), [facturación compartida](https://posthog.com/docs/billing/common-questions), [controles de captura](https://posthog.com/docs/privacy/data-collection), [sesiones de Web Analytics](https://posthog.com/docs/data/sessions). Se aplicaron las guías `performance` y `deprioritize-background-fetches` de Modern Web Guidance: carga diferida del SDK y prioridad baja de las solicitudes.
