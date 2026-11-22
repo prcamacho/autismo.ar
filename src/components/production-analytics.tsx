@@ -39,6 +39,7 @@ function loadClient(token: string) {
         person_profiles: "never",
         bootstrap: { distinctID: `autismo.ar:${crypto.randomUUID()}` },
         fetch_options: fetchOptions,
+        disable_beacon: true,
         disableDeviceModel: true,
         save_referrer: false,
         save_campaign_params: false,

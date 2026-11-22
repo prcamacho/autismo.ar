@@ -15,6 +15,7 @@ const production = {
   NEXT_PUBLIC_SITE_URL: "https://autismo.ar",
   POSTHOG_PROJECT_TOKEN: "phc_testTokenOnly",
 };
+const sessionId = "019aab12-1234-7123-8123-123456789abc";
 
 test("analytics fails closed outside the explicitly configured production environment", () => {
   assert.deepEqual(analyticsConfig(production), {
@@ -81,11 +82,16 @@ test("private routes and unknown pages never become analytics events", () => {
 
 test("the payload has a closed schema with no content, account identity, referrer or search text", () => {
   const distinctId = "autismo.ar:12345678-1234-1234-1234-123456789abc";
-  const properties = pageviewProperties("/articulos/[id]", distinctId)!;
+  const properties = pageviewProperties(
+    "/articulos/[id]",
+    distinctId,
+    sessionId,
+  )!;
   assert.deepEqual(
     Object.keys(properties).sort(),
     [
       "distinct_id",
+      "$session_id",
       "$current_url",
       "$host",
       "$pathname",
@@ -100,12 +106,17 @@ test("the payload has a closed schema with no content, account identity, referre
   assert.equal(properties.$ip, "0.0.0.0");
   assert.equal(properties.$geoip_disable, true);
   assert.equal(properties.$process_person_profile, false);
-  assert.equal(pageviewProperties("/cuenta", distinctId), null);
+  assert.equal(pageviewProperties("/cuenta", distinctId, sessionId), null);
   assert.equal(
-    pageviewProperties("/directorio?q=diagnostico", distinctId),
+    pageviewProperties("/directorio?q=diagnostico", distinctId, sessionId),
     null,
   );
-  assert.equal(pageviewProperties("/", "private@example.org"), null);
+  assert.equal(pageviewProperties("/", "private@example.org", sessionId), null);
+  assert.equal(
+    pageviewProperties("/", distinctId, "private@example.org"),
+    null,
+  );
+  assert.equal(properties.$session_id, sessionId);
 });
 
 test("the SDK hook drops automatic events and removes even top-level profile properties", () => {
@@ -116,6 +127,7 @@ test("the SDK hook drops automatic events and removes even top-level profile pro
     $set_once: { $initial_current_url: "https://autismo.ar/?secret=hidden" },
     properties: {
       distinct_id: "autismo.ar:12345678-1234-1234-1234-123456789abc",
+      $session_id: sessionId,
       $pathname: "/directorio",
       $current_url: "https://autismo.ar/directorio?q=private",
       $referrer: "https://private.example/secret",

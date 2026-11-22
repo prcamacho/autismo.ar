@@ -63,14 +63,22 @@ const publicAnalyticsPaths = new Set([
   "/profesionales/[id]",
 ]);
 
-export function pageviewProperties(path: string, distinctId: string) {
+export function pageviewProperties(
+  path: string,
+  distinctId: string,
+  sessionId: string,
+) {
   if (
     !publicAnalyticsPaths.has(path) ||
-    !/^autismo\.ar:[0-9a-f-]{36}$/i.test(distinctId)
+    !/^autismo\.ar:[0-9a-f-]{36}$/i.test(distinctId) ||
+    !/^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+      sessionId,
+    )
   )
     return null;
   return {
     distinct_id: distinctId,
+    $session_id: sessionId,
     $current_url: `${ANALYTICS_ORIGIN}${path}`,
     $host: "autismo.ar",
     $pathname: path,
@@ -89,6 +97,7 @@ export function sanitizePageview(
   const properties = pageviewProperties(
     event.properties.$pathname,
     event.properties.distinct_id,
+    event.properties.$session_id,
   );
   return properties
     ? {

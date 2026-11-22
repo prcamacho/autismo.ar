@@ -5,7 +5,7 @@
 - **Fecha:** 22 de noviembre de 2026.
 - **Decisión:** medir visitas públicas básicas de autismo.ar en el proyecto PostHog existente de Vin Salta, por autorización expresa del responsable, con cupo y permisos compartidos. Solo se activa en producción; `test` y desarrollo local no envían datos.
 - **Privacidad y consumo:** rutas permitidas y normalizadas, sin parámetros ni IDs de contenido, identidad temporal en memoria, sin vincular cuentas, captura automática ni grabaciones. Respetar señales de no rastreo. No cambiar configuración ni instrumentación de otros dominios.
-- **Estado y validación:** implementación y activación en preparación. El estado verificable, límites y recuperación se registran en [ANALITICA.md](./ANALITICA.md).
+- **Estado y validación:** implementación en [PR #15](https://github.com/prcamacho/autismo.ar/pull/15). El estado verificable de activación, límites y recuperación se registran en [ANALITICA.md](./ANALITICA.md) y en la solicitud de promoción.
 
 ## DEC-009 — Catálogo compartido y búsqueda por selección
 
