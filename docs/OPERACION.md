@@ -25,10 +25,10 @@ Actualización de solo lectura del 10 de noviembre de 2026: ver [inventario y pr
 
 Durante esa preparación, `test` recibió la configuración de su base propia y producción mantuvo los interruptores en `false`. La credencial administrativa moderna de producción se validó y configuró solo en el servidor Railway; la clave legacy de ensayo no se comparte entre entornos. El disparador productivo se mantuvo inactivo hasta la comprobación manual prevista. El estado resultante de despliegues, activación y mantenimiento, con sus evidencias, se registra en la [PR #10](https://github.com/prcamacho/autismo.ar/pull/10). El presupuesto de avisos sigue en cero en ambos entornos. Ver [estado y pendientes de Búsquedas](./BUSQUEDAS.md) y [Artículos](./ARTICULOS.md). Se mantiene el desafío de Cloudflare en `test`; la revisión visual autenticada sigue limitada por el bloqueo de URL de la herramienta de navegador.
 
-| Rama prevista | Uso                                                   | Entorno y dirección previstos                                                                                            |
-| ------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Rama prevista | Uso                                                   | Entorno y dirección previstos                                                                                                                      |
+| ------------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `test`        | Implementar y comprobar cambios antes de publicarlos. | `test.autismo.ar`, HTTPS y sin indexación; público tras el desafío de Cloudflare. Base separada `autismo-ar-test`; estado de activación en PR #10. |
-| `main`        | Versión pública verificada.                           | Producción en `autismo.ar`, con Supabase y correo. Configuración conservada al activar `test`.                           |
+| `main`        | Versión pública verificada.                           | Producción en `autismo.ar`, con Supabase y correo. Configuración conservada al activar `test`.                                                     |
 
 Orden: cambio acotado en `test`, verificaciones automáticas, prueba del entorno, solicitud de integración a `main`, comprobaciones sobre el resultado a integrar, publicación autorizada y verificación de los recorridos afectados. Mantener ambas ramas coherentes después de integrar; una recuperación urgente debe seguir siendo trazable y reflejarse también en pruebas.
 
@@ -49,6 +49,8 @@ La primera etapa de `test`, del 12 de noviembre, omitía `NEXT_PUBLIC_SUPABASE_U
 Under Attack Mode es un desafío público, no un control de identidad. No subir información privada a este entorno. Revisar cualquier dominio Railway u otro acceso directo al origen antes de afirmar que todo el tráfico pasa por Cloudflare. Mantener `noindex` sin presentarlo como una restricción de acceso.
 
 ## 4. Impacto de consumo y costos
+
+La integración de PostHog autorizada el 22/11/2026 comparte únicamente el proyecto de analítica de Vin Salta y se limita a producción. Alcance, controles, cupo, recuperación y evidencia de activación en [ANALITICA.md](./ANALITICA.md) y DEC-010.
 
 Antes de implementar o habilitar cambios que puedan aumentar consumo o restar recursos a otra parte, comunicar de forma breve:
 

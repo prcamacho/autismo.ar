@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { themeInitScript } from "@/lib/theme";
+import { analyticsConfig } from "@/lib/analytics";
+import { ProductionAnalytics } from "@/components/production-analytics";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -17,6 +19,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const analytics = analyticsConfig(process.env);
   return (
     <html lang="es-AR" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
@@ -29,6 +32,7 @@ export default function RootLayout({
         <SiteHeader />
         <main id="contenido">{children}</main>
         <SiteFooter />
+        {analytics && <ProductionAnalytics config={analytics} />}
       </body>
     </html>
   );
