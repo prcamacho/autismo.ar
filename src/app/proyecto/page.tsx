@@ -156,6 +156,29 @@ export default function ProjectPage() {
           </Link>
         </div>
       </section>
+      <section
+        className="section-small container"
+        aria-labelledby="estadisticas-title"
+      >
+        <div className="panel prose">
+          <h2 id="estadisticas-title">Estadísticas de uso</h2>
+          <p>
+            En autismo.ar usamos PostHog para contar visitas a las secciones
+            públicas y entender cuáles resultan útiles. No vinculamos estas
+            estadísticas con tu cuenta ni guardamos cookies de analítica. El
+            identificador temporal de visita se descarta al recargar o cerrar la
+            página.
+          </p>
+          <p>
+            No grabamos sesiones ni enviamos formularios, mensajes, búsquedas
+            escritas o datos de perfiles. Las direcciones se envían sin
+            parámetros ni identificadores de artículos o personas. Respetamos
+            las señales de no rastreo y Control Global de Privacidad del
+            navegador. Las estadísticas se procesan en PostHog Cloud, en Estados
+            Unidos.
+          </p>
+        </div>
+      </section>
     </>
   );
 }
