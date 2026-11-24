@@ -91,24 +91,11 @@
   .section-heading > .text-link {
     white-space: normal;
   }
-  .section-aside {
-    max-width: 270px;
-    font-size: 12px;
-  }
-  .orientation-section h2 {
-    font-size: 26px;
-  }
   .info-grid {
     gap: 16px;
   }
   .info-card {
     padding: 22px;
-  }
-  .orientation-section .info-card {
-    padding-right: 15px;
-  }
-  .orientation-section .info-card + .info-card {
-    padding-left: 20px;
   }
   .info-card h3 {
     font-size: 17px;
@@ -141,13 +128,6 @@
   }
   .section-last {
     padding-top: 0;
-  }
-  .announcement {
-    font-size: 9px;
-    gap: 5px;
-    padding-inline: 12px;
-    flex-wrap: wrap;
-    min-height: 34px;
   }
   .header-inner {
     min-height: 74px;
@@ -271,7 +251,7 @@
     height: 7px;
   }
   .search-card {
-    padding: 20px 17px 0;
+    padding: 20px 17px;
     border-radius: 12px;
   }
   .resource-search {
@@ -298,15 +278,6 @@
   .input-wrap input,
   .input-wrap select {
     font-size: 16px;
-  }
-  .search-note {
-    justify-content: center;
-    padding-block: 12px;
-    margin-top: 15px;
-    font-size: 9px;
-  }
-  .search-note > a {
-    display: none;
   }
   .search-compact {
     padding: 18px;
@@ -357,23 +328,6 @@
     top: 22px;
     width: 14px;
   }
-  .starting-note {
-    align-items: baseline;
-    margin-top: 20px;
-  }
-  .starting-note p {
-    font-size: 10px;
-  }
-  .orientation-section .section {
-    padding-block: 39px;
-  }
-  .orientation-section h2 {
-    font-size: 26px;
-  }
-  .section-aside {
-    max-width: none;
-    font-size: 13px;
-  }
   .info-grid,
   .content-grid {
     grid-template-columns: 1fr;
@@ -389,17 +343,6 @@
   }
   .info-card p {
     font-size: 13px;
-  }
-  .orientation-section .info-card {
-    padding: 8px 0 18px;
-  }
-  .orientation-section .info-card + .info-card {
-    padding: 23px 0 18px;
-    border-left: 0;
-    border-top: 1px solid var(--line);
-  }
-  .orientation-section .small-icon {
-    margin-bottom: 12px;
   }
   .community-banner {
     display: block;
@@ -419,13 +362,6 @@
   .community-banner .button {
     margin: 20px 0 0;
   }
-  .principles-strip {
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    padding-top: 24px;
-    font-size: 10px;
-  }
   .footer-main {
     grid-template-columns: 1fr 1fr;
     gap: 27px 20px;
@@ -443,9 +379,6 @@
   }
   .footer-heading {
     font-size: 12px;
-  }
-  .footer-made {
-    font-size: 10px;
   }
   .footer-bottom {
     flex-direction: column;

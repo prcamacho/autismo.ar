@@ -1,5 +1,18 @@
 # Registro de decisiones
 
+## DEC-011 — Navegación por tareas y contenido sin repeticiones
+
+- **Fecha:** 24 de noviembre de 2026.
+- **Decisión:** eliminar por completo la franja superior de presentación en todas las rutas, sin reemplazo. Diferenciar Directorio, Búsquedas y disponibilidad y Biblioteca; conservar Artículos como espacio editorial. Navegación principal: Por dónde empezar, Directorio, Búsquedas y disponibilidad, Artículos y Comunidad, con Mi cuenta y Aportar información como acceso personal y acción. Biblioteca y Sobre el proyecto permanecen en el pie; la biblioteca vacía no ocupa el menú principal.
+- **Motivo:** “Encontrar recursos” y “Recursos” no permitían anticipar destinos diferentes; la portada repetía invitaciones a participar y la biblioteca dedicaba varios bloques a anunciar contenido futuro. Además, buscar y publicar un aviso tenían rótulos confundibles.
+- **Contenido:** portada con presentación, buscador de avisos, categorías del directorio, acceso a orientación y una invitación a participar. Comunidad conserva el procedimiento y las tareas de colaboración; Proyecto concentra planes futuros. Reducir estados vacíos y lemas repetidos, actualizar afirmaciones desfasadas y usar nombres consistentes para la misma acción. Conservar la información sobre privacidad, revisión, fallas y borradores no enviados.
+- **Límites:** limpieza de presentación y navegación; no cambia rutas, contratos de búsqueda, permisos, datos, activación de servicios ni reglas de moderación. El mapa canónico se amplía en el [README](../README.md#mapa-del-proyecto) y se enlaza desde AGENTS.md.
+- **Corrección del recorrido territorial:** Orientación todavía enviaba `localidad` como texto, que el directorio actual rechaza. Se reutiliza `PlacePicker` y se envían `province` y `place` con IDs válidos, conservando categoría y edad. Esto restablece la compatibilidad con el contrato existente, sin otra búsqueda ni catálogo paralelo.
+- **Estado:** implementación local autorizada después de la revisión de código y páginas públicas, en la rama `codex/navigation-content-cleanup`. Sin publicación ni cambios en servicios remotos.
+- **Validación técnica:** lint, TypeScript, 80 pruebas, formato y build completo aprobados. La compilación final también incluye la eliminación del aviso idéntico repetido en Aportar información; los avisos con estados diferentes se conservan.
+- **Revisión visual y funcional:** portada y páginas afectadas revisadas en móvil de 390 px y escritorio de 1440 px, en temas claro y oscuro, sin desbordamiento horizontal observado. Se comprobaron la ausencia de la franja, el menú móvil, el foco visible y la activación por teclado. Orientación bloquea texto de localidad sin seleccionar, conserva categoría y edad, envía el ID elegido y limpia la localidad al cambiar de provincia. No se observaron errores de consola durante el cierre de la revisión.
+- **Alcance de las pruebas:** servidor local con conexiones externas desactivadas; se verificaron los estados vacíos y de servicio no configurado, sin enviar aportes, correos ni analítica. No se probaron sesiones autenticadas ni producción. El catálogo muestra dos opciones «Salta · Capital»; el hallazgo y la comprobación de origen pendiente quedan en el mapa del README, sin modificar datos territoriales en esta entrega. Las guías `navbar` y `accessibility` de Modern Web Guidance orientaron la navegación semántica, los nombres consistentes y el foco visible.
+
 ## DEC-010 — PostHog compartido, solo en producción
 
 - **Fecha:** 22 de noviembre de 2026.

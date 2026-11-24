@@ -46,9 +46,9 @@ export function ExchangeNav({ current }: { current?: string }) {
     <nav className={styles.nav} aria-label="Búsquedas y contacto">
       {[
         ["/busquedas", "Explorar"],
-        ["/busquedas/mis-publicaciones", "Mis publicaciones"],
+        ["/busquedas/mis-publicaciones", "Mis búsquedas y disponibilidad"],
         ["/busquedas/perfil", "Mi perfil profesional"],
-        ["/mensajes", "Mensajes"],
+        ["/mensajes", "Mis mensajes"],
         ["/catalogo/solicitudes", "Mis solicitudes al catálogo"],
       ].map(([href, label]) => (
         <Link

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { UsersRound, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { PuzzleMark } from "@/components/puzzle-mark";
 
 export function SiteFooter() {
@@ -18,25 +18,24 @@ export function SiteFooter() {
             <br />
             Una comunidad que conecta.
           </p>
-          <span className="footer-made">
-            <UsersRound size={14} /> Un espacio para informarse y participar.
-          </span>
         </div>
         <div>
-          <span className="footer-heading">Explorá los recursos</span>
+          <span className="footer-heading">Explorar</span>
           <Link href="/orientacion">Por dónde empezar</Link>
-          <Link href="/directorio">Directorio de recursos</Link>
-          <Link href="/recursos">Recursos para todos</Link>
+          <Link href="/directorio">Directorio</Link>
+          <Link href="/busquedas">Búsquedas y disponibilidad</Link>
+          <Link href="/articulos">Artículos</Link>
+          <Link href="/recursos">Biblioteca</Link>
         </div>
         <div>
-          <span className="footer-heading">Construyamos juntos</span>
+          <span className="footer-heading">Participar</span>
           <Link href="/proyecto">Sobre el proyecto</Link>
           <Link href="/comunidad">Comunidad</Link>
           <Link href="/aportar">Aportar información</Link>
           <Link href="/cuenta">Mi cuenta</Link>
         </div>
         <div className="footer-help">
-          <span className="footer-heading">Si necesitás ayuda ahora</span>
+          <span className="footer-heading">Salud mental</span>
           <p>
             Encontrá orientación profesional en los canales oficiales de salud
             mental.
@@ -51,10 +50,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="container footer-bottom">
-        <span>
-          © {new Date().getFullYear()} autismo.ar · Un proyecto en construcción
-        </span>
-        <span>Para todas las edades. En todo el país.</span>
+        <span>© {new Date().getFullYear()} autismo.ar</span>
       </div>
     </footer>
   );

@@ -2,6 +2,8 @@
 
 Leé [VISION_Y_PLAN.md](./VISION_Y_PLAN.md) antes de modificar el producto. Es la referencia de objetivos, principios, fases y decisiones pendientes. El README contiene las instrucciones de ejecución; comprobá el código para conocer el estado implementado.
 
+El [mapa del proyecto en el README](./README.md#mapa-del-proyecto) es la fuente canónica de áreas, flujos, contratos y piezas reutilizables. Consultalo antes de implementar y actualizá las secciones afectadas con el alcance real de la comprobación; no mantengas un mapa paralelo.
+
 Para tareas de desarrollo, leé [la guía de trabajo](./docs/DESARROLLO.md). Antes de intervenir en servicios, despliegues, datos o consumo, leé [la guía de operación](./docs/OPERACION.md). Consultá [las decisiones registradas](./docs/DECISIONES.md) cuando afecten al pedido. Estos documentos tienen alcance en este repositorio; no presuponen cambios en Vin ni en el código independiente de la app de Ian.
 
 - Construimos una red comunitaria argentina de información y recursos sobre autismo, para personas autistas de todas las edades, familias y profesionales. La portada combina información general, búsqueda de recursos y ubicación.
