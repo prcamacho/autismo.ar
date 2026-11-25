@@ -1,5 +1,15 @@
 # Registro de decisiones
 
+## DEC-012 — Videos de YouTube con presentación elegible
+
+- **Fecha:** 25 de noviembre de 2026.
+- **Decisión:** permitir que el autor elija entre enlace y reproductor dentro del artículo mediante un bloque de YouTube, sin aceptar HTML ni archivos de video. Conservar enlaces previos y la moderación independiente del documento completo.
+- **Motivo:** compartir videos del canal de un autor y permitir verlos desde el artículo, con una alternativa de enlace y sin alojar archivos multimedia.
+- **Privacidad y accesibilidad:** cargar el reproductor de privacidad mejorada solo tras una acción explícita, sin miniaturas externas previas ni reproducción automática. Mantener enlace alternativo, controles etiquetados, foco visible y colores semánticos para claro/oscuro.
+- **Límites:** el sitio valida la URL, no el contenido ni la titularidad del canal. Un video externo puede cambiar o dejar de permitir inserción. La revisión humana y los reportes se conservan; los cambios en YouTube no generan revisión automática.
+- **Estado:** implementación local y migración preparadas, sin aplicación remota ni despliegue. Contrato y validación en [Artículos](./ARTICULOS.md#videos-de-youtube). Revisión visual pendiente por fallo de conexión de la herramienta de navegador.
+- **Validación:** 82 pruebas, lint, TypeScript, compilación y formato aprobados. El renderizado inicial de React conserva el enlace alternativo sin iframe ni miniatura externa; URL inválida y presentación como enlace comprobadas. No acredita reproducción real ni revisión visual de ambos temas y móvil.
+
 ## DEC-011 — Navegación por tareas y contenido sin repeticiones
 
 - **Fecha:** 24 de noviembre de 2026.

@@ -2,6 +2,8 @@ import { Fragment } from "react";
 import { isPublicHttpUrl } from "@/lib/public-url";
 import { AGENDA_KINDS, type ArticleInput } from "./model";
 import { articleInlineText, formatArticleDate } from "./content";
+import { youtubeVideoId, youtubeWatchUrl } from "./youtube";
+import { YouTubeVideo } from "./youtube-video";
 import styles from "./articles.module.css";
 
 function InlineText({ text }: { text: string }) {
@@ -14,7 +16,7 @@ function InlineText({ text }: { text: string }) {
   );
 }
 
-/** The same text-only renderer serves published articles and the editor preview. */
+/** Shared renderer for the editor, moderation and approved publications. No raw HTML. */
 export function ArticleContent({
   article,
   preview = false,
@@ -106,6 +108,36 @@ export function ArticleContent({
                 )}
               </p>
             );
+          case "youtube": {
+            const videoId = youtubeVideoId(block.url);
+            if (!videoId)
+              return (
+                <p key={index} className={styles.notice}>
+                  {preview
+                    ? "Completá un enlace válido de YouTube para previsualizar el video."
+                    : "El enlace de este video no está disponible."}
+                </p>
+              );
+            return block.display === "embed" ? (
+              <YouTubeVideo
+                key={`${index}-${videoId}`}
+                videoId={videoId}
+                label={block.label}
+              />
+            ) : (
+              <p key={index}>
+                <a
+                  href={youtubeWatchUrl(videoId)}
+                  className={styles.external}
+                  rel="ugc nofollow noopener noreferrer"
+                  target="_blank"
+                >
+                  {block.label || "Ver en YouTube"}
+                  <span className="sr-only"> (otra pestaña)</span> ↗
+                </a>
+              </p>
+            );
+          }
           case "table":
             return (
               <div

@@ -60,6 +60,8 @@ El directorio y los formularios de aportes seleccionan servicios y ubicaciones d
 
 Este es el mapa canónico; los documentos de cada módulo amplían su contrato. **Comprobación del 24/11/2026:** inventario de áreas, rutas y dependencias locales, con inspección de la navegación pública, búsqueda, orientación y componentes de contenido. El resto se contrastó con los puntos de entrada y las guías enlazadas; no constituye una auditoría exhaustiva de cada implementación ni una comprobación actual de servicios, permisos remotos o despliegues. Los estados operativos conservan sus fechas y evidencias en las guías de operación.
 
+**Ampliación de Artículos del 25/11/2026:** bloque `youtube` con elección de enlace o reproductor, implementado localmente. `youtube.ts` valida URLs e identifica el video; `youtube-video.tsx` carga el reproductor externo solo por acción del lector. Editor, vista previa y moderación reutilizan `ArticleContent`. El contrato TypeScript/SQL, compatibilidad con enlaces anteriores y revisión independiente se verifican en `tests/article-youtube.test.ts`. Requiere la migración `20261125232130_article_youtube_blocks.sql` antes de desplegar; no aplicada remotamente en esta tarea. Alcance, recuperación y límites de comprobación en [Artículos](./docs/ARTICULOS.md#videos-de-youtube).
+
 **Hallazgo territorial pendiente:** el selector compartido muestra dos opciones «Salta · Capital», procedentes de los IDs `georef:66028050` y `georef:6602805003` de `src/features/locations/catalog-data.json`. Revisar la relación entre ambas entidades en la fuente oficial antes de unificarlas o cambiar sus etiquetas; esta limpieza de navegación no modifica el catálogo ni las ubicaciones de las publicaciones existentes.
 
 ```text

@@ -77,6 +77,7 @@ export function articleSummary(input: ArticleInput): string {
         case "list":
           return block.items.join(" · ");
         case "link":
+        case "youtube":
           return block.label;
         case "table":
           return [

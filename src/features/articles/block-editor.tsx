@@ -4,6 +4,7 @@ import { useId, useState } from "react";
 import { ARTICLE_LIMITS as L, type ArticleBlock } from "./model";
 import { EditorTextField, focusEditorItem } from "./editor-fields";
 import { TableEditor } from "./table-editor";
+import { youtubeVideoId } from "./youtube";
 import styles from "./articles.module.css";
 
 const labels: Record<ArticleBlock["type"], string> = {
@@ -12,6 +13,7 @@ const labels: Record<ArticleBlock["type"], string> = {
   callout: "Recuadro destacado",
   list: "Lista",
   link: "Enlace",
+  youtube: "Video de YouTube",
   table: "Tabla",
 };
 
@@ -25,6 +27,8 @@ function emptyBlock(type: ArticleBlock["type"]): ArticleBlock {
       return { type, items: [""] };
     case "link":
       return { type, label: "", url: "" };
+    case "youtube":
+      return { type, label: "", url: "", display: "embed" };
     case "table":
       return { type, headers: ["", ""], rows: [["", ""]] };
   }
@@ -89,6 +93,55 @@ function BlockFields({
       );
     case "table":
       return <TableEditor id={id} value={block} onChange={onChange} />;
+    case "youtube":
+      return (
+        <>
+          <EditorTextField
+            id={`${id}-label`}
+            label="Título del video"
+            value={block.label}
+            maxLength={L.linkLabel}
+            onChange={(label) => onChange({ ...block, label })}
+          />
+          <EditorTextField
+            id={`${id}-url`}
+            label="Enlace de YouTube"
+            type="url"
+            value={block.url}
+            invalid={Boolean(block.url.trim()) && !youtubeVideoId(block.url)}
+            maxLength={L.url}
+            hint="Pegá el enlace HTTPS de un video, Short o transmisión. No pegues código HTML."
+            onChange={(url) => onChange({ ...block, url })}
+          />
+          {block.url.trim() && !youtubeVideoId(block.url) && (
+            <p className={styles.error} role="status">
+              Revisá el enlace: debe apuntar a un video de YouTube, no a un
+              canal o una lista.
+            </p>
+          )}
+          <div className={styles.field}>
+            <label htmlFor={`${id}-display`}>Cómo mostrar el video</label>
+            <select
+              id={`${id}-display`}
+              value={block.display}
+              onChange={(event) =>
+                onChange({
+                  ...block,
+                  display: event.target.value as "link" | "embed",
+                })
+              }
+            >
+              <option value="embed">Dentro del artículo</option>
+              <option value="link">Como enlace a YouTube</option>
+            </select>
+            <p className={styles.hint}>
+              El reproductor se carga cuando la persona lo solicita. Siempre
+              queda disponible el enlace a YouTube. El video y sus cambios
+              requieren revisión.
+            </p>
+          </div>
+        </>
+      );
   }
 }
 

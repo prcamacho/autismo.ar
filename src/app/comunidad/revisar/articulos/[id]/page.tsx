@@ -86,6 +86,14 @@ export default async function ReviewArticlePage({
                 Comprobá fuentes, vigencia, privacidad y que la autoría no
                 sugiera un respaldo institucional inexistente.
               </p>
+              {draft.data.blocks.some((block) => block.type === "youtube") && (
+                <p>
+                  Revisá también el contenido del video en YouTube, su autoría y
+                  la privacidad de quienes aparecen. El sitio no analiza el
+                  video automáticamente ni conserva una copia; el contenido
+                  externo puede cambiar después de esta revisión.
+                </p>
+              )}
               <ReviewControls
                 id={id}
                 revision={draft.revision}

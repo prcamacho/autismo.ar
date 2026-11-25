@@ -80,6 +80,8 @@ En esta etapa, el apoyo al autor se limitará al botón externo de Cafecito. No 
 
 La implementación incluye bloques de texto, subtítulos, listas, recuadros, enlaces y tablas, con tres colores de detalles y dos estilos de subtítulos. Las agendas distinguen solicitud de turno, atención y actividad; requieren fechas válidas y una fuente antes de enviarse. Cada publicación y sus cambios requieren revisión independiente. El borrador permanece privado mientras se muestra la última versión aprobada; el autor puede retirar la publicación y recuperar una versión anterior como borrador.
 
+Ampliación local del 25/11/2026: el autor puede preparar un bloque de YouTube y elegir enlace o reproductor dentro del artículo. El reproductor se carga por acción del lector y conserva un enlace alternativo. La revisión humana incluye el video; el sitio no lo analiza ni lo almacena. Migración y publicación remotas pendientes, según [DEC-012](./docs/DECISIONES.md#dec-012--videos-de-youtube-con-presentación-elegible) y [la guía de Artículos](./docs/ARTICULOS.md#videos-de-youtube).
+
 El destino de Cafecito requiere revisión y se oculta al cambiarlo, eliminarlo o modificar el nombre público del autor, hasta una nueva aprobación cuando corresponda. Se mantienen los principios de privacidad, fuentes, accesibilidad y separación entre apoyo económico y reputación. El recorrido remoto de ensayo pasó autenticación, permisos, moderación y metadatos públicos; la activación web productiva sigue su comprobación independiente. Ver [DEC-007](./docs/DECISIONES.md#dec-007--artículos-con-personalización-guiada-y-cafecito-en-el-perfil) y [estado técnico y comprobaciones](./docs/ARTICULOS.md).
 
 ### Búsquedas, disponibilidad y contacto privado
