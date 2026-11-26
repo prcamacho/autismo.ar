@@ -73,6 +73,17 @@
   margin-block-start: 1.95rem;
   min-block-size: 52px;
 }
+.browseLink {
+  justify-self: start;
+  min-block-size: 32px;
+}
+.retry {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  text-decoration: underline;
+}
 .error {
   color: var(--error-ink);
   background: var(--error-bg);

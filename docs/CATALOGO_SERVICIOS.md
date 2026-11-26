@@ -24,6 +24,8 @@ Apoyo a la inclusión escolar admite además los roles MAI y AIE como elecciones
 
 ## Solicitar lo que falta
 
+En la portada, quien busca apoyo puede ir desde el selector a «Directorio por categoría» y abrir una categoría sin elegir una especialidad. En «Soy profesional», el enlace lleva a las solicitudes de apoyo. Ambos recorridos conservan la provincia y la localidad seleccionadas. Al escribir un nombre sin coincidencias aparece «Sugerir un servicio para el catálogo». Si falla la carga del catálogo, se puede reintentar o usar el enlace del modo elegido.
+
 `/catalogo/solicitar` recibe nombre, motivo y fuente opcional; requiere cuenta y participación habilitada. `/catalogo/solicitudes` muestra únicamente los pedidos de la propia cuenta y su respuesta. Desde una publicación incompleta se puede guardar un borrador privado junto con el pedido, aun sin haber elegido un servicio. Al resolverlo, se puede retomar el formulario con la opción aprobada. Su publicación requiere un envío y revisión independientes. Un pedido rechazado conserva su estado y motivo; no publica su borrador.
 
 En `/catalogo/moderar`, moderación puede indicar una opción existente, agregar un sinónimo, incorporar un servicio con fuente o rechazar con explicación. No puede resolver pedidos propios. Hay control de concurrencia, límite de cinco pedidos diarios por cuenta e idempotencia de envíos. No hay avisos por correo: se consulta la respuesta dentro del sitio.

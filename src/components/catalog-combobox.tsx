@@ -44,7 +44,7 @@ export function CatalogCombobox({
   loading?: boolean;
   error?: string;
   placeholder?: string;
-  emptyText?: string;
+  emptyText?: React.ReactNode;
   children?: React.ReactNode;
 }) {
   const hydrated = useSyncExternalStore(
