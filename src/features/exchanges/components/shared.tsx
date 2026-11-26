@@ -28,7 +28,7 @@ export function ExchangePage({
   return (
     <>
       <PageIntro
-        eyebrow="Búsquedas y disponibilidad"
+        eyebrow="Avisos"
         title={title}
         description={description}
       />
@@ -45,7 +45,7 @@ export function ExchangeNav({ current }: { current?: string }) {
   return (
     <nav className={styles.nav} aria-label="Búsquedas y contacto">
       {[
-        ["/busquedas", "Explorar"],
+        ["/busquedas", "Explorar avisos"],
         ["/busquedas/mis-publicaciones", "Mis búsquedas y disponibilidad"],
         ["/busquedas/perfil", "Mi perfil profesional"],
         ["/mensajes", "Mis mensajes"],

@@ -22,15 +22,14 @@ export function SiteFooter() {
         <div>
           <span className="footer-heading">Explorar</span>
           <Link href="/orientacion">Por dónde empezar</Link>
-          <Link href="/directorio">Directorio</Link>
-          <Link href="/busquedas">Búsquedas y disponibilidad</Link>
+          <Link href="/directorio">Búsquedas</Link>
           <Link href="/articulos">Artículos</Link>
           <Link href="/recursos">Biblioteca</Link>
         </div>
         <div>
           <span className="footer-heading">Participar</span>
           <Link href="/proyecto">Sobre el proyecto</Link>
-          <Link href="/comunidad">Comunidad</Link>
+          <Link href="/comunidad">Colaborar</Link>
           <Link href="/aportar">Aportar información</Link>
           <Link href="/cuenta">Mi cuenta</Link>
         </div>
