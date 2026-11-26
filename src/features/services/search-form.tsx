@@ -1,12 +1,14 @@
 "use client";
 import { useEffect, useId, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import { PROVINCES } from "@/lib/geography";
 import { CatalogCombobox } from "@/components/catalog-combobox";
 import type { Place } from "@/features/locations/model";
 import type { Service } from "./model";
 import { ServicePicker } from "./service-picker";
+import { useHomeSearchLocation } from "./home-search-location";
 import styles from "./search-form.module.css";
 
 export function PlacePicker({
@@ -166,7 +168,11 @@ export function SearchForm({
   const id = useId();
   const [kind, setKind] = useState(initialKind);
   const [service, setService] = useState(initialService);
-  const [province, setProvince] = useState(initialProvince);
+  const homeLocation = useHomeSearchLocation();
+  const router = useRouter();
+  const homeCatalogUnavailable = homeLocation !== null && status !== "ready";
+  const [filterProvince, setFilterProvince] = useState(initialProvince);
+  const province = homeLocation?.province ?? filterProvince;
   return (
     <search>
       <form
@@ -205,22 +211,60 @@ export function SearchForm({
                 : "¿Qué servicio necesitás?"
             }
             required={required}
-          />
+            disabled={homeCatalogUnavailable}
+            requestLink={homeLocation ? "no-match" : true}
+          >
+            {homeLocation &&
+              (kind === "offer" ? (
+                <a
+                  className={`text-link ${styles.browseLink}`}
+                  href="#explorar"
+                >
+                  Explorar el directorio por categoría
+                </a>
+              ) : (
+                <Link
+                  className={`text-link ${styles.browseLink}`}
+                  href={{
+                    pathname: "/busquedas",
+                    query: { tipo: "request", ...homeLocation.query },
+                  }}
+                  prefetch={false}
+                >
+                  Ver solicitudes de apoyo
+                </Link>
+              ))}
+          </ServicePicker>
           <PlacePicker
             province={province}
-            onProvinceChange={setProvince}
+            onProvinceChange={homeLocation?.setProvince ?? setFilterProvince}
+            onPlaceChange={homeLocation?.setPlace}
             initialPlace={initialPlace}
           />
-          <button type="submit" className={`button ${styles.submit}`}>
+          <button
+            type="submit"
+            className={`button ${styles.submit}`}
+            disabled={homeCatalogUnavailable}
+          >
             <Search size={18} aria-hidden="true" /> Buscar
           </button>
         </div>
         {status !== "ready" && (
           <p className={styles.error} role="status">
             No pudimos cargar el catálogo.{" "}
-            <Link href={directory ? "/directorio" : "/busquedas"}>
-              Volver a intentar
-            </Link>
+            {homeLocation ? (
+              <button
+                type="button"
+                className={styles.retry}
+                onClick={() => router.refresh()}
+              >
+                Volver a intentar
+              </button>
+            ) : (
+              <Link href={directory ? "/directorio" : "/busquedas"}>
+                Volver a intentar
+              </Link>
+            )}
           </p>
         )}
         {directory && kind === "offer" && (

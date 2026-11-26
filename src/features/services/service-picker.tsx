@@ -1,8 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { CatalogCombobox } from "@/components/catalog-combobox";
-import { searchServices, type Service } from "./model";
+import { normalizeTerm, searchServices, type Service } from "./model";
 
 export function ServicePicker({
   services,
@@ -11,7 +11,9 @@ export function ServicePicker({
   label = "Servicio",
   name = "service",
   required = true,
+  disabled = false,
   requestLink = true,
+  children,
 }: {
   services: Service[];
   value: string;
@@ -19,7 +21,9 @@ export function ServicePicker({
   label?: string;
   name?: string;
   required?: boolean;
-  requestLink?: boolean;
+  disabled?: boolean;
+  requestLink?: boolean | "no-match";
+  children?: ReactNode;
 }) {
   const selected = services.find((s) => s.id === value && s.selectable) ?? null;
   const [query, setQuery] = useState(selected?.name ?? "");
@@ -29,14 +33,31 @@ export function ServicePicker({
         label={label}
         name={name}
         required={required}
+        disabled={disabled}
         options={searchServices(services, query)}
         query={query}
         onQueryChange={setQuery}
         value={selected}
         onSelect={(option) => onChange(option?.id ?? "")}
         placeholder="Por ejemplo, fono o neurología"
-      />
-      {requestLink && (
+        emptyText={
+          requestLink === "no-match" && normalizeTerm(query) ? (
+            <>
+              No encontramos esa opción.{" "}
+              <Link
+                href="/catalogo/solicitar"
+                className="text-link"
+                prefetch={false}
+              >
+                Sugerir un servicio para el catálogo
+              </Link>
+            </>
+          ) : undefined
+        }
+      >
+        {children}
+      </CatalogCombobox>
+      {requestLink === true && (
         <Link
           href="/catalogo/solicitar"
           className="text-link"
