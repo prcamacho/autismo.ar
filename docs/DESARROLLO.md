@@ -76,6 +76,16 @@ En interfaces, revisar visualmente cuando sea posible: móvil, escritorio, tecla
 
 La entrega debe explicar qué cambió y por qué, qué se comprobó, qué quedó pendiente y las limitaciones reales. Una revisión de la propia IA no equivale a una revisión independiente. El flujo de publicación y recuperación está en [OPERACION.md](./OPERACION.md).
 
+### Verificaciones automáticas
+
+`.github/workflows/verify.yml` define el trabajo **Lint, types, tests, build and audit** para solicitudes de integración hacia `test` o `main`, pushes a esas ramas y ejecución manual. Usa un único runner Linux, Node.js 22, instalación reproducible con `npm ci`, auditoría completa que falla ante avisos altos o críticos, lint, tipos, las pruebas locales de PGlite y compilación. Las acciones de checkout y Node están fijadas a revisiones verificadas; el token solo tiene permiso de lectura y no se conserva como credencial Git. El límite es de 15 minutos y un cambio nuevo cancela la ejecución anterior del mismo PR o rama.
+
+No utiliza secretos, bases remotas, SMTP ni PostHog. La URL de CI es `https://example.invalid` y los módulos que dependen de servicios quedan desactivados. Los guiones de integración remota siguen siendo una comprobación independiente en el entorno aislado autorizado. Tener este workflow no configura protecciones de ramas ni hace que Railway espere su resultado; esas condiciones deben verificarse por separado antes de promover una entrega.
+
+`npm run typecheck` ejecuta `next typegen` antes de TypeScript para comprobar rutas también desde un checkout limpio. ESLint y Prettier excluyen `test-results/` y `playwright-report/`; ESLint también excluye cobertura y salidas de compilación. Los artefactos generados no deben obligar a desactivar reglas sobre el código fuente.
+
+Para mantener las dependencias, revisar `npm audit`, actualizar las versiones afectadas y su lockfile dentro del alcance necesario, conservar alineados `next` y `eslint-config-next`, y repetir los checks. No ejecutar `npm audit fix --force` ni introducir overrides incompatibles para ocultar un aviso. Un resultado sin alertas conocidas tiene fecha y no sustituye revisar permisos, comportamiento o nuevas publicaciones de seguridad.
+
 ## 5. Memoria y comprobación de las instrucciones
 
 Cada cambio conserva su motivo, criterio de aceptación y evidencia en el commit o solicitud de integración. Las decisiones con consecuencias duraderas se registran en [DECISIONES.md](./DECISIONES.md). Mantener el código versionado en Git; no crear copias de código en la documentación para reemplazar ese historial.
