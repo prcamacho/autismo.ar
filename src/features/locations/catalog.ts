@@ -79,13 +79,20 @@ export function searchPlaces({
     ? Math.max(1, Math.min(MAX_SEARCH_LIMIT, Math.trunc(limit)))
     : LOCATION_SEARCH_LIMIT;
   const terms = normalized(query.slice(0, 160)).split(/\s+/).filter(Boolean);
-  return (placesByProvince.get(province) ?? [])
-    .filter(
-      (place) =>
-        (!departmentId || place.departmentId === departmentId) &&
-        terms.every((term) => searchText.get(place.id)!.includes(term)),
-    )
-    .slice(0, size);
+  const name = terms.join(" ");
+  const exact: Place[] = [];
+  const others: Place[] = [];
+  for (const place of placesByProvince.get(province) ?? []) {
+    if (departmentId && place.departmentId !== departmentId) continue;
+    if (name && compare.compare(place.name, name) === 0) {
+      exact.push(place);
+    } else if (
+      terms.every((term) => searchText.get(place.id)!.includes(term))
+    ) {
+      others.push(place);
+    }
+  }
+  return exact.concat(others).slice(0, size);
 }
 
 /** Resolve IDs without trusting labels supplied by the browser. */

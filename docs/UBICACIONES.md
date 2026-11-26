@@ -15,7 +15,7 @@ Los IDs tienen espacio de nombres: `georef:<id oficial>` para localidades y depa
 
 - `model.ts` contiene únicamente los tipos `Place`, `Department` y `PlaceSearch`; los componentes de navegador pueden importarlos con `import type`.
 - `catalog.ts` contiene los helpers puros `listDepartments(province)`, `searchPlaces({ province, departmentId?, query?, limit? })` y `getPlaces(ids)`. Se utiliza desde código de servidor; **no importar el catálogo completo desde componentes cliente**.
-- La consulta de lugares devuelve hasta 50 resultados por defecto, con máximo de 100. Una selección amplia requiere escribir parte del nombre o elegir un departamento. Un departamento de otra provincia devuelve cero resultados: nunca se amplía la búsqueda silenciosamente.
+- La consulta de lugares devuelve hasta 50 resultados por defecto, con máximo de 100. Dentro de la provincia y el departamento elegidos, una coincidencia exacta de localidad o barrio aparece primero. Así se puede seleccionar Rosario aunque el texto también coincida con su departamento. Las demás coincidencias conservan el orden alfabético. Un departamento de otra provincia devuelve cero resultados.
 - `getPlaces` resuelve exclusivamente IDs conocidos, elimina duplicados y conserva el orden. Un ID inexistente produce error, en lugar de guardar etiquetas aportadas por el navegador.
 - La migración `202611170001_locations.sql` crea `exchange_places`, sus índices, RLS, permisos de lectura y datos públicos oficiales. Visitantes y cuentas no pueden modificar el catálogo. La aplicación remota de esa migración debe seguir el flujo de `test` y producción: **tener el archivo no significa que ya se haya aplicado**.
 

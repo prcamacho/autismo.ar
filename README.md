@@ -31,7 +31,7 @@ npm start
 
 ## Qué está implementado
 
-- Portada con presentación compacta, buscador de búsquedas y disponibilidad, categorías del directorio y una invitación a participar. La navegación distingue Directorio, Búsquedas y disponibilidad y Artículos; Biblioteca y Proyecto quedan en el pie. No hay franja de anuncios sobre la cabecera. La identidad SVG y el diseño adaptable se conservan; la ilustración se oculta en móvil para priorizar la búsqueda.
+- Portada con presentación compacta, buscador de avisos, categorías del directorio y una invitación a participar. El menú reúne Directorio de recursos y Avisos en Búsquedas. Colaborar lleva a los aportes y su revisión. Biblioteca y Proyecto quedan en el pie. La identidad SVG y el diseño adaptable se conservan y la ilustración se oculta en móvil para priorizar la búsqueda.
 - Modo claro y oscuro en todas las secciones, con botón de sol/luna en la cabecera pública, visible también en móvil y sin necesidad de iniciar sesión. Sigue el tema del dispositivo hasta elegir uno manualmente; recuerda esa elección en este navegador y la sincroniza entre pestañas.
 - Directorio con categorías, 23 provincias y CABA, selección de localidades oficiales y filtros compartibles en la URL.
 - Contrato de búsqueda que conserva recursos nacionales y provinciales pertinentes al filtrar una localidad.
@@ -126,12 +126,14 @@ scripts/                 Pruebas aisladas, integración e importación territori
 ### Flujos que conviene conservar
 
 1. **Encontrar apoyo:** portada → `SearchForm` → `/busquedas`, con modo `Busco apoyo` o `Soy profesional`. El modo profesional busca solicitudes y conserva su requisito de ingreso; no acredita un rol profesional.
-2. **Explorar fichas:** categorías u Orientación → `/directorio` → ficha y fuentes. Orientación reutiliza `PlacePicker`, conserva categoría y edad y envía `province`/`place`; editar texto o cambiar provincia invalida la selección previa. En el directorio, `SearchForm` con `directory` y modo de apoyo consulta fichas; el modo profesional dirige a solicitudes. Los filtros territoriales conservan recursos nacionales y provinciales pertinentes.
+2. **Explorar Búsquedas.** El menú abre `/directorio`. Desde ahí, las categorías y los filtros llevan a fichas y fuentes. Avisos (`/busquedas`) reúne disponibilidad y solicitudes de apoyo. El selector de vistas de `SearchForm` traslada los IDs de servicio, provincia y localidad elegidos, incluso antes de enviar el formulario. Categoría y edad corresponden al Directorio. Tipo de aviso, modalidad y disponibilidad corresponden a Avisos. Orientación y los enlaces compartidos siguen abriendo la vista filtrada.
 3. **Mantener una ficha:** `/aportar` → validación y propuesta → revisión inicial → corroboración independiente → moderación → ficha e historial. Recuperar una versión crea una propuesta nueva; no sobrescribe directamente lo publicado.
 4. **Publicar y contactar:** cuenta → perfil/aviso o artículo → borrador y revisión → versión pública autorizada. El contacto entre personas requiere solicitud aceptada; publicar un artículo no abre una conversación ni crea un perfil profesional.
 5. **Cambiar el producto:** código y documentación → verificaciones locales → entorno `test` aislado → promoción autorizada a `main` → comprobación del despliegue. Una rama o un dominio por sí solos no prueban aislamiento.
 
 ### Reutilización y límites
+
+Comprobación local del 26/11/2026 en Búsquedas y Colaborar. Se verificaron el cambio de vista con Fonoaudiología en Rosario, el borrado de una selección al editarla, el acceso anónimo a solicitudes y la navegación por teclado en Chromium. El catálogo de prueba permitió reproducir resultados vacíos y fallas de carga. `searchPlaces` prioriza el nombre exacto de localidad antes de limitar las sugerencias.
 
 - `PageIntro`, `EmptyState`, `ConnectionNotice`, `Pagination` y `ActionForm`, en `src/components/`, son piezas comunes. Elegí la que corresponda al estado real: una consulta fallida no debe mostrarse como lista vacía.
 - `SearchForm`, `ServicePicker`, `ServiceMultiPicker`, `PlacePicker` y `CatalogCombobox` centralizan selección y búsqueda. Preservá IDs, destino y reglas del formulario anfitrión; no dupliques un catálogo con listas independientes.

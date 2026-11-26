@@ -2,7 +2,7 @@
 import { useEffect, useId, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Search } from "lucide-react";
+import { BookOpen, Megaphone, Search } from "lucide-react";
 import { PROVINCES } from "@/lib/geography";
 import { CatalogCombobox } from "@/components/catalog-combobox";
 import type { Place } from "@/features/locations/model";
@@ -10,6 +10,52 @@ import type { Service } from "./model";
 import { ServicePicker } from "./service-picker";
 import { useHomeSearchLocation } from "./home-search-location";
 import styles from "./search-form.module.css";
+
+type SearchView = "directory" | "listings";
+
+function SearchViews({
+  view,
+  service,
+  province,
+  place,
+}: {
+  view: SearchView;
+  service: string;
+  province: string;
+  place: Place | null;
+}) {
+  const query: Record<string, string> = {};
+  if (service) query.service = service;
+  if (province) query.province = province;
+  if (province && place?.province === province) query.place = place.id;
+
+  return (
+    <nav className={styles.views} aria-label="Vistas de Búsquedas">
+      {(
+        [
+          ["directory", "/directorio", "Directorio de recursos", BookOpen],
+          ["listings", "/busquedas", "Avisos", Megaphone],
+        ] as const
+      ).map(([key, pathname, label, Icon]) => {
+        const content = (
+          <>
+            <Icon size={18} aria-hidden="true" />
+            {label}
+          </>
+        );
+        return view === key ? (
+          <span key={key} aria-current="page">
+            {content}
+          </span>
+        ) : (
+          <Link key={key} href={{ pathname, query }} prefetch={false}>
+            {content}
+          </Link>
+        );
+      })}
+    </nav>
+  );
+}
 
 export function PlacePicker({
   province,
@@ -143,11 +189,10 @@ export function SearchForm({
   initialKind = "offer",
   initialProvince = "",
   initialPlace = null,
-  directory = false,
+  view,
   category = "",
   age = "",
   required = true,
-  advanced = false,
   modality = "",
   availability = "",
 }: {
@@ -157,11 +202,10 @@ export function SearchForm({
   initialKind?: "offer" | "request";
   initialProvince?: string;
   initialPlace?: Place | null;
-  directory?: boolean;
+  view?: SearchView;
   category?: string;
   age?: string;
   required?: boolean;
-  advanced?: boolean;
   modality?: string;
   availability?: string;
 }) {
@@ -172,144 +216,168 @@ export function SearchForm({
   const router = useRouter();
   const homeCatalogUnavailable = homeLocation !== null && status !== "ready";
   const [filterProvince, setFilterProvince] = useState(initialProvince);
+  const [place, setPlace] = useState(initialPlace);
   const province = homeLocation?.province ?? filterProvince;
+  const directory = view === "directory";
   return (
-    <search>
-      <form
-        action={directory && kind === "offer" ? "/directorio" : "/busquedas"}
-        method="get"
-        className={styles.form}
-        aria-label="Buscar apoyo o solicitudes"
-      >
-        <fieldset className={styles.modes}>
-          <legend className="sr-only">Qué querés encontrar</legend>
-          {[
-            ["offer", "Busco apoyo"],
-            ["request", "Soy profesional"],
-          ].map(([value, label]) => (
-            <div key={value}>
-              <input
-                id={`${id}-${value}`}
-                type="radio"
-                name="tipo"
-                value={value}
-                checked={kind === value}
-                onChange={() => setKind(value as "offer" | "request")}
-              />
-              <label htmlFor={`${id}-${value}`}>{label}</label>
-            </div>
-          ))}
-        </fieldset>
-        <div className={styles.grid}>
-          <ServicePicker
-            services={services}
-            value={service}
-            onChange={setService}
-            label={
-              kind === "request"
-                ? "¿De qué especialidad buscás solicitudes?"
-                : "¿Qué servicio necesitás?"
-            }
-            required={required}
-            disabled={homeCatalogUnavailable}
-            requestLink={homeLocation ? "no-match" : true}
-          >
-            {homeLocation &&
-              (kind === "offer" ? (
-                <a
-                  className={`text-link ${styles.browseLink}`}
-                  href="#explorar"
-                >
-                  Explorar el directorio por categoría
-                </a>
-              ) : (
-                <Link
-                  className={`text-link ${styles.browseLink}`}
-                  href={{
-                    pathname: "/busquedas",
-                    query: { tipo: "request", ...homeLocation.query },
-                  }}
-                  prefetch={false}
-                >
-                  Ver solicitudes de apoyo
-                </Link>
+    <>
+      {view && (
+        <SearchViews
+          view={view}
+          service={service}
+          province={province}
+          place={place}
+        />
+      )}
+      <search>
+        <form
+          action={directory ? "/directorio" : "/busquedas"}
+          method="get"
+          className={styles.form}
+          aria-label={directory ? "Buscar en el directorio" : "Buscar avisos"}
+        >
+          {!directory && (
+            <fieldset className={styles.modes}>
+              <legend className="sr-only">Qué querés encontrar</legend>
+              {[
+                [
+                  "offer",
+                  view === "listings"
+                    ? "Disponibilidad profesional"
+                    : "Busco apoyo",
+                ],
+                [
+                  "request",
+                  view === "listings"
+                    ? "Solicitudes de apoyo"
+                    : "Soy profesional",
+                ],
+              ].map(([value, label]) => (
+                <div key={value}>
+                  <input
+                    id={`${id}-${value}`}
+                    type="radio"
+                    name="tipo"
+                    value={value}
+                    checked={kind === value}
+                    onChange={() => setKind(value as "offer" | "request")}
+                  />
+                  <label htmlFor={`${id}-${value}`}>{label}</label>
+                </div>
               ))}
-          </ServicePicker>
-          <PlacePicker
-            province={province}
-            onProvinceChange={homeLocation?.setProvince ?? setFilterProvince}
-            onPlaceChange={homeLocation?.setPlace}
-            initialPlace={initialPlace}
-          />
-          <button
-            type="submit"
-            className={`button ${styles.submit}`}
-            disabled={homeCatalogUnavailable}
-          >
-            <Search size={18} aria-hidden="true" /> Buscar
-          </button>
-        </div>
-        {status !== "ready" && (
-          <p className={styles.error} role="status">
-            No pudimos cargar el catálogo.{" "}
-            {homeLocation ? (
-              <button
-                type="button"
-                className={styles.retry}
-                onClick={() => router.refresh()}
-              >
-                Volver a intentar
-              </button>
-            ) : (
-              <Link href={directory ? "/directorio" : "/busquedas"}>
-                Volver a intentar
-              </Link>
-            )}
-          </p>
-        )}
-        {directory && kind === "offer" && (
-          <>
-            <input type="hidden" name="categoria" value={category} />
-            <input type="hidden" name="edad" value={age} />
-          </>
-        )}
-        {advanced && (
-          <details className={styles.advanced}>
-            <summary>Más filtros</summary>
-            <div className={styles.filters}>
-              <div className={styles.field}>
-                <label htmlFor={`${id}-modality`}>Modalidad</label>
-                <select
-                  id={`${id}-modality`}
-                  name="modality"
-                  defaultValue={modality}
+            </fieldset>
+          )}
+          <div className={styles.grid}>
+            <ServicePicker
+              services={services}
+              value={service}
+              onChange={setService}
+              label={
+                kind === "request"
+                  ? "¿De qué especialidad buscás solicitudes?"
+                  : "¿Qué servicio necesitás?"
+              }
+              required={required}
+              disabled={homeCatalogUnavailable}
+              requestLink={homeLocation ? "no-match" : true}
+            >
+              {homeLocation &&
+                (kind === "offer" ? (
+                  <a
+                    className={`text-link ${styles.browseLink}`}
+                    href="#explorar"
+                  >
+                    Explorar el directorio por categoría
+                  </a>
+                ) : (
+                  <Link
+                    className={`text-link ${styles.browseLink}`}
+                    href={{
+                      pathname: "/busquedas",
+                      query: { tipo: "request", ...homeLocation.query },
+                    }}
+                    prefetch={false}
+                  >
+                    Ver solicitudes de apoyo
+                  </Link>
+                ))}
+            </ServicePicker>
+            <PlacePicker
+              province={province}
+              onProvinceChange={homeLocation?.setProvince ?? setFilterProvince}
+              onPlaceChange={homeLocation?.setPlace ?? setPlace}
+              initialPlace={initialPlace}
+            />
+            <button
+              type="submit"
+              className={`button ${styles.submit}`}
+              disabled={homeCatalogUnavailable}
+            >
+              <Search size={18} aria-hidden="true" /> Buscar
+            </button>
+          </div>
+          {status !== "ready" && (
+            <p className={styles.error} role="status">
+              No pudimos cargar el catálogo.{" "}
+              {homeLocation ? (
+                <button
+                  type="button"
+                  className={styles.retry}
+                  onClick={() => router.refresh()}
                 >
-                  <option value="">Todas</option>
-                  <option value="presencial">Presencial</option>
-                  <option value="virtual">Virtual</option>
-                  <option value="mixta">Presencial y virtual</option>
-                </select>
+                  Volver a intentar
+                </button>
+              ) : (
+                <Link href={directory ? "/directorio" : "/busquedas"}>
+                  Volver a intentar
+                </Link>
+              )}
+            </p>
+          )}
+          {directory && (
+            <>
+              <input type="hidden" name="categoria" value={category} />
+              <input type="hidden" name="edad" value={age} />
+            </>
+          )}
+          {view === "listings" && (
+            <details className={styles.advanced}>
+              <summary>Más filtros</summary>
+              <div className={styles.filters}>
+                <div className={styles.field}>
+                  <label htmlFor={`${id}-modality`}>Modalidad</label>
+                  <select
+                    id={`${id}-modality`}
+                    name="modality"
+                    defaultValue={modality}
+                  >
+                    <option value="">Todas</option>
+                    <option value="presencial">Presencial</option>
+                    <option value="virtual">Virtual</option>
+                    <option value="mixta">Presencial y virtual</option>
+                  </select>
+                </div>
+                <div className={styles.field}>
+                  <label htmlFor={`${id}-availability`}>
+                    {kind === "request"
+                      ? "Estado de la necesidad"
+                      : "Disponibilidad"}
+                  </label>
+                  <select
+                    id={`${id}-availability`}
+                    name="availability"
+                    defaultValue={availability}
+                  >
+                    <option value="">Cualquiera</option>
+                    <option value="available">Disponible</option>
+                    <option value="limited">Limitada</option>
+                  </select>
+                </div>
               </div>
-              <div className={styles.field}>
-                <label htmlFor={`${id}-availability`}>
-                  {kind === "request"
-                    ? "Estado de la necesidad"
-                    : "Disponibilidad"}
-                </label>
-                <select
-                  id={`${id}-availability`}
-                  name="availability"
-                  defaultValue={availability}
-                >
-                  <option value="">Cualquiera</option>
-                  <option value="available">Disponible</option>
-                  <option value="limited">Limitada</option>
-                </select>
-              </div>
-            </div>
-          </details>
-        )}
-      </form>
-    </search>
+            </details>
+          )}
+        </form>
+      </search>
+    </>
   );
 }
