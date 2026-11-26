@@ -120,3 +120,30 @@ li .note {
     max-block-size: 15rem;
   }
 }
+
+@media (max-width: 1000px), (max-height: 700px) {
+  :global(.home-search) .field {
+    gap: 4px;
+  }
+  :global(.home-search) .field > label {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  :global(.home-search) .control {
+    min-block-size: 44px;
+    padding-inline: 8px;
+    gap: 6px;
+  }
+  :global(.home-search) .control input {
+    min-block-size: 44px;
+    padding-block: 8px;
+    font-size: 16px;
+  }
+  /* Preserve typing space in the paired location fields; labels identify them. */
+  :global(.home-search) .control:has(input[name="place-texto"]) > svg {
+    display: none;
+  }
+  :global(.home-search) .control:has(input[name="place-texto"]) {
+    gap: 0;
+  }
+}
