@@ -310,6 +310,36 @@
   display: grid;
   gap: 0.8rem;
 }
+
+.video {
+  display: grid;
+  gap: 0.8rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0.75rem;
+  color: var(--ink);
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+}
+.video figcaption {
+  font-weight: 700;
+}
+.video :is(button, iframe, a):focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.video p:empty {
+  display: none;
+}
+.videoFrame {
+  display: block;
+  width: 100%;
+  min-height: 200px;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  background: var(--surface);
+}
 .agendaItem {
   display: grid;
   grid-template-columns: minmax(8rem, 0.35fr) minmax(0, 1fr);

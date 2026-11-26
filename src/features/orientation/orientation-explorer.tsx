@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState, type MouseEvent } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -10,7 +10,8 @@ import {
   UsersRound,
   Sprout,
 } from "lucide-react";
-import { PROVINCES } from "@/lib/geography";
+import type { Place } from "@/features/locations/model";
+import { PlacePicker } from "@/features/services/search-form";
 import { orientationTopics } from "./topics";
 import styles from "@/components/ui.module.css";
 
@@ -24,55 +25,38 @@ const icons = {
 };
 export function OrientationExplorer() {
   const [province, setProvince] = useState("");
-  const [locality, setLocality] = useState("");
+  const [place, setPlace] = useState<Place | null>(null);
+  const locationFields = useRef<HTMLDivElement>(null);
   function href(category: string, age = "") {
     const params = new URLSearchParams();
     if (category) params.set("categoria", category);
     if (age) params.set("edad", age);
-    if (province) params.set("provincia", province);
-    if (province && locality.trim()) params.set("localidad", locality.trim());
+    if (province) params.set("province", province);
+    if (province && place?.province === province) params.set("place", place.id);
     return `/directorio?${params}`;
+  }
+  function validateLocation(event: MouseEvent<HTMLAnchorElement>) {
+    const invalidInput =
+      locationFields.current?.querySelector<HTMLInputElement>("input:invalid");
+    if (invalidInput) {
+      event.preventDefault();
+      invalidInput.reportValidity();
+    }
   }
   return (
     <div className={styles.stack}>
       <div className={styles.callout}>
         <strong>Elegí una zona, si te sirve</strong>
         <p>
-          También vas a encontrar recursos nacionales y provinciales que
-          correspondan.
+          Para incluir una localidad, seleccionala de la lista. Los resultados
+          también incluyen recursos nacionales y provinciales pertinentes.
         </p>
-        <div className="form-grid">
-          <div className="form-field">
-            <label htmlFor="orientation-province">Provincia</label>
-            <select
-              id="orientation-province"
-              value={province}
-              onChange={(e) => {
-                setProvince(e.target.value);
-                setLocality("");
-              }}
-            >
-              <option value="">Todo el país</option>
-              {PROVINCES.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="form-field">
-            <label htmlFor="orientation-locality">Localidad (opcional)</label>
-            <input
-              id="orientation-locality"
-              value={locality}
-              onChange={(e) => setLocality(e.target.value)}
-              disabled={!province}
-              maxLength={120}
-              placeholder={
-                province ? "Escribí tu localidad" : "Elegí una provincia"
-              }
-            />
-          </div>
+        <div className="form-grid" ref={locationFields}>
+          <PlacePicker
+            province={province}
+            onProvinceChange={setProvince}
+            onPlaceChange={setPlace}
+          />
         </div>
       </div>
       <div className={styles.cards}>
@@ -91,11 +75,18 @@ export function OrientationExplorer() {
               <Link
                 className="text-link"
                 href={href(topic.category, "age" in topic ? topic.age : "")}
+                onClick={validateLocation}
+                onAuxClick={validateLocation}
               >
                 Explorar recursos <ArrowRight size={16} aria-hidden="true" />
               </Link>
               {"related" in topic && (
-                <Link className="text-link" href={href(topic.related)}>
+                <Link
+                  className="text-link"
+                  href={href(topic.related)}
+                  onClick={validateLocation}
+                  onAuxClick={validateLocation}
+                >
                   Ver centros y terapias
                 </Link>
               )}

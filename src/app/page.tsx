@@ -3,17 +3,11 @@ import { connection } from "next/server";
 import {
   ArrowRight,
   ArrowUpRight,
-  BookOpen,
   Bus,
-  Check,
   GraduationCap,
-  HandHeart,
   Heart,
-  MapPin,
-  MessagesSquare,
   Plus,
   ShieldCheck,
-  Sparkles,
   Stethoscope,
   UsersRound,
 } from "lucide-react";
@@ -21,7 +15,6 @@ import { SearchForm } from "@/features/services/search-form";
 import { getServiceCatalog } from "@/features/services/repository";
 import { CommunityArt } from "@/components/community-art";
 import { categories } from "@/lib/catalog";
-import { CommunitySteps } from "@/features/community/components";
 
 const categoryIcons = {
   profesionales: Stethoscope,
@@ -40,10 +33,6 @@ export default async function Home() {
       <section className="hero">
         <div className="container hero-grid">
           <div className="hero-copy">
-            <p className="eyebrow">
-              <span className="eyebrow-line" />
-              RECURSOS LOCALES Y DE TODO EL PAÍS
-            </p>
             <h1>
               Información y recursos <span>sobre autismo en Argentina.</span>
             </h1>
@@ -52,7 +41,7 @@ export default async function Home() {
               la vida.
             </p>
             <Link className="hero-link" href="/orientacion">
-              Encontrá por dónde empezar <ArrowRight size={18} />
+              Por dónde empezar <ArrowRight size={18} aria-hidden="true" />
             </Link>
           </div>
           <div className="hero-art">
@@ -61,16 +50,12 @@ export default async function Home() {
         </div>
         <div className="container">
           <div className="search-card">
+            <h2 className="home-search-heading">Búsquedas y disponibilidad</h2>
+            <p className="home-search-description">
+              Encontrá profesionales disponibles o solicitudes de personas que
+              buscan apoyo.
+            </p>
             <SearchForm services={catalog.data} status={catalog.status} />
-            <div className="search-note">
-              <span>
-                <MapPin size={14} /> Ayuda local e información para todo el
-                país.
-              </span>
-              <Link href="/directorio">
-                Explorar el directorio <ArrowRight size={14} />
-              </Link>
-            </div>
           </div>
         </div>
       </section>
@@ -78,14 +63,11 @@ export default async function Home() {
       <section className="container section explore-section" id="explorar">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">UN PUNTO DE PARTIDA</p>
-            <h2>¿En qué podemos ayudarte?</h2>
-            <p>
-              Distintas necesidades. Un mismo lugar para encontrar orientación.
-            </p>
+            <h2>Directorio por categoría</h2>
+            <p>Consultá fichas de servicios, instituciones y redes de apoyo.</p>
           </div>
           <Link className="text-link" href="/directorio">
-            Ver todas las categorías <ArrowRight size={17} />
+            Directorio <ArrowRight size={17} aria-hidden="true" />
           </Link>
         </div>
         <div className="category-grid">
@@ -98,129 +80,38 @@ export default async function Home() {
                 key={category.id}
               >
                 <span className="icon-box">
-                  <Icon size={25} strokeWidth={1.65} />
+                  <Icon size={25} strokeWidth={1.65} aria-hidden="true" />
                 </span>
                 <div>
                   <h3>{category.name}</h3>
                   <p>{category.description}</p>
                 </div>
-                <ArrowUpRight className="category-arrow" size={20} />
+                <ArrowUpRight
+                  className="category-arrow"
+                  size={20}
+                  aria-hidden="true"
+                />
               </Link>
             );
           })}
         </div>
-        <div className="starting-note">
-          <span className="status-dot" />
-          <p>
-            Estamos dando los primeros pasos. El directorio irá creciendo con
-            información de la comunidad.
-          </p>
-        </div>
-      </section>
-
-      <section className="orientation-section">
-        <div className="container section">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">INFORMACIÓN QUE ACOMPAÑA</p>
-              <h2>
-                Cada recorrido es diferente.
-                <br />
-                No hace falta conocer todas las respuestas.
-              </h2>
-            </div>
-            <p className="section-aside">
-              Este espacio reúne caminos posibles para buscar orientación,
-              conocer apoyos y encontrar recursos.
-            </p>
-          </div>
-          <div className="info-grid">
-            <article className="info-card">
-              <span className="small-icon">
-                <BookOpen />
-              </span>
-              <h3>Cuando estás empezando</h3>
-              <p>
-                Podés comenzar por los recursos generales y armar tus preguntas
-                para conversar con un profesional.
-              </p>
-              <Link href="/orientacion" className="text-link">
-                Encontrar por dónde empezar <ArrowRight size={16} />
-              </Link>
-            </article>
-            <article className="info-card">
-              <span className="small-icon">
-                <HandHeart />
-              </span>
-              <h3>En cada etapa de la vida</h3>
-              <p>
-                Infancia, adolescencia y adultez tienen lugar acá. Queremos
-                reunir apoyos para las necesidades de cada persona.
-              </p>
-              <Link href="/directorio" className="text-link">
-                Encontrar apoyos <ArrowRight size={16} />
-              </Link>
-            </article>
-            <article className="info-card">
-              <span className="small-icon">
-                <MessagesSquare />
-              </span>
-              <h3>Lo que sabés puede ayudar</h3>
-              <p>
-                Un contacto, un horario actualizado o un recurso útil pueden
-                facilitar la búsqueda de otra persona.
-              </p>
-              <Link href="/comunidad" className="text-link">
-                Conocer la comunidad <ArrowRight size={16} />
-              </Link>
-            </article>
-          </div>
-        </div>
       </section>
 
       <section className="container section section-last">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">LO CONSTRUIMOS ENTRE PERSONAS</p>
-            <h2>El dato que compartís sigue ayudando.</h2>
-            <p>
-              Una ficha puede aparecer en varias búsquedas. Sus fuentes y
-              cambios quedan en el mismo lugar.
-            </p>
-          </div>
-          <Link href="/comunidad" className="text-link">
-            Cómo participar <ArrowRight size={17} />
-          </Link>
-        </div>
-        <div className="section-small">
-          <CommunitySteps />
-        </div>
         <div className="community-banner">
           <div className="community-banner-icon">
-            <UsersRound size={34} strokeWidth={1.5} />
+            <UsersRound size={34} strokeWidth={1.5} aria-hidden="true" />
           </div>
           <div>
-            <p className="eyebrow">EL PRÓXIMO APORTE PUEDE SER EL TUYO</p>
-            <h2>Una red se construye de a uno.</h2>
+            <h2>Aportá o corregí información</h2>
             <p>
-              Un recurso con su fuente o una corrección pueden ayudar a otras
-              personas a encontrar información útil.
+              Compartí un recurso con su fuente. Los aportes se revisan antes de
+              publicarse.
             </p>
           </div>
           <Link href="/aportar" className="button">
-            <Plus size={18} /> Quiero aportar
+            <Plus size={18} aria-hidden="true" /> Aportar información
           </Link>
-        </div>
-        <div className="principles-strip">
-          <span>
-            <Check size={16} /> Información con contexto
-          </span>
-          <span>
-            <ShieldCheck size={16} /> Independencia partidaria
-          </span>
-          <span>
-            <Sparkles size={16} /> Todas las edades, todo el país
-          </span>
         </div>
       </section>
     </>

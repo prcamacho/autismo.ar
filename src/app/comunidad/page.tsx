@@ -1,11 +1,5 @@
 import type { Metadata } from "next";
-import {
-  ArrowUpRight,
-  HeartHandshake,
-  House,
-  MessageCircle,
-  Store,
-} from "lucide-react";
+import { ArrowUpRight, HeartHandshake } from "lucide-react";
 import { EmptyState } from "@/components/empty-state";
 import { PageIntro } from "@/components/page-intro";
 import Link from "next/link";
@@ -21,35 +15,14 @@ export const metadata: Metadata = {
     "Conocé cómo participar en autismo.ar: aportar recursos, proponer correcciones y ayudar a revisar información sobre autismo en Argentina.",
 };
 
-const initiatives = [
-  {
-    icon: Store,
-    title: "Emprendimientos familiares",
-    description:
-      "Un lugar para dar a conocer los productos y servicios que ofrecen las familias de la comunidad.",
-  },
-  {
-    icon: MessageCircle,
-    title: "Historias que acompañan",
-    description:
-      "Experiencias y contenido que familias y personas autistas elijan compartir desde sus propias redes.",
-  },
-  {
-    icon: House,
-    title: "Hospedaje comunitario",
-    description:
-      "Una idea para quienes necesitan trasladarse. Antes de abrirla, definiremos cómo cuidar a quienes ofrecen y reciben ayuda.",
-  },
-];
-
 export default async function CommunityPage() {
   const resources = await findResources();
   return (
     <>
       <PageIntro
         eyebrow="Comunidad"
-        title="Lo que sabés puede ayudar a alguien más."
-        description="Un espacio abierto a personas autistas, familias y profesionales para aportar recursos, proponer correcciones y ayudar a revisar información. Cada aporte conserva sus fuentes y su estado de revisión."
+        title="Participar en la comunidad"
+        description="Aportá recursos, proponé correcciones o ayudá a revisar información. Pueden participar personas autistas, familias y profesionales."
       />
       <section
         className="section-small container"
@@ -57,10 +30,7 @@ export default async function CommunityPage() {
       >
         <div className="section-heading">
           <div>
-            <p className="eyebrow">
-              Conocimiento que se construye entre personas
-            </p>
-            <h2 id="participar-title">Aportar, comprobar y cuidar.</h2>
+            <h2 id="participar-title">Cómo se revisa la información</h2>
           </div>
         </div>
         <CommunitySteps />
@@ -73,7 +43,7 @@ export default async function CommunityPage() {
         </div>
         <div className={styles.actions}>
           <Link href="/aportar" className="button">
-            Sumar un recurso
+            Aportar información
           </Link>
           <Link href="/comunidad/revisar" className="button button-secondary">
             Ayudar a revisar
@@ -99,36 +69,13 @@ export default async function CommunityPage() {
           ) : (
             resources.status !== "unavailable" && (
               <EmptyState
-                title="Una comunidad que empieza con pequeños aportes"
-                description="Todavía no hay fichas publicadas. Si conocés un recurso que podría servirle a otra persona, podés empezar a preparar la información."
+                title="Todavía no hay fichas publicadas"
+                description="Si conocés un recurso, podés proponerlo con su fuente para que sea revisado."
                 href="/aportar"
-                action="Preparar un aporte"
+                action="Aportar información"
               />
             )
           )}
-        </div>
-      </section>
-      <section
-        className="section container"
-        aria-labelledby="iniciativas-title"
-      >
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">Ideas para crecer de a poco</p>
-            <h2 id="iniciativas-title">Más formas de estar cerca.</h2>
-          </div>
-        </div>
-        <div className="info-grid">
-          {initiatives.map(({ icon: Icon, title, description }) => (
-            <article className="info-card" key={title}>
-              <span className="icon-box">
-                <Icon size={24} aria-hidden="true" />
-              </span>
-              <span className="badge">A futuro</span>
-              <h3>{title}</h3>
-              <p>{description}</p>
-            </article>
-          ))}
         </div>
       </section>
       <section
@@ -139,10 +86,7 @@ export default async function CommunityPage() {
           <span className="icon-box">
             <HeartHandshake size={25} aria-hidden="true" />
           </span>
-          <p className="eyebrow">Contención y orientación</p>
-          <h2 id="contencion-title">
-            También hay momentos en los que necesitamos apoyo.
-          </h2>
+          <h2 id="contencion-title">Orientación en salud mental</h2>
           <p>
             El portal de Salud Mental de Argentina ofrece información para la
             comunidad, prevención del suicidio y acceso a una red de servicios.

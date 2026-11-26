@@ -26,13 +26,13 @@ const principles = [
     icon: MapPin,
     title: "Cerca tuyo, conectado con el país",
     description:
-      "Recursos por provincia y localidad, junto con información nacional. Una misma ficha podrá aparecer donde sea útil sin multiplicar versiones.",
+      "Recursos por provincia y localidad, junto con información nacional. Una misma ficha aparece en las búsquedas que correspondan, sin duplicarse.",
   },
   {
     icon: HeartHandshake,
     title: "Independencia y derechos",
     description:
-      "Sin banderas partidarias. Los derechos, beneficios y trámites tendrán lugar con sus fuentes, para que la información pueda servir a todos.",
+      "Información sobre derechos, beneficios y trámites con fuentes consultables, sin propaganda partidaria.",
   },
   {
     icon: ShieldCheck,
@@ -42,63 +42,40 @@ const principles = [
   },
 ];
 
-const stages = [
-  {
-    label: "Ahora",
-    title: "Organizar información y recursos",
-    description:
-      "Podés explorar por necesidad, buscar por ubicación y preparar un aporte. El circuito comunitario está construido y su activación se informa en las pantallas de cuenta y participación.",
-  },
-  {
-    label: "Después",
-    title: "Probar con una comunidad cercana",
-    description:
-      "Sumar los primeros recursos verificables en una zona, habilitar cuentas y aportes, y aprender junto a un pequeño grupo cómo revisar y corregir la información.",
-  },
-  {
-    label: "Más adelante",
-    title: "Crecer con confianza",
-    description:
-      "Mejorar la revisión con lo aprendido, incorporar niveles y nuevas localidades. Ampliar la biblioteca, dar visibilidad a emprendimientos y preparar formas transparentes de sostener el proyecto.",
-  },
-];
-
 export default function ProjectPage() {
   return (
     <>
       <PageIntro
         eyebrow="El proyecto"
-        title="Información y recursos al alcance de más personas."
-        description="autismo.ar busca facilitar el acceso a información y recursos sobre autismo en Argentina. Un espacio para personas autistas, familias y profesionales, en cada etapa de la vida."
+        title="Sobre autismo.ar"
+        description="Información y recursos sobre autismo en Argentina para personas autistas, familias y profesionales."
       />
       <section
         className="section-small container"
         aria-labelledby="vision-title"
       >
         <div className="panel prose">
-          <p className="eyebrow">Una idea que construimos juntos</p>
-          <h2 id="vision-title">
-            Encontrar ayuda no debería depender de conocer a la persona
-            indicada.
-          </h2>
+          <h2 id="vision-title">Qué podés encontrar</h2>
           <p>
-            Imaginamos una red de profesionales, centros, escuelas, transporte,
-            beneficios y recursos cotidianos, organizada para encontrar lo que
-            resulta útil en cada localidad y en todo el país.
+            El directorio organiza fichas de profesionales, centros, educación,
+            transporte, derechos y comunidad por ubicación. La búsqueda por
+            necesidad ayuda a encontrar esas fichas sin conocer una especialidad
+            o el nombre de un trámite.
           </p>
           <p>
-            Las personas podrán aportar información, proponer cambios y
-            corroborar datos de otros. Queremos que la comunidad ayude a
-            mantener la red, con herramientas claras y revisión humana cuando
-            haga falta.
+            Los aportes y las correcciones pasan por revisión antes de
+            publicarse, con sus fuentes e historial. Cada sección informa si
+            tiene contenido disponible y qué acciones se pueden realizar.
           </p>
+          <Link className="text-link" href="/comunidad">
+            Cómo participar <ArrowRight size={17} aria-hidden="true" />
+          </Link>
         </div>
       </section>
       <section className="section container" aria-labelledby="principios-title">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">Lo que nos orienta</p>
-            <h2 id="principios-title">Una red útil y respetuosa.</h2>
+            <h2 id="principios-title">Principios del proyecto</h2>
           </div>
         </div>
         <div className="content-grid">
@@ -115,45 +92,36 @@ export default function ProjectPage() {
       </section>
       <section
         className="section-small container"
-        aria-labelledby="etapas-title"
+        aria-labelledby="planes-title"
       >
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">Paso a paso</p>
-            <h2 id="etapas-title">
-              Empezamos pequeño, pensamos a largo plazo.
-            </h2>
-          </div>
-        </div>
-        <div className="info-grid">
-          {stages.map(({ label, title, description }) => (
-            <article className="info-card" key={label}>
-              <span className="badge">{label}</span>
-              <h3>{title}</h3>
-              <p>{description}</p>
-            </article>
-          ))}
+        <div className="panel prose">
+          <h2 id="planes-title">Qué está previsto</h2>
+          <p>
+            Ampliar la biblioteca y mejorar la revisión comunitaria. También se
+            evalúan espacios para emprendimientos familiares, historias que
+            personas autistas y familias decidan compartir, y hospedaje
+            comunitario para quienes necesitan trasladarse.
+          </p>
+          <p>
+            Estas iniciativas todavía no están habilitadas. El hospedaje y las
+            posibles campañas familiares o rifas requieren reglas de privacidad,
+            cuidado y funcionamiento antes de abrirse.
+          </p>
         </div>
       </section>
       <section className="section container" aria-labelledby="sostener-title">
         <div className="panel prose">
-          <p className="eyebrow">Un proyecto que pueda sostenerse</p>
-          <h2 id="sostener-title">Crecer también es cuidar la confianza.</h2>
+          <h2 id="sostener-title">Sostenimiento del sitio</h2>
           <p>
             En el futuro queremos recibir donaciones para mantener el sitio y
             ofrecer publicidad claramente identificada. Pagar un anuncio nunca
             comprará reputación ni validaciones.
           </p>
           <p>
-            Las posibles campañas de ayuda a familias tendrán un circuito
-            propio. El hospedaje comunitario y las rifas necesitan resolver sus
-            condiciones antes de habilitarse. Hoy no se reciben pagos desde esta
-            web.
+            Hoy autismo.ar no procesa pagos. Los apoyos a autores que se
+            muestren en sus publicaciones se realizan en el servicio externo
+            indicado.
           </p>
-          <Link className="text-link" href="/comunidad">
-            Conocé cómo imaginamos la comunidad{" "}
-            <ArrowRight size={17} aria-hidden="true" />
-          </Link>
         </div>
       </section>
       <section

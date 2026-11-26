@@ -13,12 +13,11 @@ export function PageIntro({
   return (
     <div className="page-intro">
       <div className="container">
-        <div className="breadcrumb">
+        <nav className="breadcrumb" aria-label="Ubicación">
           <Link href="/">Inicio</Link>
-          <ChevronRight size={14} />
+          <ChevronRight size={14} aria-hidden="true" />
           <span>{eyebrow}</span>
-        </div>
-        <p className="eyebrow">{eyebrow}</p>
+        </nav>
         <h1>{title}</h1>
         <p className="lead">{description}</p>
       </div>

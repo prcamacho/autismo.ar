@@ -75,18 +75,18 @@ export default async function AccountPage({
             </form>
           </div>
           <nav className={styles.subnav} aria-label="Participar">
-            <Link href="/aportar">Nuevo aporte</Link>
+            <Link href="/aportar">Aportar información</Link>
             <Link href="/comunidad/revisar">Ayudar a revisar</Link>
             <Link href="/comunidad">Comunidad</Link>
             <Link href="/cuenta/articulos">Mis artículos</Link>
-            <Link href="/cuenta/perfil-autor">Perfil de autor y Cafecito</Link>
+            <Link href="/cuenta/perfil-autor">Mi perfil de autor</Link>
             <Link href="/busquedas/mis-publicaciones">
-              Mis búsquedas y disponibilidades
+              Mis búsquedas y disponibilidad
             </Link>
             <Link href="/busquedas/perfil">Mi perfil profesional</Link>
             <Link href="/mensajes">Mis mensajes</Link>
             {viewer.moderator && (
-              <Link href="/busquedas/moderar">Moderar búsquedas</Link>
+              <Link href="/busquedas/moderar">Moderar publicaciones</Link>
             )}
           </nav>
           <h2>Mis aportes</h2>

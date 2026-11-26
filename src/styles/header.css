@@ -1,24 +1,3 @@
-.announcement {
-  min-height: 34px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 24px;
-  background: var(--sky);
-  font-size: 11px;
-  color: var(--muted);
-}
-.announcement a {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  font-weight: 650;
-  color: var(--info-ink);
-}
-.announcement a:hover {
-  text-decoration: underline;
-}
 .site-header {
   background: var(--surface);
   border-bottom: 1px solid var(--line);
@@ -51,6 +30,13 @@
   gap: 16px;
   align-items: center;
   margin-left: auto;
+}
+.navigation > a {
+  white-space: nowrap;
+}
+.navigation .account-link {
+  border-inline-start: 1px solid var(--line);
+  padding-inline-start: 16px;
 }
 .navigation > a:not(.button) {
   display: flex;
@@ -151,6 +137,11 @@
   }
   .navigation > a:not(.button) {
     padding-inline: 12px;
+  }
+  .navigation .account-link {
+    border-inline-start: 0;
+    border-block-start: 1px solid var(--line);
+    padding-block-start: 8px;
   }
   .navigation > a[aria-current="page"]:not(.button)::after {
     left: 12px;
