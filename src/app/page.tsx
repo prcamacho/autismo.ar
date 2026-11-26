@@ -54,7 +54,7 @@ export default async function Home() {
         </div>
         <div className="container">
           <div className="search-card">
-            <h2 className="home-search-heading">Búsquedas y disponibilidad</h2>
+            <h2 className="home-search-heading">Buscar avisos</h2>
             <p className="home-search-description">
               Encontrá profesionales disponibles o solicitudes de personas que
               buscan apoyo.

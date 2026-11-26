@@ -77,7 +77,7 @@ export default async function AccountPage({
           <nav className={styles.subnav} aria-label="Participar">
             <Link href="/aportar">Aportar información</Link>
             <Link href="/comunidad/revisar">Ayudar a revisar</Link>
-            <Link href="/comunidad">Comunidad</Link>
+            <Link href="/comunidad">Colaborar</Link>
             <Link href="/cuenta/articulos">Mis artículos</Link>
             <Link href="/cuenta/perfil-autor">Mi perfil de autor</Link>
             <Link href="/busquedas/mis-publicaciones">

@@ -12,6 +12,8 @@
 
 ## DEC-011 — Navegación por tareas y contenido sin repeticiones
 
+- **Revisión del 26/11/2026.** El menú reúne Directorio de recursos y Avisos en **Búsquedas** porque ambas vistas responden a la búsqueda de apoyo por servicio y zona. El Directorio abre por defecto. Cada vista conserva su URL y sus resultados, y el enlace a la otra lleva los filtros compartidos. **Colaborar** es el rótulo de acceso a `/comunidad`.
+
 - **Fecha:** 24 de noviembre de 2026.
 - **Decisión:** eliminar por completo la franja superior de presentación en todas las rutas, sin reemplazo. Diferenciar Directorio, Búsquedas y disponibilidad y Biblioteca; conservar Artículos como espacio editorial. Navegación principal: Por dónde empezar, Directorio, Búsquedas y disponibilidad, Artículos y Comunidad, con Mi cuenta y Aportar información como acceso personal y acción. Biblioteca y Sobre el proyecto permanecen en el pie; la biblioteca vacía no ocupa el menú principal.
 - **Motivo:** “Encontrar recursos” y “Recursos” no permitían anticipar destinos diferentes; la portada repetía invitaciones a participar y la biblioteca dedicaba varios bloques a anunciar contenido futuro. Además, buscar y publicar un aviso tenían rótulos confundibles.

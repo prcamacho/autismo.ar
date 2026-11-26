@@ -9,10 +9,9 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 const links = [
   { href: "/orientacion", label: "Por dónde empezar" },
-  { href: "/directorio", label: "Directorio" },
-  { href: "/busquedas", label: "Búsquedas y disponibilidad" },
+  { href: "/directorio", label: "Búsquedas", related: "/busquedas" },
   { href: "/articulos", label: "Artículos" },
-  { href: "/comunidad", label: "Comunidad" },
+  { href: "/comunidad", label: "Colaborar" },
 ];
 
 export function SiteHeader() {
@@ -37,14 +36,19 @@ export function SiteHeader() {
           aria-label="Navegación principal"
           className={`navigation ${menuOpen ? "is-open" : ""}`}
         >
-          {links.map(({ href, label }) => (
+          {links.map(({ href, label, related }) => (
             <Link
               key={href}
               href={href}
               aria-current={
-                (href === "/" ? pathname === "/" : pathname.startsWith(href))
+                pathname === href
                   ? "page"
-                  : undefined
+                  : pathname.startsWith(`${href}/`) ||
+                      (related &&
+                        (pathname === related ||
+                          pathname.startsWith(`${related}/`)))
+                    ? "location"
+                    : undefined
               }
               onClick={() => setMenuOpen(false)}
             >

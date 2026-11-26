@@ -33,8 +33,8 @@ export default async function ReviewPage({
       />
       <div className="container section-small">
         <div className={styles.stack}>
-          <nav className={styles.subnav} aria-label="Comunidad">
-            <Link href="/comunidad">Comunidad</Link>
+          <nav className={styles.subnav} aria-label="Colaborar">
+            <Link href="/comunidad">Colaborar</Link>
             <Link href="/cuenta">Mis aportes</Link>
             {viewer?.moderator && (
               <>

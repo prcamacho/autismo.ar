@@ -42,6 +42,16 @@ test("partidos y localidades mantienen su relación y búsqueda sin tildes", () 
   assert.deepEqual(searchPlaces({ province: "provincia-inexistente" }), []);
 });
 
+test("la localidad exacta aparece aunque el departamento tenga el mismo nombre", () => {
+  const [place] = searchPlaces({
+    province: "santa-fe",
+    query: "rosario",
+    limit: 1,
+  });
+  assert.equal(place?.name, "Rosario");
+  assert.equal(place?.department, "Rosario");
+});
+
 test("los homónimos conservan IDs distintos y los resultados están acotados", () => {
   const matches = PROVINCES.flatMap((province) =>
     searchPlaces({ province: province.id, query: "San Martín", limit: 100 }),

@@ -10,7 +10,7 @@ import { ConnectionNotice } from "@/components/connection-notice";
 import styles from "@/components/ui.module.css";
 
 export const metadata: Metadata = {
-  title: "Comunidad",
+  title: "Colaborar",
   description:
     "Conocé cómo participar en autismo.ar: aportar recursos, proponer correcciones y ayudar a revisar información sobre autismo en Argentina.",
 };
@@ -20,8 +20,8 @@ export default async function CommunityPage() {
   return (
     <>
       <PageIntro
-        eyebrow="Comunidad"
-        title="Participar en la comunidad"
+        eyebrow="Colaborar"
+        title="Colaborar con el directorio"
         description="Aportá recursos, proponé correcciones o ayudá a revisar información. Pueden participar personas autistas, familias y profesionales."
       />
       <section

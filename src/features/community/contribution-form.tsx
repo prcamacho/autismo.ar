@@ -125,7 +125,7 @@ export function ContributionForm({
           Seguir mi aporte
         </Link>
         <Link href="/comunidad" className="text-link">
-          Volver a la comunidad
+          Volver a Colaborar
         </Link>
       </div>
     );

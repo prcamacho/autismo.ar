@@ -126,9 +126,9 @@ export default async function DirectoryPage({
   return (
     <>
       <PageIntro
-        eyebrow="Directorio"
-        title="Encontrá recursos cerca tuyo"
-        description="Un directorio para consultar profesionales, servicios y redes de apoyo. Buscá por tema y ubicación, con los recursos nacionales siempre a mano."
+        eyebrow="Búsquedas"
+        title="Directorio de recursos"
+        description="Consultá fichas de profesionales, centros y redes de apoyo. Para encontrar cupos o pedidos de apoyo, elegí Avisos."
       />
       <section className="section-small container" aria-label="Buscar recursos">
         <SearchForm
@@ -138,7 +138,7 @@ export default async function DirectoryPage({
           initialService={service}
           initialProvince={province}
           initialPlace={selectedPlace}
-          directory
+          view="directory"
           category={category}
           age={age}
           required={false}
