@@ -49,7 +49,7 @@ export default async function Home() {
           </div>
         </div>
         <div className="container">
-          <div className="search-card">
+          <div className="search-card home-search">
             <h2 className="home-search-heading">Búsquedas y disponibilidad</h2>
             <p className="home-search-description">
               Encontrá profesionales disponibles o solicitudes de personas que
