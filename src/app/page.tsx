@@ -12,6 +12,10 @@ import {
   UsersRound,
 } from "lucide-react";
 import { SearchForm } from "@/features/services/search-form";
+import {
+  HomeDirectoryLink,
+  HomeSearchLocationProvider,
+} from "@/features/services/home-search-location";
 import { getServiceCatalog } from "@/features/services/repository";
 import { CommunityArt } from "@/components/community-art";
 import { categories } from "@/lib/catalog";
@@ -29,7 +33,7 @@ export default async function Home() {
   await connection();
   const catalog = await getServiceCatalog();
   return (
-    <>
+    <HomeSearchLocationProvider>
       <section className="hero">
         <div className="container hero-grid">
           <div className="hero-copy">
@@ -60,23 +64,28 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="container section explore-section" id="explorar">
+      <section
+        className="container section explore-section"
+        aria-labelledby="explorar"
+      >
         <div className="section-heading">
           <div>
-            <h2>Directorio por categoría</h2>
+            <h2 id="explorar" tabIndex={-1}>
+              Directorio por categoría
+            </h2>
             <p>Consultá fichas de servicios, instituciones y redes de apoyo.</p>
           </div>
-          <Link className="text-link" href="/directorio">
+          <HomeDirectoryLink className="text-link">
             Directorio <ArrowRight size={17} aria-hidden="true" />
-          </Link>
+          </HomeDirectoryLink>
         </div>
         <div className="category-grid">
           {categories.map((category, index) => {
             const Icon = categoryIcons[category.id];
             return (
-              <Link
+              <HomeDirectoryLink
                 className={`category-card category-${index}`}
-                href={`/directorio?categoria=${category.id}`}
+                category={category.id}
                 key={category.id}
               >
                 <span className="icon-box">
@@ -91,7 +100,7 @@ export default async function Home() {
                   size={20}
                   aria-hidden="true"
                 />
-              </Link>
+              </HomeDirectoryLink>
             );
           })}
         </div>
@@ -114,6 +123,6 @@ export default async function Home() {
           </Link>
         </div>
       </section>
-    </>
+    </HomeSearchLocationProvider>
   );
 }
