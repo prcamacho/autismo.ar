@@ -1,10 +1,18 @@
 .search-card {
-  padding: 24px 25px 0;
+  padding: 24px 25px;
   border-radius: 14px;
   background: var(--surface);
   box-shadow: 0 8px 30px var(--shadow);
   border: 1px solid var(--selected-line);
   border-block-start: 3px solid var(--blue);
+}
+.home-search-heading {
+  font-size: 20px;
+  margin-block-end: 8px;
+}
+.home-search-description {
+  font-size: 14px;
+  margin-block-end: 20px;
 }
 .search-card .search-query label {
   font-size: 1.125rem;
@@ -81,26 +89,6 @@ input:disabled {
 .search-submit {
   min-height: 47px;
   padding-inline: 21px;
-}
-.search-note {
-  display: flex;
-  gap: 16px;
-  justify-content: space-between;
-  align-items: center;
-  padding-block: 14px;
-  margin-top: 18px;
-  border-top: 1px solid var(--line);
-  font-size: 10px;
-  color: var(--muted);
-}
-.search-note span,
-.search-note a {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.search-note a {
-  color: var(--info-ink);
 }
 .search-compact {
   padding: 25px;
@@ -208,38 +196,6 @@ input:disabled {
   background: var(--icon-coral-bg);
   color: var(--icon-coral);
 }
-.starting-note {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  margin-top: 25px;
-}
-.starting-note p {
-  font-size: 11px;
-}
-.status-dot {
-  width: 6px;
-  height: 6px;
-  background: var(--icon-blue);
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.orientation-section {
-  background: var(--surface-soft);
-  border-block: 1px solid var(--line);
-}
-.orientation-section .section {
-  padding-block: 62px;
-}
-.orientation-section h2 {
-  font-size: 30px;
-}
-.section-aside {
-  max-width: 350px;
-  font-size: 13px;
-  line-height: 1.8;
-}
 .info-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -250,16 +206,6 @@ input:disabled {
   background: var(--surface);
   border-radius: 12px;
   padding: 28px;
-}
-.orientation-section .info-card {
-  border: 0;
-  border-radius: 0;
-  padding: 6px 30px 6px 0;
-  background: transparent;
-}
-.orientation-section .info-card + .info-card {
-  border-left: 1px solid var(--line);
-  padding-left: 30px;
 }
 .small-icon {
   display: inline-flex;
@@ -327,20 +273,4 @@ input:disabled {
   margin-left: auto;
   white-space: nowrap;
   font-size: 12px;
-}
-.principles-strip {
-  display: flex;
-  justify-content: center;
-  gap: 42px;
-  padding-top: 28px;
-  font-size: 11px;
-  color: var(--muted);
-}
-.principles-strip span {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-}
-.principles-strip svg {
-  color: var(--icon-blue);
 }

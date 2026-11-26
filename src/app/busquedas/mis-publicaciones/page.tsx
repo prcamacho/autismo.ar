@@ -21,7 +21,7 @@ import styles from "@/features/exchanges/exchanges.module.css";
 
 export const metadata: Metadata = {
   ...privateMetadata,
-  title: "Mis publicaciones",
+  title: "Mis búsquedas y disponibilidad",
 };
 export default async function MyListingsPage({
   searchParams,
@@ -35,7 +35,7 @@ export default async function MyListingsPage({
   ]);
   return (
     <ExchangePage
-      title="Tus búsquedas y tu disponibilidad."
+      title="Mis búsquedas y disponibilidad"
       description="Seguí las revisiones, actualizá las zonas y cerrá las publicaciones cuando ya no las necesites."
       current="/busquedas/mis-publicaciones"
     >
@@ -44,7 +44,7 @@ export default async function MyListingsPage({
         <>
           <div className={styles.actions}>
             <Link href="/busquedas/nueva?tipo=request" className="button">
-              Nueva búsqueda
+              Publicar una búsqueda
             </Link>
             <Link href="/busquedas/reportes" className="text-link">
               Mis reportes y resoluciones
@@ -53,7 +53,7 @@ export default async function MyListingsPage({
               href="/busquedas/nueva?tipo=offer"
               className="button button-secondary"
             >
-              Ofrecer servicios
+              Publicar disponibilidad
             </Link>
             {context.viewer.moderator && (
               <Link href="/busquedas/moderar" className="text-link">
@@ -71,8 +71,8 @@ export default async function MyListingsPage({
               }
             >
               <p>
-                Podés buscar un profesional para vos o tu familia, o presentar
-                tus servicios profesionales.
+                Podés publicar una búsqueda de apoyo o tu disponibilidad
+                profesional.
               </p>
             </EmptyPanel>
           )}

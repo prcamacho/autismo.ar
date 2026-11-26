@@ -42,6 +42,7 @@ export type ArticleBlock =
   | { type: "callout"; text: string }
   | { type: "list"; items: string[] }
   | { type: "link"; label: string; url: string }
+  | { type: "youtube"; label: string; url: string; display: "link" | "embed" }
   | { type: "table"; headers: string[]; rows: string[][] };
 
 export type AgendaRow = {

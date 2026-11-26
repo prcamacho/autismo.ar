@@ -2,7 +2,7 @@
  * Explicit integration QA for the independently verified Supabase TEST project.
  * Does not read .env.local, deliver email, set passwords or contact payment sites.
  *
- * Run only after the article migration has been applied to the test project:
+ * Run only after the article and YouTube-block migrations have been applied to the test project:
  * node --import tsx scripts/test-articles-integration.ts --confirm-test --expected-host hmpqojhurrtujbcakzkv.supabase.co
  *
  * The allowlisted host must be reviewed in code before targeting a different project.
@@ -468,6 +468,12 @@ async function main() {
           type: "paragraph",
           text: "Contenido sintético, exclusivo de una prueba en el proyecto separado.",
         },
+        {
+          type: "youtube",
+          label: "Video sintético para comprobar la presentación",
+          url: "https://youtu.be/AbCdEf_12-3",
+          display: "link",
+        },
       ],
       sources: [
         {
@@ -585,6 +591,7 @@ async function main() {
     );
     await approve(moderator.client, articleId);
     assert.equal((await published(articleId))?.data.title, fixture.title);
+    assert.deepEqual((await published(articleId))?.data.blocks, fixture.blocks);
     stage = "anonymous HTTP publication and social metadata (200)";
     await checkHttpArticle(articleId, 200, fixture.title);
     if (siteOrigin)
@@ -675,9 +682,13 @@ async function main() {
     const edited: ArticleInput = {
       ...fixture,
       title: `Edición sintética de integración ${runId}`,
+      blocks: fixture.blocks.map((block) =>
+        block.type === "youtube" ? { ...block, display: "embed" } : block,
+      ),
     };
     await save(author.client, edited, articleId);
     assert.equal((await published(articleId))?.data.title, fixture.title);
+    assert.deepEqual((await published(articleId))?.data.blocks, fixture.blocks);
     rejected(
       await author.client.rpc("article_save", {
         p_id: articleId,
@@ -698,6 +709,10 @@ async function main() {
     );
     await approve(moderator.client, articleId);
     assert.equal((await published(articleId))?.data.title, edited.title);
+    assert.deepEqual((await published(articleId))?.data.blocks, edited.blocks);
+    console.log(
+      "PASS YouTube link/embed persistence and independent review of presentation changes",
+    );
     assert.equal((await published(articleId))?.version, 2);
     await save(author.client, fixture, articleId);
     await submit(author.client, articleId);

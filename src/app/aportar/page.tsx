@@ -97,13 +97,15 @@ export default async function ContributePage({
     <>
       <PageIntro
         eyebrow="Aportar información"
-        title="Un dato tuyo puede abrir otro camino."
+        title="Aportar o corregir información"
         description="Sumá un recurso o ayudá a mantenerlo actualizado. Las fuentes y la revisión de otras personas lo convierten en información compartida."
       />
       <div className="container section-small">
         <div className={styles.stack}>
           <ConnectionNotice status={status} />
-          <ConnectionNotice status={catalog.status} />
+          {catalog.status !== status && (
+            <ConnectionNotice status={catalog.status} />
+          )}
           {status === "ready" && !viewer && (
             <div className={styles.callout}>
               <strong>Ingresá para enviar tu aporte</strong>

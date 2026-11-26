@@ -103,13 +103,13 @@ export default async function SearchesPage({
     >
       <div className={styles.actions}>
         <Link href="/busquedas/nueva?tipo=request" className="button">
-          Busco un profesional
+          Publicar una búsqueda
         </Link>
         <Link
           href="/busquedas/nueva?tipo=offer"
           className="button button-secondary"
         >
-          Ofrezco mis servicios
+          Publicar disponibilidad
         </Link>
       </div>
       <div className={styles.card}>

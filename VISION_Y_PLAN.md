@@ -80,6 +80,8 @@ En esta etapa, el apoyo al autor se limitará al botón externo de Cafecito. No 
 
 La implementación incluye bloques de texto, subtítulos, listas, recuadros, enlaces y tablas, con tres colores de detalles y dos estilos de subtítulos. Las agendas distinguen solicitud de turno, atención y actividad; requieren fechas válidas y una fuente antes de enviarse. Cada publicación y sus cambios requieren revisión independiente. El borrador permanece privado mientras se muestra la última versión aprobada; el autor puede retirar la publicación y recuperar una versión anterior como borrador.
 
+Ampliación local del 25/11/2026: el autor puede preparar un bloque de YouTube y elegir enlace o reproductor dentro del artículo. El reproductor se carga por acción del lector y conserva un enlace alternativo. La revisión humana incluye el video; el sitio no lo analiza ni lo almacena. Migración y publicación remotas pendientes, según [DEC-012](./docs/DECISIONES.md#dec-012--videos-de-youtube-con-presentación-elegible) y [la guía de Artículos](./docs/ARTICULOS.md#videos-de-youtube).
+
 El destino de Cafecito requiere revisión y se oculta al cambiarlo, eliminarlo o modificar el nombre público del autor, hasta una nueva aprobación cuando corresponda. Se mantienen los principios de privacidad, fuentes, accesibilidad y separación entre apoyo económico y reputación. El recorrido remoto de ensayo pasó autenticación, permisos, moderación y metadatos públicos; la activación web productiva sigue su comprobación independiente. Ver [DEC-007](./docs/DECISIONES.md#dec-007--artículos-con-personalización-guiada-y-cafecito-en-el-perfil) y [estado técnico y comprobaciones](./docs/ARTICULOS.md).
 
 ### Búsquedas, disponibilidad y contacto privado
@@ -94,16 +96,17 @@ La implementación prioriza carga bajo demanda, límites de uso y fotografías r
 
 ## 5. Portada y navegación inicial
 
-La portada combinará información general con acceso práctico a los recursos:
+La portada combina una presentación breve con accesos por tarea. La simplificación aprobada el 24/11/2026 se registra en [DEC-011](./docs/DECISIONES.md#dec-011--navegación-por-tareas-y-contenido-sin-repeticiones):
 
 1. Presentación breve de autismo.ar y de su propósito comunitario.
-2. Información general de bienvenida y orientación para distintas etapas de la vida, sin intentar diagnosticar ni indicar tratamientos.
-3. Buscador con la pregunta **“¿Qué recurso necesitás?”** y selección de provincia y localidad.
-4. Accesos a profesionales, centros, educación, transporte, beneficios, comunidad y biblioteca.
-5. Explicación breve de cómo aportar y cómo se revisa la información.
-6. Espacio para recursos reales cuando existan contenidos autorizados para publicar.
+2. Buscador de servicios y ubicación para búsquedas y disponibilidad, con modos **“Busco apoyo”** y **“Soy profesional”** y destino explícito.
+3. Categorías para explorar las fichas del directorio: profesionales, centros, educación, transporte, derechos y redes de apoyo.
+4. Un acceso a **Por dónde empezar**, que organiza la consulta del directorio por necesidad, sin diagnosticar ni indicar tratamientos.
+5. Una invitación a **Aportar información**; el procedimiento completo de revisión se explica en Comunidad.
 
-La navegación inicial debe ofrecer inicio, directorio, biblioteca, comunidad y participación. Las secciones aún no operativas deben explicar su estado sin simular funciones disponibles.
+La navegación principal distingue **Por dónde empezar · Directorio · Búsquedas y disponibilidad · Artículos · Comunidad**, con **Mi cuenta** como acceso personal y **Aportar información** como acción. El logotipo vuelve a Inicio. **Biblioteca** y **Sobre el proyecto** quedan en el pie mientras la biblioteca no tenga materiales publicados. Directorio reúne fichas comunitarias; Búsquedas y disponibilidad reúne avisos; Biblioteca reúne materiales y herramientas; Artículos contiene publicaciones editoriales. No fusionar estos recorridos por compartir vocabulario o controles.
+
+La franja superior de presentación se elimina en todas las rutas, sin texto, enlace ni espacio de reemplazo. Los nombres de enlaces y botones deben explicar su destino y distinguir buscar de publicar. Evitar bloques que repitan alcance, bienvenida o invitaciones a participar. Las iniciativas futuras se concentran en Proyecto y los estados vacíos se explican una sola vez, con una acción útil cuando exista. Conservar avisos de privacidad, revisión, errores y envíos no realizados allí donde sean necesarios.
 
 ### Identidad y páginas vacías
 
@@ -216,6 +219,8 @@ Observar si las personas encuentran recursos útiles, si los contactos siguen vi
 ## 11. Estado inicial y próximos pasos
 
 **Preparación del 17 de noviembre, previa a la PR #10:** fase 0 publicada, base comunitaria productiva conectada e ingreso por correo comprobado. Búsquedas y Artículos tienen esquema aplicado en ensayo y producción, recorridos remotos de ensayo aprobados y moderación asignada al responsable. Durante esa preparación se mantuvieron los módulos apagados en producción; el estado resultante de la activación y el mantenimiento, con su evidencia, se registra en la [PR #10](https://github.com/prcamacho/autismo.ar/pull/10). Orientación y directorio comparten fichas; la localidad del directorio sigue siendo texto libre, mientras Búsquedas usa IDs del catálogo oficial. La eliminación de la integración de Ian Escuela ya fue publicada y su servicio alojado fue retirado. La escuela conserva su aplicación independiente; el responsable indica que no requiere internet para usarla. No hay fichas comunitarias reales ni pagos. El esquema y los ensayos no acreditan por sí solos un circuito productivo habilitado.
+
+**Actualización de navegación del 24 de noviembre:** la sección 5 y DEC-011 recogen la simplificación aprobada. El [mapa del README](./README.md#mapa-del-proyecto) documenta el contrato actual del catálogo: el directorio y los aportes usan IDs de servicio y ubicación, sin clasificar automáticamente las fichas históricas. Los enlaces territoriales deben conservar el ID de localidad y su provincia; la descripción de texto libre del párrafo anterior corresponde a la preparación del 17 de noviembre.
 
 El [relevamiento operativo del 10 de noviembre de 2026](./docs/INFRAESTRUCTURA.md) conserva una observación histórica anterior a la reactivación de la web y al retiro del servicio de Ian. La separación Railway `test`/`main` se configuró después y ahora cuenta con proyectos Supabase distintos. La [guía de operación](./docs/OPERACION.md) distingue esos antecedentes del estado de activación actual; no hay un respaldo integral ni alertas completas acreditados por esos despliegues.
 

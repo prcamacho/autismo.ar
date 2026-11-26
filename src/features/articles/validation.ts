@@ -3,6 +3,7 @@ import { categories } from "@/lib/catalog";
 import { PROVINCES } from "@/lib/geography";
 import { isPublicHttpUrl } from "@/lib/public-url";
 import { isCalendarDate } from "./content";
+import { youtubeVideoId } from "./youtube";
 import { ARTICLE_LIMITS as L, type ArticleInput } from "./model";
 
 const text = (limit: number) => z.string().trim().max(limit);
@@ -26,6 +27,15 @@ export const articleBlockSchema = z.discriminatedUnion("type", [
     items: z.array(text(L.listItem)).max(L.listItems),
   }),
   z.strictObject({ type: z.literal("link"), label: text(L.linkLabel), url }),
+  z.strictObject({
+    type: z.literal("youtube"),
+    label: text(L.linkLabel),
+    url: text(L.url).refine(
+      (value) => value === "" || youtubeVideoId(value) !== null,
+      "Ingresá un enlace HTTPS a un video de YouTube, no a un canal o una lista.",
+    ),
+    display: z.enum(["link", "embed"]),
+  }),
   z
     .strictObject({
       type: z.literal("table"),
@@ -134,6 +144,7 @@ export const articleInputSchema = articleDraftSchema.superRefine(
           );
           break;
         case "link":
+        case "youtube":
           required(
             Boolean(block.label && block.url),
             path,
